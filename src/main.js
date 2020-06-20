@@ -10,6 +10,8 @@ import router from './router'
 // 导入axios
 import http from './http/index.js'
 
+import '../src/assets/icon/iconfont.css'
+
 // 创建vue根实例
 new Vue({
   el: '#app', // 使用vue接管index.html中id为app的div的内容

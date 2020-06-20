@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+Vue.use(Router)
+
 // 导入页面组件
 import Error from '../components/Error.vue'
 import TodoList from '../views/MainTodo/TodoList.vue'
-Vue.use(Router)
+import Login from '../views/Login/Login.vue'
+
 
 export const routerMap = [
   {
@@ -15,10 +19,19 @@ export const routerMap = [
     path: '*',
     redirect:'404'
   },
+  // {
+  //   name: 'todo-list',
+  //   path: '/todo-list',
+  //   component: TodoList
+  // },
   {
-    name: 'todo-list',
-    path: '/todo-list',
-    component: TodoList
+    path: '/',
+    redirect:'login'
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: Login
   }
 ]
 

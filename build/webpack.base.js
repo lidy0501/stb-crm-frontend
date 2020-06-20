@@ -58,6 +58,14 @@ module.exports = {
           'stylus-loader'
           // 从下到上依次执行
         ]
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: "[name].[ext]"
+        }
       }
     ]
   },
