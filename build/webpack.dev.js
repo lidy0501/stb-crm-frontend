@@ -17,7 +17,8 @@ const devConfig = {
     // 自动打开浏览器
     open: true,
     // 启用热模块替换
-    hot: true
+    hot: true,
+    port: 4000
   },
   // 插件
   plugins: [

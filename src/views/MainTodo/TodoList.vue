@@ -16,7 +16,15 @@
       MainHeader,
       MainFooter,
       MainTodo
-    }
+    },
+    mounted() {
+      this.init()
+    },
+    methods: {
+      init() {
+        this.$http.post('/TestController/queryAllTest')
+      }
+    },
   }
 </script>
 

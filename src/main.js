@@ -7,6 +7,9 @@ import App from './App.vue'
 // 导入路由文件
 import router from './router'
 
+// 导入axios
+import http from './http/index.js'
+
 // 创建vue根实例
 new Vue({
   el: '#app', // 使用vue接管index.html中id为app的div的内容
