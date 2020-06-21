@@ -8,7 +8,11 @@ import App from './App.vue'
 import router from './router'
 
 // 导入axios
-import http from './http/index.js'
+import  './http/index.js'
+
+// 导入store
+
+import store from './store'
 
 import '../src/assets/icon/iconfont.css'
 
@@ -20,5 +24,6 @@ new Vue({
     App: App  // 变量名与对象名一致时，可简写，即只写App也行
   },
   template: '<App/>',
-  router
+  router,
+  store
 })

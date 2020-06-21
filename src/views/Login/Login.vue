@@ -18,7 +18,7 @@
             <div class="icon-box">
               <i class="iconfont icon-mima"></i>
             </div>
-            <input type="text" placeholder="请输入密码" v-model.trim="password">
+            <input type="password" placeholder="请输入密码" v-model.trim="password">
           </div>
         </div>
         <div class="error-tip">{{errorTip}}</div>
@@ -46,11 +46,18 @@
         } else {
           this.errorTip = ''
         }
+        const _this = this
+        const {staffCode, password} = this
+        this.$http.post('/StaffLoginController/login', {staffCode, password}).then(res => {
+          const token = res.headers['authorization']
+          const staffInfo = res.data.data
+          console.log(staffInfo)
 
+          _this.$store.commit('SET_TOKEN', token)
+          _this.$store.commit('SET_STAFFINFO', staffInfo)
 
-
-
-
+          _this.$router.replace('menu')
+        })
       }
     },
   }

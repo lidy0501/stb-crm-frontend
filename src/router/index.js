@@ -7,6 +7,7 @@ Vue.use(Router)
 import Error from '../components/Error.vue'
 import TodoList from '../views/MainTodo/TodoList.vue'
 import Login from '../views/Login/Login.vue'
+import Manage from '../views/Manage/Manage.vue'
 
 
 export const routerMap = [
@@ -32,6 +33,14 @@ export const routerMap = [
     name: 'login',
     path: '/login',
     component: Login
+  },
+  {
+    name: 'manage',
+    path: '/manage',
+    component:Manage,
+    children: [
+
+    ]
   }
 ]
 
