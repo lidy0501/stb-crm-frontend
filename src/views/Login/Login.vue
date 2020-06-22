@@ -11,14 +11,14 @@
             <div class="icon-box">
               <i class="iconfont icon-zhanghao"></i>
             </div>
-            <input type="text" placeholder="请输入账号" v-model.trim="staffCode">
+            <input type="text" placeholder="请输入账号" v-model.trim="staffCode" @focus="clearTip">
           </div>
 
           <div class="password">
             <div class="icon-box">
               <i class="iconfont icon-mima"></i>
             </div>
-            <input type="password" placeholder="请输入密码" v-model.trim="password">
+            <input type="password" placeholder="请输入密码" v-model.trim="password" @focus="clearTip">
           </div>
         </div>
         <div class="error-tip">{{errorTip}}</div>
@@ -39,6 +39,9 @@
       }
     },
     methods: {
+      clearTip() {
+        this.errorTip = ''
+      },
       login() {
         if (!this.staffCode || !this.password) {
           this.errorTip = !this.staffCode ? '账号不能为空' : '密码不能为空'
@@ -48,15 +51,18 @@
         }
         const _this = this
         const {staffCode, password} = this
-        this.$http.post('/StaffLoginController/login', {staffCode, password}).then(res => {
-          const token = res.headers['authorization']
-          const staffInfo = res.data.data
-          console.log(staffInfo)
-
-          _this.$store.commit('SET_TOKEN', token)
-          _this.$store.commit('SET_STAFFINFO', staffInfo)
-
-          _this.$router.replace('menu')
+        this.$http.post('/LoginController/login', {staffCode, password}).then(res => {
+          // const token = res.headers['authorization']
+          // const staffInfo = res.data.data
+          // console.log(staffInfo)
+          //
+          // _this.$store.commit('SET_TOKEN', token)
+          // _this.$store.commit('SET_STAFFINFO', staffInfo)
+          if (res.data.code === 0) {
+            _this.$router.replace('manage')
+          } else {
+            _this.errorTip = res.data.message
+          }
         })
       }
     },
