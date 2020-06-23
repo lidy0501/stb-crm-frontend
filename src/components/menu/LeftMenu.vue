@@ -77,8 +77,8 @@
         this.showTip = false
       },
       confirmLoginOut() {
-        console.log('退出成功')
-        this.showTip = true
+        this.showTip = false
+        window.sessionStorage.clear() // 清楚session
         this.$router.replace('/login')
       }
     },

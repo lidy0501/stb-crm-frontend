@@ -48,4 +48,27 @@ const router = new Router({
   routes: routerMap
 })
 
+// 用于解决报错
+const originalPush = Router.prototype.replace
+Router.prototype.replace = function replace(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+
+
+
+
+// 挂载导航守卫
+router.beforeEach((to, from, next) => {
+  console.log(1)
+  // to 将要访问
+  // from 从哪访问
+  // next 接着干的事   next(url) 重定向到url上，    next() 是继续访问to路径
+  if (to.path === '/login') return next();
+  // 获取staff
+  const staff = window.sessionStorage.getItem('staff') //取出员工信息
+  if (!staff) return next('/login') // 无值，返回登录页
+  next() // 符合要求放行
+})
+
 export default router

@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import {mapGetters, mapMutations} from 'vuex'
+
   export default {
     name: 'Login',
     data() {
@@ -38,7 +40,11 @@
         errorTip: ''
       }
     },
+    component: {
+      ...mapGetters(['staff'])
+    },
     methods: {
+      ...mapMutations(['SET_STAFF']),
       clearTip() {
         this.errorTip = ''
       },
@@ -53,12 +59,18 @@
         const {staffCode, password} = this
         this.$http.post('/LoginController/login', {staffCode, password}).then(res => {
           // const token = res.headers['authorization']
-          // const staffInfo = res.data.data
-          // console.log(staffInfo)
-          //
           // _this.$store.commit('SET_TOKEN', token)
-          // _this.$store.commit('SET_STAFFINFO', staffInfo)
           if (res.data.code === 0) {
+            const staff = res.data.data
+            /**
+             * 先做缓存，在做跳转，否则beforeEach里跳转前拿到的staff为null,就没法跳转了
+             */
+            _this.SET_STAFF(staff)
+            //_this.$store.commit('SET_STAFF', staff)
+            /**
+             * 或者用 window.sessionStorage.setItem('staff', JSON.stringify(staff))
+             * 等同于_this.$store.commit('SET_STAFF', staff)
+             */
             _this.$router.replace('manage')
           } else {
             _this.errorTip = res.data.message
@@ -153,6 +165,7 @@
     line-height 44px
     text-align center
     border-radius 5px
+    cursor pointer
 
 
 </style>
