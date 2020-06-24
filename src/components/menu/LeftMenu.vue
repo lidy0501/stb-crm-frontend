@@ -69,7 +69,15 @@
         ]
       }
     },
+    mounted() {
+      this.getLeftRight()
+    },
     methods: {
+      getLeftRight() {
+        this.$http.post('/LoginController/getRight').then(res => {
+
+        })
+      },
       loginOut() {
         this.showTip = true
       },
