@@ -1,6 +1,7 @@
 const state = {
   token: '',
-  staff: JSON.parse(sessionStorage.getItem('staff'))
+  staff: '',
+  staffName: ''
 }
 
 const mutations = {
@@ -18,6 +19,11 @@ const mutations = {
     state.staff = ''
     localStorage.setItem('token', '')
     sessionStorage.setItem('staff', JSON.stringify(''))
+    localStorage.setItem('staff', JSON.stringify(''))
+  },
+  SET_STAFF_NAME: (state, staffName) => {
+    state.staffName = staffName
+    localStorage.setItem('staffName', staffName)
   }
 }
 
@@ -25,6 +31,9 @@ const getters = {
   // get, 其实通过state也能获取到信息，不一定要是用get来获取
   getStaff: state => {
     return state.staff
+  },
+  getStaffName: state => {
+    return state.staffName
   }
 }
 

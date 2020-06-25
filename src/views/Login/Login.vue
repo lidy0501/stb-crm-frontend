@@ -44,7 +44,7 @@
       ...mapGetters(['staff'])
     },
     methods: {
-      ...mapMutations(['SET_STAFF']),
+      ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME']),
       clearTip() {
         this.errorTip = ''
       },
@@ -71,6 +71,9 @@
              * 或者用 window.sessionStorage.setItem('staff', JSON.stringify(staff))
              * 等同于_this.$store.commit('SET_STAFF', staff)
              */
+
+            _this.SET_STAFF_NAME(staff.staffName)
+
             _this.$router.replace('manage')
           } else {
             _this.errorTip = res.data.message

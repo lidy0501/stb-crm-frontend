@@ -8,7 +8,7 @@
     <div class="content">
       <div class="first-sec">CRM 管理系统</div>
       <div class="second-sec">
-        <span>欢迎 马云</span>
+        <span>欢迎 {{staffName}}</span>
         <i class="iconfont icon-tuichu" @click="loginOut"></i>
       </div>
       <div class="third-sec">
@@ -37,37 +37,8 @@
     data() {
       return {
         showTip: false,
-        menuList: [
-          {
-            roleName: '员工管理',
-            show: true,
-            children: [
-              {
-                menuName: '员工列表',
-                menuRouter: 'baidu.com'
-              },
-              {
-                menuName: '新增员工',
-                menuRouter: 'baidu.com'
-              }
-            ]
-          },
-          {
-            roleName: '客户管理',
-            show: true,
-            children: [
-              {
-                menuName: '公司客户',
-                menuRouter: 'baidu.com'
-              },
-              {
-                menuName: '公共客户',
-                menuRouter: 'baidu.com'
-              }
-            ]
-          }
-        ],
-        rightList: []
+        rightList: [],
+        staffName: window.localStorage.getItem('staffName')
       }
     },
     mounted() {
@@ -76,7 +47,6 @@
     methods: {
       getLeftRight() {
         this.$http.post('/LoginController/getRight').then(res => {
-          console.log(res.data)
           this.rightList = res.data
         })
       },
@@ -89,6 +59,7 @@
       confirmLoginOut() {
         this.showTip = false
         window.sessionStorage.clear() // 清楚session
+        window.localStorage.clear()
         this.$router.replace('/login')
       }
     },
@@ -101,6 +72,7 @@
     height 100%
     background-color #008b8b
     user-select none
+    position relative
 
   .first-sec
     color #fff
