@@ -1,10 +1,10 @@
 <template>
   <div class="menu-box">
-    <div class="first-level" @click="firstMenu.show = !firstMenu.show">
-      <span>{{firstMenu.roleName}}</span>
-      <i :class="['iconfont', 'icon-zhankai', !firstMenu.show ? 'rotate-180' : '']"></i>
+    <div class="first-level" @click="right.show = !right.show">
+      <span>{{right.rightName}}</span>
+      <i :class="['iconfont', 'icon-zhankai', !right.show ? 'rotate-180' : '']"></i>
     </div>
-    <div v-if="firstMenu.show" v-for="(item, index) in firstMenu.children" :key="index" class="second-level">
+    <div v-if="right.show" v-for="(item, index) in right.menus" :key="index" class="second-level">
       {{item.menuName}}
     </div>
   </div>
@@ -14,7 +14,7 @@
   export default {
     name: 'MenuItem',
     props: {
-      firstMenu: Object
+      right: Object
     }
   }
 </script>

@@ -12,8 +12,8 @@
         <i class="iconfont icon-tuichu" @click="loginOut"></i>
       </div>
       <div class="third-sec">
-        <div v-for="(item, index) in menuList" :key="index">
-          <MenuItem :firstMenu="item"></MenuItem>
+        <div v-for="(item, index) in rightList" :key="index">
+          <MenuItem :right="item"></MenuItem>
         </div>
       </div>
       <div class="fourth-sec">
@@ -66,7 +66,8 @@
               }
             ]
           }
-        ]
+        ],
+        rightList: []
       }
     },
     mounted() {
@@ -75,7 +76,8 @@
     methods: {
       getLeftRight() {
         this.$http.post('/LoginController/getRight').then(res => {
-
+          console.log(res.data)
+          this.rightList = res.data
         })
       },
       loginOut() {

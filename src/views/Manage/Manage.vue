@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import LeftMenu from '../../components/menu/LeftMenu.vue'
+  import LeftMenu from '../../components/Menu/LeftMenu.vue'
 
   export default {
     name: 'Manage',
