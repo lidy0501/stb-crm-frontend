@@ -43,6 +43,7 @@
     },
     mounted() {
       this.getLeftRight()
+      this. queryPublicAreaUser()
     },
     methods: {
       getLeftRight() {
@@ -61,6 +62,11 @@
         window.sessionStorage.clear() // 清楚session
         window.localStorage.clear()
         this.$router.replace('/login')
+      },
+      queryPublicAreaUser() {
+        this.$http('/UserController/queryPublicAreaUser').then(res => {
+
+        })
       }
     },
   }

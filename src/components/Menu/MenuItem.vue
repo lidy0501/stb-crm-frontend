@@ -4,7 +4,7 @@
       <span>{{right.rightName}}</span>
       <i :class="['iconfont', 'icon-zhankai', !right.show ? 'rotate-180' : '']"></i>
     </div>
-    <div v-if="right.show" v-for="(item, index) in right.menus" :key="index" class="second-level">
+    <div v-if="right.show" v-for="(item, index) in right.menus" :key="index" class="second-level" @click="$router.push(item.menuUrl)">
       {{item.menuName}}
     </div>
   </div>

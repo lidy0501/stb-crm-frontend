@@ -8,6 +8,7 @@ import Error from '../components/Error.vue'
 import TodoList from '../views/MainTodo/TodoList.vue'
 import Login from '../views/Login/Login.vue'
 import Manage from '../views/Manage/Manage.vue'
+import AddStaff from '../views/Manage/Staff/AddStaff.vue'
 
 
 export const routerMap = [
@@ -39,7 +40,11 @@ export const routerMap = [
     path: '/manage',
     component:Manage,
     children: [
-
+      {
+        name: 'AddStaff',
+        path: 'add-staff',
+        component: AddStaff
+      }
     ]
   }
 ]

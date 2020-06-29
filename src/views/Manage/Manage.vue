@@ -26,9 +26,10 @@
     background-color #f7f8fc
     position relative
     flex 1
+    display flex
 
   .right-box
-    margin-left 200px
-    margin-bottom 30px
+    flex 1
+    padding 20px
 
 </style>
