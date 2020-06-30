@@ -58,11 +58,11 @@
       },
       confirmLoginOut() {
         this.showTip = false
+        window.sessionStorage.clear() // 清楚session
+        window.localStorage.clear()
         this.$http.post('/LoginController/loginOut').then(res => {
           const data = res.data
           if (data.code === 0) {
-            window.sessionStorage.clear() // 清楚session
-            window.localStorage.clear()
             this.$router.replace('/login')
           }
         })
