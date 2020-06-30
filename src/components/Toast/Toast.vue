@@ -1,14 +1,20 @@
 <template>
   <div class="toast">
     <div class="operate-result">
-      <span>操作成功</span>
+      <span>{{tipText}}</span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Toast'
+    name: 'Toast',
+    props: {
+      tipText: {
+        type: String,
+        default: '操作成功'
+      }
+    }
   }
 </script>
 

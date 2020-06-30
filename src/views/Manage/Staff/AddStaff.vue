@@ -46,7 +46,7 @@
       </div>
       <footer-btn @goBack="goBack" @save="save"></footer-btn>
     </div>
-    <toast v-if="showToast"></toast>
+    <toast v-if="showToast" :tip-text="operateResult"></toast>
   </div>
 </template>
 
@@ -71,39 +71,12 @@
         saveFlag: '',
         errorTips: [],
         showToast: false,
-        rights: [
-          {
-            rightId: '1',
-            rightName: '员工管理',
-            selected: false
-          },
-          {
-            rightId: '2',
-            rightName: '订单管理',
-            selected: false
-          },
-          {
-            rightId: '3',
-            rightName: '客户管理',
-            selected: false
-          },
-          {
-            rightId: '4',
-            rightName: '合同管理',
-            selected: false
-          },
-          {
-            rightId: '5',
-            rightName: '商品管理',
-            selected: false
-          },
-          {
-            rightId: '6',
-            rightName: '财务管理',
-            selected: false
-          }
-        ]
+        rights: [],
+        operateResult: ''
       }
+    },
+    mounted() {
+      this.init()
     },
     methods: {
       goBack() {
@@ -114,10 +87,30 @@
         this.getStaffRights()
         this.validateInfo()
         if (!this.saveFlag) return
-        this.showToast = true
-        setTimeout(() => {
-          this.showToast = false
-        }, 2000)
+
+        this.$http.post('/StaffController/addStaff', {
+          staffName: this.staffName,
+          staffCode: this.staffCode,
+          passWord: this.passWord,
+          staffPhone: this.staffPhone,
+          staffEmail: this.staffEmail,
+          remark: this.remark,
+          rightVoList: this.staffRights
+        }).then(res => {
+          const data = res.data
+          this.operateResult = data.message
+          this.showToast = true
+          setTimeout(() => {
+            this.showToast = false
+          }, 2000)
+          // todo 返回列表
+        })
+      },
+      init() {
+        this.$http.post('/RightController/getAll').then(res => {
+          const data = res.data
+          this.rights = data
+        })
       },
       validateInfo() {
         if (!this.staffName) {
