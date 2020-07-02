@@ -43,14 +43,8 @@
     component: {
       ...mapGetters(['staff'])
     },
-    created() {
-      this.init()
-    },
     methods: {
       ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME']),
-      init() {
-        this.$http.get('/LoginController/test')
-      },
       clearTip() {
         this.errorTip = ''
       },

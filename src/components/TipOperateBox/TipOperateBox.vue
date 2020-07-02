@@ -63,6 +63,7 @@
       text-align center
       height 100%
       line-height 40px
+      cursor pointer
 
       &:first-child
         border-right 1px solid #e0e0e0
