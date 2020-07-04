@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-const BASE_URL = 'http://47.114.140.213:9911/crm'  // todo 别忘了换过来
-//const BASE_URL = 'http://127.0.0.1:9911/crm'
+//const BASE_URL = 'http://47.114.140.213:9911/crm'  // todo 别忘了换过来
+const BASE_URL = 'http://127.0.0.1:9911/crm'
 
 // 设置访问根路径
 axios.defaults.baseURL = BASE_URL
