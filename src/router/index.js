@@ -10,6 +10,7 @@ import Login from '../views/Login/Login.vue'
 import Manage from '../views/Manage/Manage.vue'
 import AddStaff from '../views/Manage/Staff/AddStaff.vue'
 import StaffList from '../views/Manage/Staff/StaffList.vue'
+import AddUser from '../views/Manage/User/AddUser.vue'
 
 
 export const routerMap = [
@@ -50,6 +51,11 @@ export const routerMap = [
         name: 'StaffList',
         path: 'staff-list',
         component: StaffList
+      },
+      {
+        name: 'AddUser',
+        path: 'add-user',
+        component: AddUser
       }
     ]
   }
