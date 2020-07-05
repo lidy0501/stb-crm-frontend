@@ -80,7 +80,7 @@
     },
     methods: {
       goBack() {
-
+        this.$router.go(-1)
       },
       save() {
         this.saveFlag = true
@@ -102,8 +102,8 @@
           this.showToast = true
           setTimeout(() => {
             this.showToast = false
+            this.$router.push('staff-list')
           }, 2000)
-          // todo 返回列表
         })
       },
       init() {
