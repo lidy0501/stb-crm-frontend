@@ -2,7 +2,7 @@
   <div class="add-staff">
     <top-head :title="'新增员工'"></top-head>
     <div class="base-info">
-      <div class="title">基本信息</div>
+      <div class="title">员工基本信息</div>
       <div class="item">
         <left-head class="margin-20" :left-title="'员工姓名'" :necessary="true"></left-head>
         <input placeholder="请输入员工姓名" v-model="staffName"/>
