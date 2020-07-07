@@ -11,6 +11,7 @@ import Manage from '../views/Manage/Manage.vue'
 import AddStaff from '../views/Manage/Staff/AddStaff.vue'
 import StaffList from '../views/Manage/Staff/StaffList.vue'
 import AddUser from '../views/Manage/User/AddUser.vue'
+import PrivateUserList from '../views/Manage/User/PrivateUserList.vue'
 
 
 export const routerMap = [
@@ -56,6 +57,11 @@ export const routerMap = [
         name: 'AddUser',
         path: 'add-user',
         component: AddUser
+      },
+      {
+        name: 'PrivateUserList',
+        path: 'private-user-list',
+        component: PrivateUserList
       }
     ]
   }
