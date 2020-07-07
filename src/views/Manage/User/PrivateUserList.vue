@@ -27,7 +27,8 @@
           <span class="col4" :title="item.company">{{item.company || '--'}}</span>
           <span class="col5" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col6">
-            <span class="delete-btn" @click="deleteUser(item)">删除</span>
+            <span class="delete-btn common-btn" @click="deleteUser(item)">删除</span>
+            <span class="common-btn" @click="changeUserType(item)">公有化</span>
           </span>
         </div>
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
@@ -56,6 +57,7 @@
         operateResult: '',
         userSelected: {},
         userList: [],
+        operateType: '删除',
         page: {
           startIndex: 0,
           currentPage: 1,
@@ -98,27 +100,46 @@
         this.init()
       },
       deleteUser(user) {
+        this.operateType = '删除'
         this.userSelected = user
         this.showTipBox = true
         this.tipText = '确定要删除' + user.userName + '吗？'
       },
+      changeUserType(user) {
+        this.operateType = '公有化'
+        this.userSelected = user
+        this.showTipBox = true
+        this.tipText = '确定要将' + user.userName + '移至公共区吗？'
+      },
       confirmDelete() {
         this.showTipBox = false
-        this.$http.post('/UserController/deleteUserById/' + this.userSelected.userId).then(res => {
-          const data = res.data
-          this.operateResult = data.message
-          this.showToast = true
-          setTimeout(() => {
-            this.showToast = false
-            this.init()
-          }, 2000)
-        })
+        if (this.operateType === '删除') {
+          this.$http.post('/UserController/deleteUserById/' + this.userSelected.userId).then(res => {
+            const data = res.data
+            this.operateResult = data.message
+            this.showToast = true
+            setTimeout(() => {
+              this.showToast = false
+              this.init()
+            }, 2000)
+          })
+        } else {
+          this.$http.post('/UserController/changeUserType/' + this.userSelected.userId).then(res => {
+            const data = res.data
+            this.operateResult = data.message
+            this.showToast = true
+            setTimeout(() => {
+              this.showToast = false
+              this.init()
+            }, 2000)
+          })
+        }
       }
     }
   }
 </script>
 
-<style module lang="stylus">
+<style module lang="stylus" scoped>
   .add-staff
     width 100%
 
@@ -207,7 +228,7 @@
 
 
   .col1
-    width 20%
+    width 15%
 
   .col2
     width 15%
@@ -222,14 +243,17 @@
     width 20%
 
   .col6
-    width 10%
+    width 15%
 
   .padL10
     padding-left 10px
 
   .delete-btn
+    margin-right 30px !important
+
+  .common-btn
     display inline-block
-    width 60px
+    padding 0 5px
     height 30px
     color #3cb371
     text-align center
