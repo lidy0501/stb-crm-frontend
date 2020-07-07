@@ -11,7 +11,7 @@
           <i class="iconfont icon icon-arrow-left"></i>
         </li>
 
-        <li v-for="pager in getNumbers" @click="gotoPage(pager, isCurrentPage(pager))">
+        <li v-for="pager in getNumbers" @click="gotoPage(pager, isCurrentPage(pager))" :class="{'is-current-page' :isCurrentPage (pager)}">
           {{pager}}
         </li>
 
@@ -103,7 +103,7 @@
           margin-left 5px
           text-align center
         .is-current-page
-          background-color #1587cd
+          background-color mediumseagreen
           color #fff
         .is-valid-icon
           cursor not-allowed
@@ -111,7 +111,7 @@
           font-size 12px
           color #777777
     .quick-pager-content .is-valid-icon i
-      color #cdcdcd
+      color mediumspringgreen
     .quick-pager-info
       display inline-block
       height 24px

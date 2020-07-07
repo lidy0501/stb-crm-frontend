@@ -1,7 +1,7 @@
 <template>
   <div class="add-staff">
       <div class="title">
-        <div class="title-name">公司客户列表</div>
+        <div class="title-name">公共客户列表</div>
         <div class="search-box">
           <div class="input-sty">
             <i class="iconfont icon-sousuo"></i>
@@ -45,7 +45,7 @@
   import QuickPager from '../../../components/QuickPager/QuickPager.vue'
 
   export default {
-    name: 'PrivateUserList',
+    name: 'PublicUserList',
     components: {Toast, TopHead, TipOperateBox, QuickPager},
     data() {
       return {
@@ -70,7 +70,7 @@
     },
     methods: {
       init() {
-        this.$http.post('/UserController/queryPrivateUser', {
+        this.$http.post('/UserController/queryPublicAreaUser', {
           searchValue: this.searchValue,
           startIndex: this.page.startIndex
         }).then(res => {
