@@ -81,7 +81,7 @@
   }
 </script>
 
-<style module lang="stylus">
+<style module lang="stylus" scoped>
   .add-staff
     width 100%
 
