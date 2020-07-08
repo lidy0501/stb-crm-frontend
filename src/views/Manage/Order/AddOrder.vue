@@ -1,0 +1,312 @@
+<template>
+  <div class="add-staff">
+    <top-head :title="'新增订单'"></top-head>
+    <div class="base-info">
+      <div class="title">订单基本信息</div>
+      <div class="layer">
+        <div class="item">
+          <left-head class="margin-20" :left-title="'产品名称'" :necessary="true"></left-head>
+          <input placeholder="请输入产品名称" v-model="productName"/>
+          <span class="error-tip">产品名称不能为空</span>
+        </div>
+        <div class="item">
+          <left-head class="margin-20" :left-title="'产品规格'" :necessary="false"></left-head>
+          <input placeholder="请输入产品规格，非必填" v-model="productSpe"/>
+          <span class="error-tip">{{errorTips[1]}}</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="item">
+          <left-head class="margin-20" :left-title="'产品数量'" :necessary="false"></left-head>
+          <input placeholder="请输入产品数量，非必填" v-model="productNum"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+        <div class="item">
+          <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
+          <input placeholder="请输入物流单号，非必填" v-model="deliveryNo"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="item">
+          <left-head class="margin-20" :left-title="'客户'" :necessary="false"></left-head>
+          <div class="search-user">
+            <input placeholder="请输入客户名查询客户，非必填" v-model="userName" @input="searchUser"/>
+            <div class="user-list" v-if="showUserBox">
+              <div v-if="!userList.length" class="no-list">未查到客户</div>
+              <div v-for="(item, index) in userList" :key="index" class="user-item" @click="selectUser(item)">
+                {{item.userName}} {{item.company}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <left-head class="margin-20" :left-title="'公司'" :necessary="false"></left-head>
+          <input placeholder="请输入公司，非必填" v-model="company"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="item">
+          <left-head class="margin-20" :left-title="'订单总金额'" :necessary="false"></left-head>
+          <input placeholder="请输入订单总金额，非必填" v-model="totalFee"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+        <div class="item">
+          <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
+          <input placeholder="请输入首付金额，非必填" v-model="downPayFee"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+      </div>
+
+      <div class="layer">
+        <div class="item">
+          <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
+          <input placeholder="请输入尾款，非必填" v-model="finalPayFee"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+        <div class="item">
+          <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
+          <input placeholder="请输入交期，非必填" v-model="deliveryTime"/>
+          <span class="error-tip">{{errorTips[2]}}</span>
+        </div>
+      </div>
+
+      <div class="item2">
+        <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>
+        <textarea placeholder="请输入付款进度，非必填(限200字)" v-model="payProgress"/>
+      </div>
+      <div class="item2">
+        <left-head class="margin-20" :left-title="'付款记录'" :necessary="false"></left-head>
+        <textarea placeholder="请输入付款记录，非必填(限200字)" v-model="payRecord"/>
+      </div>
+      <div class="item2">
+        <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
+        <textarea placeholder="请输入客户备注，非必填(限200字)" v-model="remark"/>
+      </div>
+      <footer-btn @goBack="goBack" @save="save"></footer-btn>
+    </div>
+    <toast v-if="showToast" :tip-text="operateResult"></toast>
+  </div>
+</template>
+
+<script>
+  import TopHead from '../../../components/TopHead/TopHead.vue'
+  import LeftHead from '../../../components/LeftHead/LeftHead.vue'
+  import FooterBtn from '../../../components/FooterBtn/FooterBtn.vue'
+  import Toast from '../../../components/Toast/Toast.vue'
+  import lodash from 'lodash'
+
+  export default {
+    name: 'AddOrder',
+    components: {Toast, LeftHead, TopHead, FooterBtn},
+    data() {
+      return {
+        orderId: '',
+        productName: '',
+        productSpe: '',
+        productNum: 1,
+        deliveryNo: '',
+        userName: '',
+        userId: '',
+        company: '',
+        totalFee: '',
+        downPayFee: '',
+        finalPayFee: '',
+        deliveryTime: '',
+        payProgress: '',
+        payRecord: '',
+        showUserBox: false,
+        remark: '',
+        saveFlag: '',
+        errorTips: [],
+        showToast: false,
+        operateResult: '',
+        userList2: [],
+        userList: [
+          {userName: '小明1', company: '链家', id: '1'},
+          {userName: '小明2', company: '链家', id: '2'},
+          {userName: '小明3', company: '链家', id: '3'},
+          {userName: '小明4', company: '链家', id: '4'},
+          {userName: '小明5', company: '链家', id: '5'},
+          {userName: '小明6', company: '链家', id: '6'},
+          {userName: '小明7', company: '链家', id: '7'},
+          {userName: '小明8', company: '链家', id: '8'},
+          {userName: '小明1', company: '链家', id: '1'},
+          {userName: '小明2', company: '链家', id: '2'},
+          {userName: '小明3', company: '链家', id: '3'},
+          {userName: '小明4', company: '链家', id: '4'},
+          {userName: '小明5', company: '链家', id: '5'},
+          {userName: '小明6', company: '链家', id: '6'},
+          {userName: '小明7', company: '链家', id: '7'},
+          {userName: '小明8', company: '链家', id: '8'}
+        ]
+      }
+    },
+    mounted() {
+      let _this = this
+      document.addEventListener('click', function (e) {
+        let flag = e.target.contains(document.getElementsByClassName('user-list')[0])
+        if (flag) {
+          _this.showUserBox = false
+        }
+      })
+    },
+    methods: {
+      goBack() {
+        this.$router.go(-1)
+      },
+      save() {
+        this.saveFlag = true
+        this.validateInfo()
+        if (!this.saveFlag) return
+
+        this.$http.post('/UserController/addUser', {
+          userName: this.userName,
+          company: this.company,
+          userPhone: this.userPhone,
+          userEmail: this.userEmail,
+          remark: this.remark
+        }).then(res => {
+          const data = res.data
+          this.operateResult = data.message
+          this.showToast = true
+          setTimeout(() => {
+            this.showToast = false
+            this.$router.push('private-user-list')
+          }, 2000)
+        })
+      },
+      validateInfo() {
+        if (!this.userName) {
+          this.$set(this.errorTips, 0, '客户姓名不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 0, '')
+          this.saveFlag = true
+        }
+        if (!this.userPhone) {
+          this.$set(this.errorTips, 1, '客户手机号不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 1, '')
+        }
+        this.$forceUpdate
+      },
+      selectUser(item) {
+        this.userName = item.userName
+        this.userId = item.id
+        this.showUserBox = false
+      },
+      searchUser: lodash.debounce(function () {
+        this.showUserBox = true
+        console.log(9999)
+      }, 500)
+    },
+  }
+</script>
+
+<style module lang="stylus" scoped>
+  .add-staff
+    width 100%
+
+  .base-info
+    padding 20px
+    margin-top 20px
+    background-color #fff
+    border-radius 5px
+
+  .title
+    height 50px
+    line-height 50px
+    font-size 16px
+    font-weight bold
+
+  .layer
+    display flex
+    justify-content space-between
+
+  .margin-20
+    margin-right 20px
+
+  .item
+    display flex
+    align-items center
+    margin-bottom 20px
+
+  input
+    height 40px
+    padding-left 10px
+    width 300px
+
+  .item2
+    display flex
+    margin-bottom 20px
+
+  textarea
+    width 85.3%
+    height 80px
+    padding 10px
+    outline none
+    font-size 16px
+
+  .staff-right
+    display flex
+    flex-wrap wrap
+    width 900px
+
+  .right-item
+    display flex
+    width 150px
+    align-items center
+    height 20px
+    margin-bottom 20px
+
+    i
+      font-size 16px
+      margin-right 5px
+
+  .selected
+    color green
+
+  .un-selected
+    color #d7d7d7
+
+  .error-tip
+    color #f00
+    font-size 12px
+    margin-left 20px
+
+  .search-user
+    position relative
+
+  .user-list
+    position absolute
+    width 313px
+    height 250px
+    left 0
+    top 45px
+    background-color #fff
+    border 1px solid #d0d0d0
+    border-radius 5px
+    overflow auto
+
+  .user-item
+    height 30px
+    line-height 30px
+
+    &:hover
+      background-color #edf6f6
+
+  .no-list
+    height 100%
+    font-size 18px
+    line-height 250px
+    color #f0f0f0
+    text-align center
+
+
+</style>
