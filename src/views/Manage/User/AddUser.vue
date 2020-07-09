@@ -80,7 +80,9 @@
           this.showToast = true
           setTimeout(() => {
             this.showToast = false
-            this.$router.push('private-user-list')
+            if (data.code === 0) {
+              this.$router.push('private-user-list')
+            }
           }, 2000)
         })
       },

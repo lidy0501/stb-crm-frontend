@@ -102,7 +102,9 @@
           this.showToast = true
           setTimeout(() => {
             this.showToast = false
-            this.$router.push('staff-list')
+            if (data.code === 0) {
+              this.$router.push('staff-list')
+            }
           }, 2000)
         })
       },

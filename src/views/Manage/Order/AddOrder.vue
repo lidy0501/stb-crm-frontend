@@ -7,12 +7,11 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'产品名称'" :necessary="true"></left-head>
           <input placeholder="请输入产品名称" v-model="productName"/>
-          <span class="error-tip">产品名称不能为空</span>
+          <span class="error-tip">{{errorTips[0]}}</span>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'产品规格'" :necessary="false"></left-head>
           <input placeholder="请输入产品规格，非必填" v-model="productSpe"/>
-          <span class="error-tip">{{errorTips[1]}}</span>
         </div>
       </div>
 
@@ -20,12 +19,10 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'产品数量'" :necessary="false"></left-head>
           <input placeholder="请输入产品数量，非必填" v-model="productNum"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
           <input placeholder="请输入物流单号，非必填" v-model="deliveryNo"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
         </div>
       </div>
 
@@ -33,7 +30,7 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'客户'" :necessary="false"></left-head>
           <div class="search-user">
-            <input placeholder="请输入客户名查询客户，非必填" v-model="userName" @input="searchUser"/>
+            <input placeholder="请输入客户名查询客户，非必填" v-model.trim="userName" @input="searchUser"/>
             <div class="user-list" v-if="showUserBox">
               <div v-if="!userList.length" class="no-list">未查到客户</div>
               <div v-for="(item, index) in userList" :key="index" class="user-item" @click="selectUser(item)">
@@ -45,33 +42,28 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'公司'" :necessary="false"></left-head>
           <input placeholder="请输入公司，非必填" v-model="company"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'订单总金额'" :necessary="false"></left-head>
-          <input placeholder="请输入订单总金额，非必填" v-model="totalFee"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
+          <input placeholder="请输入订单总金额，非必填" v-model="totalFee" class="money-input"/> &nbsp;元
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
-          <input placeholder="请输入首付金额，非必填" v-model="downPayFee"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
+          <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
+          <input placeholder="请输入交期，如：2020-01-01，非必填" v-model="deliveryTime"/>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
-          <input placeholder="请输入尾款，非必填" v-model="finalPayFee"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
+          <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
+          <input placeholder="请输入首付金额，非必填" v-model="downPayFee" class="money-input"/> &nbsp;元
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
-          <input placeholder="请输入交期，非必填" v-model="deliveryTime"/>
-          <span class="error-tip">{{errorTips[2]}}</span>
+          <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
+          <input placeholder="请输入尾款，非必填" v-model="finalPayFee" class="money-input"/> &nbsp;元
         </div>
       </div>
 
@@ -125,25 +117,7 @@
         errorTips: [],
         showToast: false,
         operateResult: '',
-        userList2: [],
-        userList: [
-          {userName: '小明1', company: '链家', id: '1'},
-          {userName: '小明2', company: '链家', id: '2'},
-          {userName: '小明3', company: '链家', id: '3'},
-          {userName: '小明4', company: '链家', id: '4'},
-          {userName: '小明5', company: '链家', id: '5'},
-          {userName: '小明6', company: '链家', id: '6'},
-          {userName: '小明7', company: '链家', id: '7'},
-          {userName: '小明8', company: '链家', id: '8'},
-          {userName: '小明1', company: '链家', id: '1'},
-          {userName: '小明2', company: '链家', id: '2'},
-          {userName: '小明3', company: '链家', id: '3'},
-          {userName: '小明4', company: '链家', id: '4'},
-          {userName: '小明5', company: '链家', id: '5'},
-          {userName: '小明6', company: '链家', id: '6'},
-          {userName: '小明7', company: '链家', id: '7'},
-          {userName: '小明8', company: '链家', id: '8'}
-        ]
+        userList: []
       }
     },
     mounted() {
@@ -163,12 +137,21 @@
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
-
-        this.$http.post('/UserController/addUser', {
-          userName: this.userName,
+        this.$http.post('/OrderController/addOrder', {
+          orderId: this.orderId,
+          productName: this.productName,
+          productSpe: this.productSpe,
+          productNum: +this.productNum,
+          deliveryNo: this.deliveryNo,
+          userId: this.userId,
+          userName: this.userId ? this.userName : '',
           company: this.company,
-          userPhone: this.userPhone,
-          userEmail: this.userEmail,
+          totalFee: +this.totalFee,
+          downPayFee: +this.downPayFee,
+          finalPayFee: this.finalPayFee,
+          deliveryTime: this.deliveryTime,
+          payProgress: this.payProgress,
+          payRecord: this.payRecord,
           remark: this.remark
         }).then(res => {
           const data = res.data
@@ -176,34 +159,34 @@
           this.showToast = true
           setTimeout(() => {
             this.showToast = false
-            this.$router.push('private-user-list')
+            if (data.code === 0) {
+              //this.$router.push('order-list')
+            }
           }, 2000)
         })
       },
       validateInfo() {
-        if (!this.userName) {
-          this.$set(this.errorTips, 0, '客户姓名不能为空')
+        if (!this.productName) {
+          this.$set(this.errorTips, 0, '产品名称不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 0, '')
           this.saveFlag = true
         }
-        if (!this.userPhone) {
-          this.$set(this.errorTips, 1, '客户手机号不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 1, '')
-        }
         this.$forceUpdate
       },
       selectUser(item) {
         this.userName = item.userName
-        this.userId = item.id
+        this.userId = item.userId
         this.showUserBox = false
       },
       searchUser: lodash.debounce(function () {
         this.showUserBox = true
-        console.log(9999)
+        if (!this.userName) return
+        this.$http.post('/OrderController/selectAllUserVoLikeUserName/' + this.userName).then(res => {
+          const data = res.data
+          this.userList = data
+        })
       }, 500)
     },
   }
@@ -307,6 +290,9 @@
     line-height 250px
     color #f0f0f0
     text-align center
+
+  .money-input
+    width 280px
 
 
 </style>
