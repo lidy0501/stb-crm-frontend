@@ -18,7 +18,7 @@
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'产品数量'" :necessary="false"></left-head>
-          <input placeholder="请输入产品数量，非必填" v-model="productNum"/>
+          <input placeholder="请输入产品数量，非必填" v-model="productNum" @input="productNum = productNum.replace(/[^\d]/g, '')"/>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
@@ -48,7 +48,8 @@
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'订单总金额'" :necessary="false"></left-head>
-          <input placeholder="请输入订单总金额，非必填" v-model="totalFee" class="money-input"/> &nbsp;元
+          <input placeholder="请输入订单总金额，非必填" v-model="totalFee" class="money-input"
+                 @input="totalFee = totalFee.replace(/[^\d]/g, '')"/> &nbsp;元
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
@@ -59,11 +60,20 @@
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
-          <input placeholder="请输入首付金额，非必填" v-model="downPayFee" class="money-input"/> &nbsp;元
+          <input placeholder="请输入首付金额，非必填" v-model="downPayFee" class="money-input"
+                 @input="downPayFee = downPayFee.replace(/[^\d]/g, '')"/> &nbsp;元
         </div>
+
+        <div class="item">
+          <left-head class="margin-20" :left-title="'付款方式'" :necessary="false"></left-head>
+          <input placeholder="请输入付款方式，非必填" v-model="payType"/>
+        </div>
+      </div>
+      <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
-          <input placeholder="请输入尾款，非必填" v-model="finalPayFee" class="money-input"/> &nbsp;元
+          <input placeholder="请输入尾款，非必填" v-model="finalPayFee" class="money-input"
+                 @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')"/> &nbsp;元
         </div>
       </div>
 
@@ -111,6 +121,7 @@
         deliveryTime: '',
         payProgress: '',
         payRecord: '',
+        payType: '',
         showUserBox: false,
         remark: '',
         saveFlag: '',
@@ -150,6 +161,7 @@
           downPayFee: +this.downPayFee,
           finalPayFee: this.finalPayFee,
           deliveryTime: this.deliveryTime,
+          payType: this.payType,
           payProgress: this.payProgress,
           payRecord: this.payRecord,
           remark: this.remark
