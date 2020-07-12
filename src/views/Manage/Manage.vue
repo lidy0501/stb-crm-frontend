@@ -6,16 +6,23 @@
         <router-view :key="$route.fullPath"></router-view>
       </transition>
     </div>
+    <TipOperateBox></TipOperateBox>
+    <Toast></Toast>
   </div>
 </template>
 
 <script>
   import LeftMenu from '../../components/Menu/LeftMenu.vue'
+  import TipOperateBox from '../../components/TipOperateBox/TipOperateBox.vue'
+  import Toast from '../../components/Toast/Toast.vue'
+
 
   export default {
     name: 'Manage',
     components: {
-      LeftMenu
+      LeftMenu,
+      TipOperateBox,
+      Toast
     }
   }
 </script>

@@ -14,6 +14,7 @@ import AddUser from '../views/Manage/User/AddUser.vue'
 import PrivateUserList from '../views/Manage/User/PrivateUserList.vue'
 import PublicUserList from '../views/Manage/User/PublicUserList.vue'
 import AddOrder from '../views/Manage/Order/AddOrder.vue'
+import OrderList from '../views/Manage/Order/OrderList.vue'
 
 
 export const routerMap = [
@@ -74,6 +75,11 @@ export const routerMap = [
         name: 'AddOrder',
         path: 'add-order',
         component: AddOrder
+      },
+      {
+        name: 'OrderList',
+        path:'order-list',
+        component: OrderList
       }
     ]
   }
@@ -84,8 +90,8 @@ const router = new Router({
 })
 
 // 用于解决报错
-const originalPush = Router.prototype.replace
-Router.prototype.replace = function replace(location, onResolve, onReject) {
+const originalPush = Router.prototype.push
+Router.prototype.push = function replace(location, onResolve, onReject) {
   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
   return originalPush.call(this, location).catch(err => err)
 }

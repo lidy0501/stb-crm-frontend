@@ -15,6 +15,8 @@
     name: 'MenuItem',
     props: {
       right: Object
+    },
+    methods: {
     }
   }
 </script>
@@ -23,6 +25,9 @@
   .menu-box
     font-size 16px
     color #fff
+
+  .iconfont
+    transition transform .5s ease
 
   .first-level
     display flex

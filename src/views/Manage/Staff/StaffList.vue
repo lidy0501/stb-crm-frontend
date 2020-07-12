@@ -27,25 +27,18 @@
         </div>
       </div>
     </div>
-    <toast v-if="showToast" :tip-text="operateResult"></toast>
-    <TipOperateBox v-if="showTipBox" :tipText="tipText" @cancel="showTipBox = false" @confirm="confirmDelete"></TipOperateBox>
   </div>
 </template>
 
 <script>
   import TopHead from '../../../components/TopHead/TopHead.vue'
-  import Toast from '../../../components/Toast/Toast.vue'
-  import TipOperateBox from '../../../components/TipOperateBox/TipOperateBox.vue'
+  import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
 
   export default {
     name: 'StaffList',
-    components: {Toast, TopHead, TipOperateBox},
+    components: {TopHead},
     data() {
       return {
-        showToast: false,
-        showTipBox: false,
-        tipText: '',
-        operateResult: '',
         staffSelected: {},
         staffList: []
       }
@@ -61,20 +54,15 @@
         })
       },
       deleteStaff(staff) {
-        this.staffSelected = staff
-        this.showTipBox = true
-        this.tipText = '确定要删除' + staff.staffName + '吗？'
-      },
-      confirmDelete() {
-        this.showTipBox = false
-        this.$http.post('/StaffController/deleteStaffById/' + this.staffSelected.staffId).then(res => {
-          const data = res.data
-          this.operateResult = data.message
-          this.showToast = true
-          setTimeout(() => {
-            this.showToast = false
-            this.init()
-          }, 2000)
+        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+          tipText: '确定要删除' + staff.staffName + '吗？',
+          sureCallback: () => {
+            this.$http.post('/StaffController/deleteStaffById/' + staff.staffId).then(res => {
+              const data = res.data
+              this.$store.commit(OPEN_TOAST, data.message)
+              this.init()
+            })
+          }
         })
       }
     }

@@ -1,9 +1,9 @@
 <template>
-  <div class="tip-operate-box">
+  <div class="tip-operate-box" v-show="tip.isShow">
     <mask-layer></mask-layer>
     <div class="operate-content">
       <div class="tipText">
-        <span>{{tipText}}</span>
+        <span>{{tip.tipText}}</span>
       </div>
       <div class="operate">
         <span @click="cancel">取消</span>
@@ -15,17 +15,24 @@
 
 <script>
   import MaskLayer from '../MaskLayer/MaskLayer.vue'
+  import {SURE_TIP_OPERATE_BOX, CLOSE_TIP_OPERATE_BOX} from '../../store/constants/home'
+
   export default {
     name: 'TipOperateBox',
     props: {
-      tipText: String
+      // tipText: String
+    },
+    computed: {
+      tip() {
+        return this.$store.getters.tipOperateInfo
+      }
     },
     methods: {
       cancel() {
-        this.$emit('cancel')
+        this.$store.commit(CLOSE_TIP_OPERATE_BOX)
       },
       confirm() {
-        this.$emit('confirm')
+        this.$store.commit(SURE_TIP_OPERATE_BOX)
       }
     },
     components: {

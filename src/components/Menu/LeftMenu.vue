@@ -1,10 +1,5 @@
 <template>
   <div class="left-menu">
-    <tip-operate-box v-if="showTip"
-                     :tipText="`确定要退出登陆吗？`"
-                     @cancel="cancel"
-                     @confirm="confirmLoginOut">
-    </tip-operate-box>
     <div class="content">
       <div class="first-sec">CRM 管理系统</div>
       <div class="second-sec">
@@ -26,17 +21,15 @@
 
 <script>
   import MenuItem from './MenuItem.vue'
-  import TipOperateBox from '../TipOperateBox/TipOperateBox.vue'
+  import {OPEN_TIP_OPERATE_BOX} from '../../store/constants/home'
 
   export default {
     name: 'LeftMenu',
     components: {
-      TipOperateBox,
       MenuItem
     },
     data() {
       return {
-        showTip: false,
         rightList: [],
         staffName: window.localStorage.getItem('staffName')
       }
@@ -51,22 +44,19 @@
         })
       },
       loginOut() {
-        this.showTip = true
-      },
-      cancel() {
-        this.showTip = false
-      },
-      confirmLoginOut() {
-        this.showTip = false
-        window.sessionStorage.clear() // 清楚session
-        window.localStorage.clear()
-        this.$http.post('/LoginController/loginOut').then(res => {
-          const data = res.data
-          if (data.code === 0) {
-            this.$router.replace('/login')
+        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+          tipText: '确定要退出吗？',
+          sureCallback: () => {
+            window.sessionStorage.clear() // 清楚session
+            window.localStorage.clear()
+            this.$http.post('/LoginController/loginOut').then(res => {
+              const data = res.data
+              if (data.code === 0) {
+                this.$router.replace('/login')
+              }
+            })
           }
         })
-
       }
     },
   }

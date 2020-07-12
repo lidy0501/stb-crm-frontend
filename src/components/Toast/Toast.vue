@@ -1,18 +1,29 @@
 <template>
-  <div class="toast">
+  <div class="toast" v-if="toast.isShow">
     <div class="operate-result">
-      <span>{{tipText}}</span>
+      <span>{{toast.text}}</span>
     </div>
   </div>
 </template>
 
 <script>
+  import {CLOSE_TOAST} from '../../store/constants/home'
+
   export default {
     name: 'Toast',
-    props: {
-      tipText: {
-        type: String,
-        default: '操作成功'
+    computed: {
+      toast() {
+        return this.$store.getters.toastInfo
+      }
+    },
+    watch: {
+      'toast.isShow': {
+        handler: function () {
+          setTimeout(function () {
+            this.$store.commit(CLOSE_TOAST)
+          }.bind(this), 2000)
+        },
+        deep: true
       }
     }
   }

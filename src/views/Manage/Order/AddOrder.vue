@@ -91,7 +91,6 @@
       </div>
       <footer-btn @goBack="goBack" @save="save"></footer-btn>
     </div>
-    <toast v-if="showToast" :tip-text="operateResult"></toast>
   </div>
 </template>
 
@@ -99,12 +98,13 @@
   import TopHead from '../../../components/TopHead/TopHead.vue'
   import LeftHead from '../../../components/LeftHead/LeftHead.vue'
   import FooterBtn from '../../../components/FooterBtn/FooterBtn.vue'
-  import Toast from '../../../components/Toast/Toast.vue'
   import lodash from 'lodash'
+  import {OPEN_TOAST} from '../../../store/constants/home'
+
 
   export default {
     name: 'AddOrder',
-    components: {Toast, LeftHead, TopHead, FooterBtn},
+    components: {LeftHead, TopHead, FooterBtn},
     data() {
       return {
         orderId: '',
@@ -126,8 +126,6 @@
         remark: '',
         saveFlag: '',
         errorTips: [],
-        showToast: false,
-        operateResult: '',
         userList: []
       }
     },
@@ -167,14 +165,12 @@
           remark: this.remark
         }).then(res => {
           const data = res.data
-          this.operateResult = data.message
-          this.showToast = true
-          setTimeout(() => {
-            this.showToast = false
-            if (data.code === 0) {
-              //this.$router.push('order-list')
-            }
-          }, 2000)
+          this.$store.commit(OPEN_TOAST, data.message)
+          if (data.code === 0) {
+            setTimeout(() => {
+              this.$router.push('order-list')
+            }, 2100)
+          }
         })
       },
       validateInfo() {

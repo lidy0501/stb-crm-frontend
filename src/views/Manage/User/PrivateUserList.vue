@@ -34,30 +34,22 @@
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
       </div>
     </div>
-    <toast v-if="showToast" :tip-text="operateResult"></toast>
-    <TipOperateBox v-if="showTipBox" :tipText="tipText" @cancel="showTipBox = false" @confirm="confirmDelete"></TipOperateBox>
   </div>
 </template>
 
 <script>
   import TopHead from '../../../components/TopHead/TopHead.vue'
-  import Toast from '../../../components/Toast/Toast.vue'
-  import TipOperateBox from '../../../components/TipOperateBox/TipOperateBox.vue'
   import QuickPager from '../../../components/QuickPager/QuickPager.vue'
+  import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+
 
   export default {
     name: 'PrivateUserList',
-    components: {Toast, TopHead, TipOperateBox, QuickPager},
+    components: {TopHead, QuickPager},
     data() {
       return {
         searchValue: '',
-        showToast: false,
-        showTipBox: false,
-        tipText: '',
-        operateResult: '',
-        userSelected: {},
         userList: [],
-        operateType: '删除',
         page: {
           startIndex: 0,
           currentPage: 1,
@@ -100,40 +92,36 @@
         this.init()
       },
       deleteUser(user) {
-        this.operateType = '删除'
-        this.userSelected = user
-        this.showTipBox = true
-        this.tipText = '确定要删除' + user.userName + '吗？'
+        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+          tipText: '确定要删除' + user.userName + '吗？',
+          sureCallback: () => {
+            this.$http.post('/UserController/deleteUserById/' + user.userId).then(res => {
+              const data = res.data
+              this.$store.commit(OPEN_TOAST, data.message)
+              if (data.code === 0) {
+                setTimeout(() => {
+                  this.init()
+                }, 2100)
+              }
+            })
+          }
+        })
       },
       changeUserType(user) {
-        this.operateType = '公有化'
-        this.userSelected = user
-        this.showTipBox = true
-        this.tipText = '确定要将' + user.userName + '移至公共区吗？'
-      },
-      confirmDelete() {
-        this.showTipBox = false
-        if (this.operateType === '删除') {
-          this.$http.post('/UserController/deleteUserById/' + this.userSelected.userId).then(res => {
-            const data = res.data
-            this.operateResult = data.message
-            this.showToast = true
-            setTimeout(() => {
-              this.showToast = false
-              this.init()
-            }, 2000)
-          })
-        } else {
-          this.$http.post('/UserController/changeUserType/' + this.userSelected.userId).then(res => {
-            const data = res.data
-            this.operateResult = data.message
-            this.showToast = true
-            setTimeout(() => {
-              this.showToast = false
-              this.init()
-            }, 2000)
-          })
-        }
+        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+          tipText: '确定要将' + user.userName + '移至公共区吗？',
+          sureCallback: () => {
+            this.$http.post('/UserController/changeUserType/' + user.userId).then(res => {
+              const data = res.data
+              this.$store.commit(OPEN_TOAST, data.message)
+              if (data.code === 0) {
+                setTimeout(() => {
+                  this.init()
+                }, 2100)
+              }
+            })
+          }
+        })
       }
     }
   }
