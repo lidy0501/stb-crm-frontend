@@ -1,13 +1,19 @@
 <template>
   <div class="footer">
     <span class="btn-default" @click="goBack">返回</span>
-    <span class="btn-primary" @click="save">保存</span>
+    <span class="btn-primary" @click="save" v-if="needSave">保存</span>
   </div>
 </template>
 
 <script>
   export default {
     name: 'FooterBtn',
+    props: {
+      needSave: {
+        type: Boolean,
+        default:true
+      }
+    },
     methods: {
       goBack() {
         this.$emit('goBack')

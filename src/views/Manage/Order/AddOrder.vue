@@ -6,30 +6,35 @@
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'产品名称'" :necessary="true"></left-head>
-          <input placeholder="请输入产品名称" v-model="productName"/>
+          <input placeholder="请输入产品名称" v-model="productName" v-if="orderState === '0'"/>
+          <div v-else class="length1">{{productName}}</div>
           <span class="error-tip">{{errorTips[0]}}</span>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'产品规格'" :necessary="false"></left-head>
-          <input placeholder="请输入产品规格，非必填" v-model="productSpe"/>
+          <input placeholder="请输入产品规格，非必填" v-model="productSpe" v-if="orderState === '0'"/>
+          <div v-else class="length2">{{productSpe || '--'}}</div>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'产品数量'" :necessary="false"></left-head>
-          <input placeholder="请输入产品数量，非必填" v-model="productNum" @input="productNum = productNum.replace(/[^\d]/g, '')"/>
+          <input placeholder="请输入产品数量，非必填" v-if="orderState === '0'"
+                 v-model="productNum" @input="productNum = productNum.replace(/[^\d]/g, '')"/>
+          <div v-else class="length1">{{productNum || '--'}}</div>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
-          <input placeholder="请输入物流单号，非必填" v-model="deliveryNo"/>
+          <input placeholder="请输入物流单号，非必填" v-model="deliveryNo" v-if="orderState === '0'"/>
+          <div v-else class="length2">{{deliveryNo || '--'}}</div>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'客户'" :necessary="false"></left-head>
-          <div class="search-user">
+          <div class="search-user" v-if="orderState === '0'">
             <input placeholder="请输入客户名查询客户，非必填" v-model.trim="userName" @input="searchUser"/>
             <div class="user-list" v-if="showUserBox">
               <div v-if="!userList.length" class="no-list">未查到客户</div>
@@ -38,10 +43,12 @@
               </div>
             </div>
           </div>
+          <div v-else class="length1">{{userName || '--'}}</div>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'公司'" :necessary="false"></left-head>
-          <input placeholder="请输入公司，非必填" v-model="company"/>
+          <input placeholder="请输入公司，非必填" v-model="company" v-if="orderState === '0'"/>
+          <div v-else class="length2">{{company || '--'}}</div>
         </div>
       </div>
 
@@ -49,11 +56,14 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'订单总金额'" :necessary="false"></left-head>
           <input placeholder="请输入订单总金额，非必填" v-model="totalFee" class="money-input"
-                 @input="totalFee = totalFee.replace(/[^\d]/g, '')"/> &nbsp;元
+                 @input="totalFee = totalFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+          <div v-else>{{totalFee}}</div>
+          <span>&nbsp;元</span>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
-          <input placeholder="请输入交期，如：2020-01-01，非必填" v-model="deliveryTime"/>
+          <input placeholder="请输入交期，如：2020-01-01，非必填" v-model="deliveryTime" v-if="orderState === '0'"/>
+          <div v-else class="length2">{{deliveryTime || '--'}}</div>
         </div>
       </div>
 
@@ -61,35 +71,43 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
           <input placeholder="请输入首付金额，非必填" v-model="downPayFee" class="money-input"
-                 @input="downPayFee = downPayFee.replace(/[^\d]/g, '')"/> &nbsp;元
+                   @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+          <div v-else>{{downPayFee}}</div>
+          <span>&nbsp;元</span>
         </div>
 
         <div class="item">
           <left-head class="margin-20" :left-title="'付款方式'" :necessary="false"></left-head>
-          <input placeholder="请输入付款方式，非必填" v-model="payType"/>
+          <input placeholder="请输入付款方式，非必填" v-model="payType" v-if="orderState === '0'"/>
+          <div v-else class="length2">{{payType || '--'}}</div>
         </div>
       </div>
       <div class="layer">
         <div class="item">
           <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
           <input placeholder="请输入尾款，非必填" v-model="finalPayFee" class="money-input"
-                 @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')"/> &nbsp;元
+                 @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+          <div v-else>{{finalPayFee}}</div>
+          <span>&nbsp;元</span>
         </div>
       </div>
 
       <div class="item2">
         <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>
-        <textarea placeholder="请输入付款进度，非必填(限200字)" v-model="payProgress"/>
+        <textarea placeholder="请输入付款进度，非必填(限200字)" maxlength="200" v-model="payProgress" v-if="orderState === '0'"/>
+        <div v-else class="length3">{{payProgress || '--'}}</div>
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'付款记录'" :necessary="false"></left-head>
-        <textarea placeholder="请输入付款记录，非必填(限200字)" v-model="payRecord"/>
+        <textarea placeholder="请输入付款记录，非必填(限200字)" maxlength="200" v-model="payRecord" v-if="orderState === '0'"/>
+        <div v-else class="length3">{{payRecord || '--'}}</div>
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
-        <textarea placeholder="请输入客户备注，非必填(限200字)" v-model="remark"/>
+        <textarea placeholder="请输入客户备注，非必填(限200字)" maxlength="200" v-model="remark" v-if="orderState === '0'"/>
+        <div v-else class="length3">{{remark || '--'}}</div>
       </div>
-      <footer-btn @goBack="goBack" @save="save"></footer-btn>
+      <footer-btn @goBack="goBack" @save="save" :needSave="orderState === '0'"></footer-btn>
     </div>
   </div>
 </template>
@@ -108,6 +126,7 @@
     data() {
       return {
         orderId: this.$route.params.orderId,
+        orderState: '0', // 默认未完成
         productName: '',
         productSpe: '',
         productNum: 1,
@@ -311,5 +330,18 @@
   .money-input
     width 280px
 
+  .length1
+    width 280px
 
+  .length2
+    width 270px
+
+  .length3
+    width 85.2%
+
+  .text-flow
+    word-break break-all
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
 </style>
