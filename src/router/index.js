@@ -73,7 +73,7 @@ export const routerMap = [
       },
       {
         name: 'AddOrder',
-        path: 'add-order',
+        path: 'add-order/:orderId?',
         component: AddOrder
       },
       {

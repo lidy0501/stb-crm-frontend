@@ -107,7 +107,7 @@
     components: {LeftHead, TopHead, FooterBtn},
     data() {
       return {
-        orderId: '',
+        orderId: this.$route.params.orderId,
         productName: '',
         productSpe: '',
         productNum: 1,
@@ -137,10 +137,19 @@
           _this.showUserBox = false
         }
       })
+      if (_this.orderId) { // 编辑
+        this.init()
+      }
     },
     methods: {
       goBack() {
         this.$router.go(-1)
+      },
+      init() {
+        this.$http.post('/OrderController/selectOrderByOrderId/' + this.orderId).then(res => {
+          const data = res.data
+          Object.assign(this, data)
+        })
       },
       save() {
         this.saveFlag = true
@@ -168,7 +177,7 @@
           this.$store.commit(OPEN_TOAST, data.message)
           if (data.code === 0) {
             setTimeout(() => {
-              this.$router.push('order-list')
+              this.$router.push('/manage/order-list')
             }, 2100)
           }
         })
