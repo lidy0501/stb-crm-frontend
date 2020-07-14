@@ -22,11 +22,6 @@
         <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="false"></left-head>
         <input placeholder="请输入客户邮箱，非必填" v-model="userEmail"/>
       </div>
-      <!--<div class="item">-->
-      <!--<left-head class="margin-20" :left-title="'职务'" :necessary="true"></left-head>-->
-      <!--<input placeholder="请输入客户职务" v-model="passWord"/>-->
-      <!--<span class="error-tip">{{errorTips[3]}}</span>-->
-      <!--</div>-->
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
         <textarea placeholder="请输入客户备注，非必填(限200字)" v-model="remark"/>
