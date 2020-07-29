@@ -16,7 +16,12 @@
       <div class="item">
         <left-head class="margin-20" :left-title="'公司名称'" :necessary="false"></left-head>
         <input placeholder="请输入客户公司名称，非必填" v-model="company"/>
-        <span class="error-tip">{{errorTips[2]}}</span>
+        <span class="error-tip"></span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'公司职位'" :necessary="false"></left-head>
+        <input placeholder="请输入客户公司职位，非必填" v-model="post"/>
+        <span class="error-tip"></span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="false"></left-head>
@@ -45,6 +50,7 @@
       return {
         userName: '',
         company: '',
+        post: '',
         userPhone: '',
         userEmail: '',
         remark: '',
@@ -64,6 +70,7 @@
         this.$http.post('/UserController/addUser', {
           userName: this.userName,
           company: this.company,
+          post: this.post,
           userPhone: this.userPhone,
           userEmail: this.userEmail,
           remark: this.remark
@@ -141,7 +148,6 @@
     display flex
     flex-wrap wrap
     width 900px
-
   .right-item
     display flex
     width 150px

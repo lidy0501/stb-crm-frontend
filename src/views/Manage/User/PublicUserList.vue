@@ -16,6 +16,7 @@
         <span class="col2">客户手机号</span>
         <span class="col3">客户邮箱</span>
         <span class="col4">所属公司</span>
+        <span class="col4">公司职位</span>
         <span class="col5">客户备注</span>
         <span class="col6">操作</span>
       </div>
@@ -23,8 +24,9 @@
         <div class="list-item" v-for="item in userList" :key="item.userId">
           <span class="col1 padL10">{{item.userName}}</span>
           <span class="col2">{{item.userPhone}}</span>
-          <span class="col3">{{item.userEmail}}</span>
+          <span class="col3">{{item.userEmail || '--'}}</span>
           <span class="col4" :title="item.company">{{item.company || '--'}}</span>
+          <span class="col4" :title="item.post">{{item.post || '--'}}</span>
           <span class="col5" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col6">
             <span class="delete-btn" @click="deleteUser(item)">删除</span>
@@ -204,7 +206,7 @@
 
 
   .col1
-    width 20%
+    width 15%
 
   .col2
     width 15%
@@ -213,7 +215,7 @@
     width 15%
 
   .col4
-    width 20%
+    width 15%
 
   .col5
     width 20%

@@ -4,7 +4,7 @@
     <div class="list-container">
       <div class="list-title">
         <span class="col1 padL10">员工姓名</span>
-        <span class="col2">员工工号</span>
+        <span class="col2">员工账号</span>
         <span class="col3">员工手机号</span>
         <span class="col4">员工邮箱</span>
         <span class="col5">员工密码</span>

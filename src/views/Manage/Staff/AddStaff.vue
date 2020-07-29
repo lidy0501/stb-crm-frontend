@@ -14,8 +14,8 @@
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'员工工号'" :necessary="true"></left-head>
-        <input placeholder="请输入员工工号" v-model="staffCode"/>
+        <left-head class="margin-20" :left-title="'员工账号'" :necessary="true"></left-head>
+        <input placeholder="请输入员工账号" v-model="staffCode"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
       <div class="item">
@@ -124,7 +124,7 @@
           this.$set(this.errorTips, 1, '')
         }
         if (!this.staffName) {
-          this.$set(this.errorTips, 2, '员工工号不能为空')
+          this.$set(this.errorTips, 2, '员工账号不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 2, '')
