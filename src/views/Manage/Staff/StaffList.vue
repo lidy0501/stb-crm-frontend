@@ -14,7 +14,7 @@
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in staffList" :key="item.staffId">
-          <span class="col1 padL10">{{item.staffName}}</span>
+          <span class="col1 padL10" :title="item.staffName">{{item.staffName}}</span>
           <span class="col2" :title="item.staffCode">{{item.staffCode}}</span>
           <span class="col3">{{item.staffPhone}}</span>
           <span class="col4" :title="item.staffEmail">{{item.staffEmail || '--'}}</span>
