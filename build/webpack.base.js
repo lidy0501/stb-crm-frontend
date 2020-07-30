@@ -85,6 +85,11 @@ module.exports = {
       'styles': path.resolve(__dirname, '../src/assets/styles'), // styles就代表src/assets/styles路径了
       'images': path.resolve(__dirname, '../src/assets/images')
     }
+  },
+
+  // 用于解决打打包是报入口文件（main.js）和资源文件（assets）过大的错误
+  performance: {
+    hints: false
   }
 
 }
