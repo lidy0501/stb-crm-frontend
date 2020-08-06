@@ -10,7 +10,7 @@
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入员工手机号" v-model="staffPhone"/>
+        <input placeholder="请输入员工手机号" v-model="staffPhone" maxlength="11"/>
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
