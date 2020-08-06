@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/stb-crm-frontend.iml" filepath="$PROJECT_DIR$/.idea/stb-crm-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../stb-crm-server/stb-crm-server.iml" filepath="$PROJECT_DIR$/../stb-crm-server/stb-crm-server.iml" />
     </modules>
   </component>
 </project>
