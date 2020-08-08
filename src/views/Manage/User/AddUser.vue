@@ -10,7 +10,7 @@
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入客户手机号" v-model="userPhone"/>
+        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="11" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
