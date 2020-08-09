@@ -69,7 +69,8 @@
         staffRights: [],
         saveFlag: '',
         errorTips: [],
-        rights: []
+        rights: [],
+        canOperate: true
       }
     },
     mounted() {
@@ -80,6 +81,8 @@
         this.$router.go(-1)
       },
       save() {
+        if (!this.canOperate) return
+        this.canOperate = false
         this.saveFlag = true
         this.getStaffRights()
         this.validateInfo()
@@ -99,6 +102,7 @@
           if (data.code === 0) {
             setTimeout(() => {
               this.$router.push('staff-list')
+              this.canOperate = true
             }, 2100)
           }
         })

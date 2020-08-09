@@ -55,7 +55,8 @@
         userEmail: '',
         remark: '',
         saveFlag: '',
-        errorTips: []
+        errorTips: [],
+        canOperate: true
       }
     },
     methods: {
@@ -63,6 +64,8 @@
         this.$router.go(-1)
       },
       save() {
+        if (!this.canOperate) return
+        this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
@@ -80,6 +83,7 @@
           if (data.code === 0) {
             setTimeout(() => {
               this.$router.push('private-user-list')
+              this.canOperate = true
             }, 2100)
           }
         })

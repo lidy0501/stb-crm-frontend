@@ -145,7 +145,8 @@
         remark: '',
         saveFlag: '',
         errorTips: [],
-        userList: []
+        userList: [],
+        canOperate: true // 可以操作
       }
     },
     mounted() {
@@ -171,6 +172,8 @@
         })
       },
       save() {
+        if (!this.canOperate) return
+        this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
@@ -197,6 +200,7 @@
           if (data.code === 0) {
             setTimeout(() => {
               this.$router.push('/manage/order-list')
+              this.canOperate = true
             }, 2100)
           }
         })
