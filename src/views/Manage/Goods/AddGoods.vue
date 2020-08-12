@@ -9,15 +9,15 @@
                 <span class="error-tip">{{errorTips[0]}}</span>
             </div>
             <div class="item">
-                <left-head class="margin-20" :left-title="'商品价格'" :necessary="true"></left-head>
+                <left-head class="margin-20" :left-title="'商品价格'" :necessary="false"></left-head>
                 <input placeholder="请输入商品价格,非必填" v-model="goodsPrice"/>
             </div>
             <div class="item">
-                <left-head class="margin-20" :left-title="'商品规格'" :necessary="true"></left-head>
+                <left-head class="margin-20" :left-title="'商品规格'" :necessary="false"></left-head>
                 <input placeholder="请输入商品规格,非必填" v-model="goodsSpe"/>
             </div>
             <div class="item2">
-                <left-head class="margin-20" :left-title="'商品备注'" :necessary="true"></left-head>
+                <left-head class="margin-20" :left-title="'商品备注'" :necessary="false"></left-head>
                 <input placeholder="请输入商品备注,非必填(限200字)" v-model="remark"/>
             </div>
             <footer-btn @goBack="goBack" @save="save"></footer-btn>
