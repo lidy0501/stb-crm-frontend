@@ -1,0 +1,24 @@
+.DS_STORE
+*.bak
+*.log
+*.out
+*.lock
+.cache
+package-lock.json
+
+node_modules
+npm-debug.log*
+
+coverage
+data
+dist
+act-dist
+test/e2e/reports
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+sync
