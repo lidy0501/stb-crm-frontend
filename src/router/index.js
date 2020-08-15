@@ -44,14 +44,12 @@ export const routerMap = [
       {
         name: 'AddStaff',
         path: 'add-staff',
-        //component: AddStaff
-        component: StaffList
+        component: AddStaff
       },
       {
         name: 'StaffList',
         path: 'staff-list',
-        //component: StaffList
-        component: AddStaff
+        component: StaffList
       },
       {
         name: 'AddUser',
