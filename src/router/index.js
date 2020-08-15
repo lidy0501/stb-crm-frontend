@@ -18,15 +18,15 @@ import AddGoods from '../views/Manage/Goods/AddGoods.vue'
 import GoodsList from '../views/Manage/Goods/GoodsList.vue'
 
 export const routerMap = [
-  {
-    name: 'error',
-    path: '/404',
-    component: Error
-  },
-  {
-    path: '*',
-    redirect:'404'
-  },
+  // {
+  //   name: 'error',
+  //   path: '/404',
+  //   component: Error
+  // },
+  // {
+  //   path: '*',
+  //   redirect:'404'
+  // },
   {
     path: '/',
     redirect:'login'
