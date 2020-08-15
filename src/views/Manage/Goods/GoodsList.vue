@@ -24,6 +24,7 @@
     </div>
 </template>
 
+
 <script>
   import TopHead from "../../../components/TopHead/TopHead.vue"
   import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'

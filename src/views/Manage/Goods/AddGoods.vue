@@ -25,6 +25,7 @@
     </div>
 </template>
 
+
 <script>
     import LeftHead from '../../../components/LeftHead/LeftHead.vue';
     import TopHead from '../../../components/TopHead/TopHead.vue';
