@@ -65,7 +65,7 @@
 
 <style module lang="stylus" scoped>
     .add-staff
-    width 100%
+        width 100%
 
     .list-container
         margin-top 20px
@@ -99,16 +99,19 @@
             white-space nowrap
 
     .col1
-        width 10%
+        width 20%
 
     .col2
-        width 10%
+        width 15%
 
     .col3
-        width 10%
+        width 20%
 
     .col4
-        width 18%
+        width 30%
+
+    .padL10
+        padding-left 10px
 
     .delete-btn
         display inline-block
@@ -121,7 +124,6 @@
         border-radius 5px
         margin auto 0
         cursor pointer
-
 
 
 </style>

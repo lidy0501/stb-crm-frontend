@@ -18,7 +18,7 @@
             </div>
             <div class="item2">
                 <left-head class="margin-20" :left-title="'商品备注'" :necessary="false"></left-head>
-                <input placeholder="请输入商品备注,非必填(限200字)" v-model="remark"/>
+                <textarea placeholder="请输入商品备注，非必填(限200字)" maxlength="200" v-model="remark" />
             </div>
             <footer-btn @goBack="goBack" @save="save"></footer-btn>
         </div>
@@ -115,4 +115,15 @@
     .item2
         display flex
         margin-bottom 20px
+
+        textarea
+            width 85.3%
+            height 80px
+            padding 10px
+            outline none
+            font-size 16px
+
+    .length3
+        width 85.2%
+
 </style>
