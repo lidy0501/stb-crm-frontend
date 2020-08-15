@@ -15,7 +15,7 @@ import PublicUserList from '../views/Manage/User/PublicUserList.vue'
 import AddOrder from '../views/Manage/Order/AddOrder.vue'
 import OrderList from '../views/Manage/Order/OrderList.vue'
 import AddGoods from '../views/Manage/Goods/AddGoods.vue'
-import GoodsList2 from '../views/Manage/Goods/GoodsList2.vue'
+import GoodsList from '../views/Manage/Goods/GoodsList.vue'
 
 export const routerMap = [
   {
@@ -84,7 +84,7 @@ export const routerMap = [
       {
         name: 'GoodsList',
         path:'goods-list',
-        component: GoodsList2
+        component: GoodsList
       }
     ]
   }

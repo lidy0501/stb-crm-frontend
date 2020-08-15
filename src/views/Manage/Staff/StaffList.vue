@@ -10,7 +10,7 @@
         <span class="col5">员工密码</span>
         <span class="col6">员工权限</span>
         <span class="col7">员工备注</span>
-        <span class="col8">操作</span>
+        <span class="col8" @click="$router.push('goods-list')">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in staffList" :key="item.staffId">
