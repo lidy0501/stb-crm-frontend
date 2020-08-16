@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-const BASE_URL = 'http://47.114.140.213:9911/crm'  // todo 测试环境别忘了换过来
-//const BASE_URL = 'http://47.96.230.123:9911/crm'   // todo 生产环境别忘了换过来
+//const BASE_URL = 'http://47.114.140.213:9911/crm'  // todo 测试环境别忘了换过来
+const BASE_URL = 'http://47.96.230.123:9911/crm'   // todo 生产环境别忘了换过来
 
 //const BASE_URL = 'http://127.0.0.1:9911/crm'         // todo 开发环境
 
