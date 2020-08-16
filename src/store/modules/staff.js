@@ -17,9 +17,10 @@ const mutations = {
   REMOVE_INFO: state => {
     state.token = ''
     state.staff = ''
+    state.staffName = ''
     localStorage.setItem('token', '')
     sessionStorage.setItem('staff', JSON.stringify(''))
-    localStorage.setItem('staff', JSON.stringify(''))
+    localStorage.setItem('staffName', '')
   },
   SET_STAFF_NAME: (state, staffName) => {
     state.staffName = staffName
@@ -34,6 +35,9 @@ const getters = {
   },
   getStaffName: state => {
     return state.staffName
+  },
+  getToken: state => {
+    return state.token
   }
 }
 

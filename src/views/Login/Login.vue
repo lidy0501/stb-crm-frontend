@@ -44,7 +44,7 @@
       ...mapGetters(['staff'])
     },
     methods: {
-      ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME']),
+      ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME', 'SET_TOKEN']),
       clearTip() {
         this.errorTip = ''
       },
@@ -73,6 +73,7 @@
              */
 
             _this.SET_STAFF_NAME(staff.staffName)
+            _this.SET_TOKEN(staff.staffId)
 
             _this.$router.replace('manage')
           } else {

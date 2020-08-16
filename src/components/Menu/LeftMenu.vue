@@ -22,6 +22,7 @@
 <script>
   import MenuItem from './MenuItem.vue'
   import {OPEN_TIP_OPERATE_BOX} from '../../store/constants/home'
+  import {mapMutations} from 'vuex'
 
   export default {
     name: 'LeftMenu',
@@ -38,21 +39,24 @@
       this.getLeftRight()
     },
     methods: {
+      ...mapMutations(['REMOVE_INFO']),
       getLeftRight() {
         this.$http.post('/LoginController/getRight').then(res => {
           this.rightList = res.data
         })
       },
       loginOut() {
-        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+        const _this = this
+        _this.$store.commit(OPEN_TIP_OPERATE_BOX, {
           tipText: '确定要退出吗？',
           sureCallback: () => {
-            window.sessionStorage.clear() // 清楚session
-            window.localStorage.clear()
-            this.$http.post('/LoginController/loginOut').then(res => {
+            _this.$http.post('/LoginController/loginOut').then(res => {
               const data = res.data
               if (data.code === 0) {
-                this.$router.replace('/login')
+                // window.sessionStorage.clear() // 清楚session
+                // window.localStorage.clear()
+                _this.REMOVE_INFO()
+                _this.$router.replace('/login')
               }
             })
           }
