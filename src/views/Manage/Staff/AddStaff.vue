@@ -24,8 +24,9 @@
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'员工邮箱'" :necessary="false"></left-head>
-        <input placeholder="请输入员工邮箱，非必填" v-model="staffEmail"/>
+        <left-head class="margin-20" :left-title="'员工邮箱'" :necessary="true"></left-head>
+        <input placeholder="请输入员工邮箱" v-model="staffEmail"/>
+        <span class="error-tip">{{errorTips[4]}}</span>
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
@@ -34,14 +35,14 @@
       <div class="item2">
         <left-head class="margin-20" :left-title="'员工权限'" :necessary="true"></left-head>
         <div class="staff-right">
-          <div class="right-item" v-for="(item, index) in rights" :key="index">
+          <div class="right-item" v-for="(item, index) in staffRights" :key="index">
             <div @click="item.selected = !item.selected">
               <i class="iconfont icon-xuanzhong selected" v-if="item.selected"></i>
               <i class="iconfont icon-weixuanzhong un-selected" v-else></i>
             </div>
             <span>{{item.rightName}}</span>
           </div>
-          <div class="error-tip">{{errorTips[4]}}</div>
+          <div class="error-tip">{{errorTips[5]}}</div>
         </div>
       </div>
       <footer-btn @goBack="goBack" @save="save"></footer-btn>
@@ -60,6 +61,7 @@
     components: {LeftHead, TopHead, FooterBtn},
     data() {
       return {
+        staffId: this.$route.params.staffId || '0', // 表示没有staffId, 为新增
         staffName: '',
         staffCode: '',
         passWord: '',
@@ -74,21 +76,23 @@
       }
     },
     mounted() {
-      this.init()
+      this.initStaffInfo()
     },
     methods: {
       goBack() {
         this.$router.go(-1)
       },
       save() {
-        if (!this.canOperate) return
-        this.canOperate = false
-        this.saveFlag = true
-        this.getStaffRights()
+        if (this.staffId === localStorage.getItem('token') ) {
+          this.$store.commit(OPEN_TOAST, '不能编辑本人信息')
+          return
+        }
         this.validateInfo()
         if (!this.saveFlag) return
-
-        this.$http.post('/StaffController/addStaff', {
+        if (!this.canOperate) return
+        this.canOperate = false
+        this.$http.post('/StaffController/saveStaff', {
+          staffId: this.staffId,
           staffName: this.staffName,
           staffCode: this.staffCode,
           passWord: this.passWord,
@@ -99,10 +103,10 @@
         }).then(res => {
           const data = res.data
           this.$store.commit(OPEN_TOAST, data.message)
+          this.canOperate = true
           if (data.code === 0) {
             setTimeout(() => {
-              this.$router.push('staff-list')
-              this.canOperate = true
+              this.$router.push('/manage/staff-list')
             }, 2100)
           }
         })
@@ -113,13 +117,26 @@
           this.rights = data
         })
       },
+      initStaffInfo() {
+        this.$http.get(`/StaffController/findStaffInfoById/${this.staffId}`).then(res => {
+          const data = res.data
+          this.staffId = data.staffId
+          this.staffName = data.staffName
+          this.staffCode = data.staffCode
+          this.passWord = data.passWord
+          this.staffPhone = data.staffPhone
+          this.staffEmail = data.staffEmail
+          this.remark = data.remark
+          this.staffRights = data.rightVoList
+        })
+      },
       validateInfo() {
+        this.saveFlag = true
         if (!this.staffName) {
           this.$set(this.errorTips, 0, '员工姓名不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 0, '')
-          this.saveFlag = true
         }
         if (!this.staffPhone) {
           this.$set(this.errorTips, 1, '员工手机号不能为空')
@@ -127,7 +144,7 @@
         } else {
           this.$set(this.errorTips, 1, '')
         }
-        if (!this.staffName) {
+        if (!this.staffCode) {
           this.$set(this.errorTips, 2, '员工账号不能为空')
           this.saveFlag = false
         } else {
@@ -139,16 +156,23 @@
         } else {
           this.$set(this.errorTips, 3, '')
         }
-        if (!this.staffRights.length) {
-          this.$set(this.errorTips, 4, '请选择员工权限')
+        if (!this.staffEmail) {
+          this.$set(this.errorTips, 4, '员工邮箱不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 4, '')
         }
+        if (!this.validateRights()) {
+          this.$set(this.errorTips, 5, '请选择员工权限')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 5, '')
+        }
         this.$forceUpdate
       },
-      getStaffRights() {
-        this.staffRights = this.rights.filter(x => x.selected)
+      validateRights() {
+        let list = this.staffRights.filter(x => x.selected)
+        return list.length > 0
       }
     },
   }

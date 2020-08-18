@@ -22,7 +22,8 @@
           <span class="col6" :title="item.rightNames">{{item.rightNames}}</span>
           <span class="col7" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col8">
-            <span class="delete-btn" @click="deleteStaff(item)">删除</span>
+            <span class="btn primary-btn" @click="editStaff(item)">编辑</span>
+            <span class="btn default-btn" @click="deleteStaff(item)">删除</span>
           </span>
         </div>
       </div>
@@ -52,6 +53,9 @@
           const data = res.data
           this.staffList = data
         })
+      },
+      editStaff(item) {
+        this.$router.push(`add-staff/${item.staffId}`)
       },
       deleteStaff(staff) {
         this.$store.commit(OPEN_TIP_OPERATE_BOX, {
@@ -97,6 +101,7 @@
     height 45px
     line-height 45px
     border-bottom 1px solid #f0f0f0
+    font-size 14px
 
     > span
       word-break break-all
@@ -127,22 +132,29 @@
     width 20%
 
   .col7
-    width 18%
+    width 12%
 
   .padL10
     padding-left 10px
 
-  .delete-btn
+  .btn
     display inline-block
-    width 60px
+    width 50px
     height 30px
-    color #3cb371
     text-align center
-    line-height 30px
-    border 1px solid #3cb371
     border-radius 5px
-    margin auto 0
     cursor pointer
+    line-height 30px
+
+
+  .primary-btn
+    background-color #3cb371
+    color #fff
+
+  .default-btn
+    color #3cb371
+    border 1px solid #3cb371
+
 
   .text-flow
     word-break break-all

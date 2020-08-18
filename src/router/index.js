@@ -43,7 +43,7 @@ export const routerMap = [
     children: [
       {
         name: 'AddStaff',
-        path: 'add-staff',
+        path: 'add-staff/:staffId?',
         component: AddStaff
       },
       {

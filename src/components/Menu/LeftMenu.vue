@@ -97,7 +97,7 @@
 
   .fourth-sec
     position absolute
-    bottom 10px
+    bottom 50px
     color #fff
     font-size 10px
     width 100%
