@@ -120,7 +120,7 @@
       initStaffInfo() {
         this.$http.get(`/StaffController/findStaffInfoById/${this.staffId}`).then(res => {
           const data = res.data
-          this.staffId = data.staffId
+          this.staffId = data.staffId || '0'
           this.staffName = data.staffName
           this.staffCode = data.staffCode
           this.passWord = data.passWord
