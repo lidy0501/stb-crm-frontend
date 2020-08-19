@@ -5,7 +5,7 @@
         <div class="search-box">
           <div class="input-sty">
             <i class="iconfont icon-sousuo"></i>
-            <input type="text" v-model="searchValue" placeholder="客户姓名/手机号"/>
+            <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司"/>
           </div>
           <div class="btn-search" @click="search">查询</div>
         </div>
@@ -30,6 +30,8 @@
           <span class="col5" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col6">
             <span class="delete-btn" @click="deleteUser(item)">删除</span>
+            <span class="delete-btn" @click="receiveUser(item)">认领</span>
+            <span class="delete-btn" @click="distributionUser(item)">分配</span>
           </span>
         </div>
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
@@ -102,6 +104,22 @@
           tipText: '确定要删除' + user.userName + '吗？',
           sureCallback: () => {
             this.$http.post('/UserController/deleteUserById/' + user.userId).then(res => {
+              const data = res.data
+              this.$store.commit(OPEN_TOAST, data.message)
+              if (data.code === 0) {
+                setTimeout(() => {
+                  this.init()
+                }, 2100)
+              }
+            })
+          }
+        })
+      },
+      receiveUser(user) {
+        this.$store.commit(OPEN_TIP_OPERATE_BOX, {
+          tipText: '确定要认领' + user.userName + '吗？',
+          sureCallback: () => {
+            this.$http.post('/UserController/receiveUser/' + user.userId).then(res => {
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {

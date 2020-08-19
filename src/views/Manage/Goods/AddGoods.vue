@@ -4,21 +4,28 @@
         <div class="base-info">
             <div class="title">商品基本信息</div>
             <div class="item">
-                <left-head class="margin-20" :left-title="'商品名称'" :necessary="true"></left-head>
-                <input placeholder="请输入商品名称" v-model="goodsName"/>
+                <left-head class="margin-20" :left-title="'商品编码'" :necessary="true"></left-head>
+                <input placeholder="请输入商品编码" v-model="goodsCode"/>
                 <span class="error-tip">{{errorTips[0]}}</span>
             </div>
             <div class="item">
-                <left-head class="margin-20" :left-title="'商品价格'" :necessary="false"></left-head>
-                <input placeholder="请输入商品价格,非必填" v-model="goodsPrice"/>
+                <left-head class="margin-20" :left-title="'商品名称'" :necessary="true"></left-head>
+                <input placeholder="请输入商品名称" v-model="goodsName"/>
+                <span class="error-tip">{{errorTips[1]}}</span>
             </div>
             <div class="item">
-                <left-head class="margin-20" :left-title="'商品规格'" :necessary="false"></left-head>
-                <input placeholder="请输入商品规格,非必填" v-model="goodsSpe"/>
+                <left-head class="margin-20" :left-title="'商品价格'" :necessary="true"></left-head>
+                <input placeholder="请输入商品价格" v-model="goodsPrice"/>
+                <span class="error-tip">{{errorTips[2]}}</span>
+            </div>
+            <div class="item">
+                <left-head class="margin-20" :left-title="'商品规格'" :necessary="true"></left-head>
+                <input placeholder="请输入商品规格" v-model="goodsSpe"/>
+                <span class="error-tip">{{errorTips[3]}}</span>
             </div>
             <div class="item2">
                 <left-head class="margin-20" :left-title="'商品备注'" :necessary="false"></left-head>
-                <textarea placeholder="请输入商品备注，非必填(限200字)" maxlength="200" v-model="remark" />
+                <textarea placeholder="请输入商品备注(限200字)" maxlength="200" v-model="remark" />
             </div>
             <footer-btn @goBack="goBack" @save="save"></footer-btn>
         </div>
@@ -38,6 +45,7 @@
         data(){
             return{
                 //goodsId: this.$route.params.goodsId,没用到
+                goodsCode:'',
                 goodsName:'',
                 goodsPrice:'',
                 goodsSpe:'',
@@ -56,6 +64,7 @@
                 if (!this.saveFlag) return
 
                 this.$http.post('/GoodsController/addGoods', {
+                    goodsCode : this.goodsCode,
                     goodsName : this.goodsName,
                     goodsPrice : +this.goodsPrice,
                     goodsSpe : this.goodsSpe,
@@ -71,12 +80,29 @@
                 })
             },
             validateInfo() {
-                if (!this.goodsName) {
-                    this.$set(this.errorTips, 0, '商品名称不能为空')
+                if (!this.goodsCode) {
+                    this.$set(this.errorTips, 0, '商品编码不能为空')
                     this.saveFlag = false
                 } else {
                     this.$set(this.errorTips, 0, '')
-                    this.saveFlag = true
+                }
+                if (!this.goodsName) {
+                    this.$set(this.errorTips, 1, '商品名称不能为空')
+                    this.saveFlag = false
+                } else {
+                    this.$set(this.errorTips, 1, '')
+                }
+                if (!this.goodsPrice) {
+                    this.$set(this.errorTips, 2, '商品名称不能为空')
+                    this.saveFlag = false
+                } else {
+                    this.$set(this.errorTips, 2, '')
+                }
+                if (!this.goodsSpe) {
+                    this.$set(this.errorTips, 3, '商品名称不能为空')
+                    this.saveFlag = false
+                } else {
+                    this.$set(this.errorTips, 3, '')
                 }
                 this.$forceUpdate
             }

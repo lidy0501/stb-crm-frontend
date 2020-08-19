@@ -4,14 +4,19 @@
     <div class="base-info">
       <div class="title">客户基本信息</div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户姓名'" :necessary="true"></left-head>
-        <input placeholder="请输入客户姓名" v-model="userName"/>
+        <left-head class="margin-20" :left-title="'客户编码'" :necessary="true"></left-head>
+        <input placeholder="请输入客户编码" v-model="userCode"/>
         <span class="error-tip">{{errorTips[0]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="11" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <left-head class="margin-20" :left-title="'客户姓名'" :necessary="true"></left-head>
+        <input placeholder="请输入客户姓名" v-model="userName"/>
         <span class="error-tip">{{errorTips[1]}}</span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
+        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <span class="error-tip">{{errorTips[2]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'公司名称'" :necessary="false"></left-head>
@@ -48,6 +53,7 @@
     components: {LeftHead, TopHead, FooterBtn},
     data() {
       return {
+        userCode:'',
         userName: '',
         company: '',
         post: '',
@@ -71,6 +77,7 @@
         if (!this.saveFlag) return
 
         this.$http.post('/UserController/addUser', {
+          userCode: this.userCode,
           userName: this.userName,
           company: this.company,
           post: this.post,
@@ -89,18 +96,23 @@
         })
       },
       validateInfo() {
-        if (!this.userName) {
-          this.$set(this.errorTips, 0, '客户姓名不能为空')
+        if (!this.userCode) {
+          this.$set(this.errorTips, 0, '客户编码不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 0, '')
-          this.saveFlag = true
         }
-        if (!this.userPhone) {
-          this.$set(this.errorTips, 1, '客户手机号不能为空')
+        if (!this.userName) {
+          this.$set(this.errorTips, 1, '客户姓名不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 1, '')
+        }
+        if (!this.userPhone) {
+          this.$set(this.errorTips, 2, '客户手机号不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 2, '')
         }
         this.$forceUpdate
       }

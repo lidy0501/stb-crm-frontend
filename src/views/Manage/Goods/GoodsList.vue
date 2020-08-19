@@ -3,19 +3,21 @@
         <top-head :title="'商品管理'"></top-head>
         <div class="list-container">
             <div class="list-title">
-                <span class="col1 padL10">商品名称</span>
-                <span class="col2">商品价格</span>
-                <span class="col3">商品规格</span>
-                <span class="col4">商品备注</span>
-                <span class="col5">操作</span>
+                <span class="col1 padL10">商品编码</span>
+                <span class="col2">商品名称</span>
+                <span class="col3">商品价格</span>
+                <span class="col4">商品规格</span>
+                <span class="col5">商品备注</span>
+                <span class="col6">操作</span>
             </div>
             <div class="list-content">
                 <div class="list-item" v-for="item in goodsList" :key="item.goodsId">
-                    <span class="col1 padL10" :title="item.goodsName">{{item.goodsName}}</span>
-                    <span class="col2 " :title="item.goodsPrice">{{item.goodsPrice || '--'}}</span>
-                    <span class="col3 " :title="item.goodsSpe">{{item.goodsSpe || '--'}}</span>
-                    <span class="col4 " :title="item.remark">{{item.remark || '--'}}</span>
-                    <span class="col5 ">
+                    <span class="col1 padL10" :title="item.goodsCode">{{item.goodsCode}}</span>
+                    <span class="col2 " :title="item.goodsName">{{item.goodsName}}</span>
+                    <span class="col3 " :title="item.goodsPrice">{{item.goodsPrice || '--'}}</span>
+                    <span class="col4 " :title="item.goodsSpe">{{item.goodsSpe || '--'}}</span>
+                    <span class="col5 " :title="item.remark">{{item.remark || '--'}}</span>
+                    <span class="col6 ">
                         <span class="delete-btn" @click="deleteGoods(item)">删除</span>
                     </span>
                 </div>
@@ -101,15 +103,16 @@
 
     .col1
         width 20%
-
     .col2
-        width 15%
-
-    .col3
         width 20%
+    .col3
+        width 10%
 
     .col4
-        width 30%
+        width 20%
+
+    .col5
+        width 20%
 
     .padL10
         padding-left 10px
