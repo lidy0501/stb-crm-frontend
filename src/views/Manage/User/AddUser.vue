@@ -14,23 +14,48 @@
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <left-head class="margin-20" :left-title="'客户国家'" :necessary="true"></left-head>
+        <input placeholder="请输入客户国家" v-model="nation"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'公司名称'" :necessary="false"></left-head>
-        <input placeholder="请输入客户公司名称，非必填" v-model="company"/>
+        <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
+        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <span class="error-tip">{{errorTips[3]}}</span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'固定电话'" :necessary="true"></left-head>
+        <input placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <span class="error-tip">{{errorTips[4]}}</span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'公司名称'" :necessary="true"></left-head>
+        <input placeholder="请输入客户公司名称" v-model="company"/>
+        <span class="error-tip">{{errorTips[5]}}</span>
         <span class="error-tip"></span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'公司职位'" :necessary="false"></left-head>
-        <input placeholder="请输入客户公司职位，非必填" v-model="post"/>
+        <left-head class="margin-20" :left-title="'公司职位'" :necessary="true"></left-head>
+        <input placeholder="请输入客户公司职位" v-model="post"/>
+        <span class="error-tip">{{errorTips[6]}}</span>
         <span class="error-tip"></span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="false"></left-head>
-        <input placeholder="请输入客户邮箱，非必填" v-model="userEmail"/>
+        <left-head class="margin-20" :left-title="'客户公司地址'" :necessary="true"></left-head>
+        <input placeholder="请输入客户公司地址" v-model="companyAddress"/>
+        <span class="error-tip">{{errorTips[7]}}</span>
+        <span class="error-tip"></span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'客户公司网址'" :necessary="true"></left-head>
+        <input placeholder="请输入客户公司网址" v-model="companyWeb"/>
+        <span class="error-tip">{{errorTips[8]}}</span>
+        <span class="error-tip"></span>
+      </div>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="true"></left-head>
+        <input placeholder="请输入客户邮箱" v-model="userEmail"/>
+        <span class="error-tip">{{errorTips[9]}}</span>
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
@@ -55,11 +80,17 @@
       return {
         userCode:'',
         userName: '',
+        nation: '',
         company: '',
         post: '',
+        companyAddress: '',
+        companyWeb: '',
         userPhone: '',
+        userTelephone: '',
         userEmail: '',
+        subtotal: '',
         remark: '',
+        operatorId: '',
         saveFlag: '',
         errorTips: [],
         canOperate: true
@@ -79,9 +110,13 @@
         this.$http.post('/UserController/addUser', {
           userCode: this.userCode,
           userName: this.userName,
+          nation: this.nation,
           company: this.company,
           post: this.post,
+          companyAddress: this.companyAddress,
+          companyWeb: this.companyWeb,
           userPhone: this.userPhone,
+          userTelephone: this.userTelephone,
           userEmail: this.userEmail,
           remark: this.remark
         }).then(res => {
@@ -108,11 +143,53 @@
         } else {
           this.$set(this.errorTips, 1, '')
         }
-        if (!this.userPhone) {
-          this.$set(this.errorTips, 2, '客户手机号不能为空')
+        if (!this.nation) {
+          this.$set(this.errorTips, 2, '国家不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 2, '')
+        }
+        if (!this.userPhone) {
+          this.$set(this.errorTips, 3, '手机号不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 3, '')
+        }
+        if (!this.userTelephone) {
+          this.$set(this.errorTips, 4, '固定电话不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 4, '')
+        }
+        if (!this.company) {
+          this.$set(this.errorTips, 5, '公司名称不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 5, '')
+        }
+        if (!this.post) {
+          this.$set(this.errorTips, 6, '职位不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 6, '')
+        }
+        if (!this.companyAddress) {
+          this.$set(this.errorTips, 7, '客户公司地址不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 7, '')
+        }
+        if (!this.companyWeb) {
+          this.$set(this.errorTips, 8, '客户公司网址不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 8, '')
+        }
+        if (!this.userEmail) {
+          this.$set(this.errorTips, 9, '邮箱不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 9, '')
         }
         this.$forceUpdate
       }

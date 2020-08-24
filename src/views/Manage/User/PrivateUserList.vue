@@ -5,30 +5,44 @@
         <div class="search-box">
           <div class="input-sty">
             <i class="iconfont icon-sousuo"></i>
-            <input type="text" v-model="searchValue" placeholder="客户姓名/手机号"/>
+            <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司"/>
           </div>
           <div class="btn-search" @click="search">查询</div>
         </div>
       </div>
       <div class="list-container">
       <div class="list-title">
-        <span class="col1 padL10">员工姓名</span>
-        <span class="col2">客户手机号</span>
-        <span class="col3">客户邮箱</span>
-        <span class="col4">所属公司</span>
-        <span class="col4">公司职位</span>
-        <span class="col5">客户备注</span>
-        <span class="col6">操作</span>
+        <span class="col1 padL10">客户编码</span>
+        <span class="col2">客户姓名</span>
+        <span class="col3">客户手机号</span>
+        <span class="col3">固定电话</span>
+        <span class="col4">客户邮箱</span>
+        <span class="col5">国家</span>
+        <span class="col6">所属公司</span>
+        <span class="col7">公司职位</span>
+        <span class="col8">公司地址</span>
+        <span class="col9">公司网址</span>
+        <span class="col10">跟进人</span>
+        <span class="col11">已跟进天数</span>
+        <span class="col12">客户备注</span>
+        <span class="col13">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in userList" :key="item.userId">
-          <span class="col1 padL10">{{item.userName}}</span>
-          <span class="col2">{{item.userPhone}}</span>
-          <span class="col3">{{item.userEmail || '--'}}</span>
-          <span class="col4" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col4" :title="item.post">{{item.post || '--'}}</span>
-          <span class="col5" :title="item.remark">{{item.remark || '--'}}</span>
-          <span class="col6">
+          <span class="col1 padL10">{{item.userCode}}</span>
+          <span class="col2">{{item.userName}}</span>
+          <span class="col3">{{item.userPhone || '--'}}</span>
+          <span class="col3">{{item.userTelephone || '--'}}</span>
+          <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
+          <span class="col5" :title="item.nation">{{item.nation || '--'}}</span>
+          <span class="col6" :title="item.company">{{item.company || '--'}}</span>
+          <span class="col7" :title="item.post">{{item.post || '--'}}</span>
+          <span class="col8" :title="item.companyAddress">{{item.companyAddress || '--'}}</span>
+          <span class="col9" :title="item.companyWeb">{{item.companyWeb || '--'}}</span>
+          <span class="col10">{{item.operatorId}}</span>
+          <span class="col11">{{item.days}}</span>
+          <span class="col12" :title="item.remark">{{item.remark || '--'}}</span>
+          <span class="col13">
             <span class="delete-btn common-btn" @click="deleteUser(item)">删除</span>
             <span class="common-btn" @click="changeUserType(item)">公有化</span>
           </span>
@@ -206,6 +220,7 @@
     height 45px
     line-height 45px
     border-bottom 1px solid #f0f0f0
+    font-size 14px
 
     > span
       word-break break-all
@@ -218,21 +233,33 @@
 
 
   .col1
-    width 15%
+    width 10%
 
   .col2
-    width 15%
+    width 10%
 
   .col3
     width 15%
 
   .col4
-    width 15%
-
-  .col5
     width 20%
 
+  .col5
+    width 10%
+
   .col6
+    width 15%
+  .col7
+    width 15%
+  .col8
+    width 15%
+  .col9
+    width 15%
+  .col10
+    width 15%
+  .col11
+    width 15%
+  .col12
     width 15%
 
   .padL10
