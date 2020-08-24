@@ -12,26 +12,27 @@
       </div>
       <div class="list-container">
       <div class="list-title">
-        <span class="col1 padL10">员工姓名</span>
-        <span class="col2">客户手机号</span>
-        <span class="col3">客户邮箱</span>
-        <span class="col4">所属公司</span>
-        <span class="col4">公司职位</span>
-        <span class="col5">客户备注</span>
-        <span class="col6">操作</span>
+        <span class="col1 padL10">客户编码</span>
+        <span class="col2">客户姓名</span>
+        <span class="col3">客户手机号</span>
+        <span class="col4">客户邮箱</span>
+        <span class="col5">所属公司</span>
+        <span class="col6">公司职位</span>
+        <span class="col7">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in userList" :key="item.userId">
-          <span class="col1 padL10">{{item.userName}}</span>
-          <span class="col2">{{item.userPhone}}</span>
-          <span class="col3">{{item.userEmail || '--'}}</span>
-          <span class="col4" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col4" :title="item.post">{{item.post || '--'}}</span>
-          <span class="col5" :title="item.remark">{{item.remark || '--'}}</span>
-          <span class="col6">
+          <span class="col1 padL10">{{item.userCode}}</span>
+          <span class="col2">{{item.userName}}</span>
+          <span class="col3">{{item.userPhone || '--'}}</span>
+          <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
+          <span class="col5" :title="item.company">{{item.company || '--'}}</span>
+          <span class="col6" :title="item.post">{{item.post || '--'}}</span>
+          <span class="col7">
+            <span class="delete-btn margR5"  @click="$router.push(`add-user/${item.userId}`)">详情</span>
+            <span class="delete-btn margR5 " @click="receiveUser(item)">认领</span>
+            <span class="delete-btn margR5 " @click="distributionUser(item)">分配</span>
             <span class="delete-btn" @click="deleteUser(item)">删除</span>
-            <span class="delete-btn" @click="receiveUser(item)">认领</span>
-            <span class="delete-btn" @click="distributionUser(item)">分配</span>
           </span>
         </div>
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
@@ -203,6 +204,7 @@
   .list-content
     height 560px
     overflow-y auto
+    font-size 14px
 
     &::-webkit-scrollbar
       display none
@@ -224,10 +226,10 @@
 
 
   .col1
-    width 15%
+    width 10%
 
   .col2
-    width 15%
+    width 10%
 
   .col3
     width 15%
@@ -236,10 +238,10 @@
     width 15%
 
   .col5
-    width 20%
+    width 15%
 
   .col6
-    width 10%
+    width 15%
 
   .padL10
     padding-left 10px
@@ -253,8 +255,10 @@
     line-height 30px
     border 1px solid #3cb371
     border-radius 5px
-    margin auto 0
     cursor pointer
+
+  .margR5
+    margin-right 5px
 
   .text-flow
     word-break break-all

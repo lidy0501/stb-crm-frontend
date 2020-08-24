@@ -5,63 +5,70 @@
       <div class="title">客户基本信息</div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户编码'" :necessary="true"></left-head>
-        <input placeholder="请输入客户编码" v-model="userCode"/>
+        <input v-if="!userId" placeholder="请输入客户编码" v-model="userCode"/>
+        <div v-else>{{userCode}}</div>
         <span class="error-tip">{{errorTips[0]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户姓名'" :necessary="true"></left-head>
-        <input placeholder="请输入客户姓名" v-model="userName"/>
+        <input v-if="!userId" placeholder="请输入客户姓名" v-model="userName"/>
+        <div v-else>{{userName}}</div>
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户国家'" :necessary="true"></left-head>
-        <input placeholder="请输入客户国家" v-model="nation"/>
+        <input v-if="!userId" placeholder="请输入客户国家" v-model="nation"/>
+        <div v-else>{{nation}}</div>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <input v-if="!userId" placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" />
+        <div v-else>{{userPhone}}</div>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'固定电话'" :necessary="true"></left-head>
-        <input placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30" @input="userPhone = userPhone.replace(/[^\d]/g,'')"/>
+        <input v-if="!userId" placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30" />
+        <div v-else>{{userTelephone}}</div>
         <span class="error-tip">{{errorTips[4]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'公司名称'" :necessary="true"></left-head>
-        <input placeholder="请输入客户公司名称" v-model="company"/>
+        <input v-if="!userId" placeholder="请输入客户公司名称" v-model="company"/>
+        <div v-else>{{company}}</div>
         <span class="error-tip">{{errorTips[5]}}</span>
-        <span class="error-tip"></span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'公司职位'" :necessary="true"></left-head>
-        <input placeholder="请输入客户公司职位" v-model="post"/>
+        <input v-if="!userId" placeholder="请输入客户公司职位" v-model="post"/>
+        <div v-else>{{post}}</div>
         <span class="error-tip">{{errorTips[6]}}</span>
-        <span class="error-tip"></span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户公司地址'" :necessary="true"></left-head>
-        <input placeholder="请输入客户公司地址" v-model="companyAddress"/>
+        <input v-if="!userId" placeholder="请输入客户公司地址" v-model="companyAddress"/>
+        <div v-else>{{companyAddress}}</div>
         <span class="error-tip">{{errorTips[7]}}</span>
-        <span class="error-tip"></span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户公司网址'" :necessary="true"></left-head>
-        <input placeholder="请输入客户公司网址" v-model="companyWeb"/>
+        <input v-if="!userId" placeholder="请输入客户公司网址" v-model="companyWeb"/>
+        <div v-else>{{companyWeb}}</div>
         <span class="error-tip">{{errorTips[8]}}</span>
-        <span class="error-tip"></span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="true"></left-head>
-        <input placeholder="请输入客户邮箱" v-model="userEmail"/>
+        <input v-if="!userId" placeholder="请输入客户邮箱" v-model="userEmail"/>
+        <div v-else>{{userEmail}}</div>
         <span class="error-tip">{{errorTips[9]}}</span>
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
-        <textarea placeholder="请输入客户备注，非必填(限200字)" v-model="remark"/>
+        <textarea v-if="!userId" placeholder="请输入客户备注" v-model="remark"/>
+        <div v-else>{{remark || '--'}}</div>
       </div>
-      <footer-btn @goBack="goBack" @save="save"></footer-btn>
+      <footer-btn @goBack="goBack" @save="save" :needSave="!userId"></footer-btn>
     </div>
   </div>
 </template>
@@ -78,6 +85,7 @@
     components: {LeftHead, TopHead, FooterBtn},
     data() {
       return {
+        userId: this.$route.params.userId,
         userCode:'',
         userName: '',
         nation: '',
@@ -96,7 +104,18 @@
         canOperate: true
       }
     },
+    mounted() {
+      if (this.userId){
+        this.init()
+      }
+    },
     methods: {
+      init(){
+        this.$http.post('/UserController/selectUserByUserId/' + this.userId).then(res => {
+          const data = res.data
+          Object.assign(this, data)
+        })
+      },
       goBack() {
         this.$router.go(-1)
       },
@@ -105,7 +124,7 @@
         this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
-        if (!this.saveFlag) return
+        if (!this.saveFlag) return+
 
         this.$http.post('/UserController/addUser', {
           userCode: this.userCode,
@@ -262,5 +281,7 @@
     color #f00
     font-size 12px
     margin-left 20px
+
+  //@input="userPhone = userPhone.replace(/[^\d]/g,'')"
 
 </style>

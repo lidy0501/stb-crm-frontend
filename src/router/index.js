@@ -53,7 +53,7 @@ export const routerMap = [
       },
       {
         name: 'AddUser',
-        path: 'add-user',
+        path: 'add-user/:userId?',
         component: AddUser
       },
       {

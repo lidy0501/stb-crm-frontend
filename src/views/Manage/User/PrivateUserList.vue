@@ -15,36 +15,27 @@
         <span class="col1 padL10">客户编码</span>
         <span class="col2">客户姓名</span>
         <span class="col3">客户手机号</span>
-        <span class="col3">固定电话</span>
         <span class="col4">客户邮箱</span>
-        <span class="col5">国家</span>
-        <span class="col6">所属公司</span>
-        <span class="col7">公司职位</span>
-        <span class="col8">公司地址</span>
-        <span class="col9">公司网址</span>
-        <span class="col10">跟进人</span>
-        <span class="col11">已跟进天数</span>
-        <span class="col12">客户备注</span>
-        <span class="col13">操作</span>
+        <span class="col5">所属公司</span>
+        <span class="col6">公司职位</span>
+        <span class="col7">跟进人</span>
+        <span class="col8">已跟进天数</span>
+        <span class="col9">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in userList" :key="item.userId">
           <span class="col1 padL10">{{item.userCode}}</span>
           <span class="col2">{{item.userName}}</span>
           <span class="col3">{{item.userPhone || '--'}}</span>
-          <span class="col3">{{item.userTelephone || '--'}}</span>
           <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
-          <span class="col5" :title="item.nation">{{item.nation || '--'}}</span>
-          <span class="col6" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col7" :title="item.post">{{item.post || '--'}}</span>
-          <span class="col8" :title="item.companyAddress">{{item.companyAddress || '--'}}</span>
-          <span class="col9" :title="item.companyWeb">{{item.companyWeb || '--'}}</span>
-          <span class="col10">{{item.operatorId}}</span>
-          <span class="col11">{{item.days}}</span>
-          <span class="col12" :title="item.remark">{{item.remark || '--'}}</span>
-          <span class="col13">
-            <span class="delete-btn common-btn" @click="deleteUser(item)">删除</span>
-            <span class="common-btn" @click="changeUserType(item)">公有化</span>
+          <span class="col5" :title="item.company">{{item.company || '--'}}</span>
+          <span class="col6" :title="item.post">{{item.post || '--'}}</span>
+          <span class="col7">{{item.operatorName}}</span>
+          <span class="col8">{{item.followDays}}</span>
+          <span class="col9">
+            <span class="common-btn margR5"  @click="$router.push(`add-user/${item.userId}`)">详情</span>
+            <span class="common-btn margR5" @click="changeUserType(item)">公有化</span>
+            <span class="common-btn" @click="deleteUser(item)">删除</span>
           </span>
         </div>
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
@@ -233,40 +224,35 @@
 
 
   .col1
-    width 10%
+    width 8%
 
   .col2
     width 10%
 
   .col3
-    width 15%
+    width 12%
 
   .col4
-    width 20%
+    width 15%
 
   .col5
-    width 10%
+    width 15%
 
   .col6
-    width 15%
+    width 12%
+
   .col7
-    width 15%
+    width 8%
+
   .col8
-    width 15%
-  .col9
-    width 15%
-  .col10
-    width 15%
-  .col11
-    width 15%
-  .col12
-    width 15%
+    width 6%
+
+  /*.col9*/
+  /*  width 15%*/
+
 
   .padL10
     padding-left 10px
-
-  .delete-btn
-    margin-right 30px !important
 
   .common-btn
     display inline-block
@@ -277,8 +263,10 @@
     line-height 30px
     border 1px solid #3cb371
     border-radius 5px
-    margin auto 0
     cursor pointer
+
+  .margR5
+    margin-right 5px
 
   .text-flow
     word-break break-all
