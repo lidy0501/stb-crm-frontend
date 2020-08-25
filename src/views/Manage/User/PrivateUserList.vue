@@ -19,7 +19,7 @@
         <span class="col5">所属公司</span>
         <span class="col6">公司职位</span>
         <span class="col7">跟进人</span>
-        <span class="col8">已跟进天数</span>
+        <span class="col8">跟进天数</span>
         <span class="col9">操作</span>
       </div>
       <div class="list-content">
