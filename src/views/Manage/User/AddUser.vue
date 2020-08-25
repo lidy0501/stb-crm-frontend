@@ -124,7 +124,7 @@
         this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
-        if (!this.saveFlag) return+
+        if (!this.saveFlag) return
 
         this.$http.post('/UserController/addUser', {
           userCode: this.userCode,

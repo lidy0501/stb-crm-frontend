@@ -233,16 +233,16 @@
     width 12%
 
   .col4
-    width 15%
+    width 14%
 
   .col5
-    width 15%
+    width 14%
 
   .col6
     width 12%
 
   .col7
-    width 8%
+    width 5%
 
   .col8
     width 6%
