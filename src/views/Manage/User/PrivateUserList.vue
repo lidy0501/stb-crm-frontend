@@ -233,10 +233,10 @@
     width 12%
 
   .col4
-    width 14%
+    width 13%
 
   .col5
-    width 14%
+    width 13%
 
   .col6
     width 12%
@@ -245,7 +245,7 @@
     width 5%
 
   .col8
-    width 6%
+    width 7%
 
   /*.col9*/
   /*  width 15%*/
