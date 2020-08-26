@@ -11,33 +11,34 @@
         </div>
       </div>
       <div class="list-container">
-      <div class="list-title">
-        <span class="col1 padL10">客户编码</span>
-        <span class="col2">客户姓名</span>
-        <span class="col3">客户手机号</span>
-        <span class="col4">客户邮箱</span>
-        <span class="col5">所属公司</span>
-        <span class="col6">公司职位</span>
-        <span class="col7">操作</span>
-      </div>
-      <div class="list-content">
-        <div class="list-item" v-for="item in userList" :key="item.userId">
-          <span class="col1 padL10">{{item.userCode}}</span>
-          <span class="col2">{{item.userName}}</span>
-          <span class="col3">{{item.userPhone || '--'}}</span>
-          <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
-          <span class="col5" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col6" :title="item.post">{{item.post || '--'}}</span>
-          <span class="col7">
-            <span class="delete-btn margR5"  @click="$router.push(`add-user/${item.userId}`)">详情</span>
-            <span class="delete-btn margR5 " @click="receiveUser(item)">认领</span>
-            <span class="delete-btn margR5 " @click="distributionUser(item)">分配</span>
-            <span class="delete-btn" @click="deleteUser(item)">删除</span>
-          </span>
+        <div class="list-title">
+          <span class="col1 padL10">客户编码</span>
+          <span class="col2">客户姓名</span>
+          <span class="col3">客户手机号</span>
+          <span class="col4">客户邮箱</span>
+          <span class="col5">所属公司</span>
+          <span class="col6">公司职位</span>
+          <span class="col7">操作</span>
         </div>
-        <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
+        <div class="list-content">
+          <div class="list-item" v-for="item in userList" :key="item.userId">
+            <span class="col1 padL10">{{item.userCode}}</span>
+            <span class="col2" :title="item.userName">{{item.userName}}</span>
+            <span class="col3" :title="item.userPhone">{{item.userPhone || '--'}}</span>
+            <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
+            <span class="col5" :title="item.company">{{item.company || '--'}}</span>
+            <span class="col6" :title="item.post">{{item.post || '--'}}</span>
+            <span class="col7">
+              <span class="delete-btn margR5"  @click="$router.push(`add-user/${item.userId}`)">详情</span>
+              <span class="delete-btn margR5 " @click="receiveUser(item)">认领</span>
+              <span class="delete-btn margR5 " @click="distributionUser(item)">分配</span>
+              <span class="delete-btn" @click="deleteUser(item)">删除</span>
+            </span>
+          </div>
+          <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
       </div>
     </div>
+    <StaffBox v-if="showStaffBox" :staffList="staffList" @cancel="showStaffBox = false" @confirm="confirm"></StaffBox>
   </div>
 </template>
 
@@ -45,16 +46,20 @@
   import TopHead from '../../../components/TopHead/TopHead.vue'
   import QuickPager from '../../../components/QuickPager/QuickPager.vue'
   import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+  import StaffBox from './components/StaffBox.vue'
+  import {mapGetters} from 'vuex'
 
 
   export default {
     name: 'PublicUserList',
-    components: {TopHead, QuickPager},
+    components: {TopHead, QuickPager, StaffBox},
     data() {
       return {
+        loginStaff: window.sessionStorage.getItem('staff'),
         searchValue: '',
         showToast: false,
         showTipBox: false,
+        showStaffBox: false,
         tipText: '',
         operateResult: '',
         userSelected: {},
@@ -65,8 +70,13 @@
           pageRows: 10,
           totalPages: 1,
           totalRows: 0
-        }
+        },
+        staffList: [], // 用于分派客户
+        userId: '' // 需要被分配的客户id
       }
+    },
+    computed: {
+      ...mapGetters(['staff'])
     },
     mounted() {
       this.init()
@@ -131,6 +141,33 @@
             })
           }
         })
+      },
+      distributionUser(user) {
+        if (+this.staff.staffType !== 0 || +this.staff.staffType === 1) { // 无权分配
+          this.$store.commit(OPEN_TOAST, '您无分配权限！')
+          return
+        }
+        this.userId = user.userId
+        this.$http.post('/StaffController/queryAllStaff').then(res => {
+          const data = res.data
+          this.staffList = data
+          this.showStaffBox = true
+        })
+      },
+      confirm(staffId) {
+        this.$http.post('/UserController/distributionUser', {
+          userId: this.userId,
+          staffId: staffId
+        }).then(res => {
+          const data = res.data
+          if (data.code === 0) {
+            this.$store.commit(OPEN_TOAST, '分派成功!')
+            this.init()
+          }
+          this.showStaffBox = false
+          this.$store.commit(OPEN_TOAST, data.message)
+        })
+
       }
     }
   }
@@ -226,16 +263,16 @@
 
 
   .col1
-    width 10%
+    width 8%
 
   .col2
-    width 10%
+    width 12%
 
   .col3
-    width 15%
+    width 10%
 
   .col4
-    width 15%
+    width 12%
 
   .col5
     width 15%
@@ -248,7 +285,7 @@
 
   .delete-btn
     display inline-block
-    width 60px
+    width 50px
     height 30px
     color #3cb371
     text-align center

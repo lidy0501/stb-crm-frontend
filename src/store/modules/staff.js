@@ -11,7 +11,7 @@ const mutations = {
     localStorage.setItem('token', token)
   },
   SET_STAFF: (state, staff) => {
-    state.staffInfo = staff
+    state.staff = staff
     sessionStorage.setItem('staff', JSON.stringify(staff))
   },
   REMOVE_INFO: state => {
@@ -30,15 +30,9 @@ const mutations = {
 
 const getters = {
   // get, 其实通过state也能获取到信息，不一定要是用get来获取
-  getStaff: state => {
-    return state.staff
-  },
-  getStaffName: state => {
-    return state.staffName
-  },
-  getToken: state => {
-    return state.token
-  }
+  staff: state =>  state.staff,
+  staffName: state => state.staffName,
+  token: state => state.token,
 }
 
 export default {
