@@ -16,12 +16,8 @@
     name: 'ErrorTipsBox',
     computed: {
       tips() {
-        console.log(3)
         return this.$store.getters.errorTipsInfo
       }
-    },
-    mounted() {
-      console.log('error')
     },
     methods: {
       IKnow() {
