@@ -8,6 +8,7 @@
     </div>
     <TipOperateBox></TipOperateBox>
     <Toast></Toast>
+    <ErrorTipsBox></ErrorTipsBox>
   </div>
 </template>
 
@@ -15,6 +16,7 @@
   import LeftMenu from '../../components/Menu/LeftMenu.vue'
   import TipOperateBox from '../../components/TipOperateBox/TipOperateBox.vue'
   import Toast from '../../components/Toast/Toast.vue'
+  import ErrorTipsBox from '../../components/ErrorTipsBox/ErrorTipsBox.vue'
 
 
   export default {
@@ -22,7 +24,8 @@
     components: {
       LeftMenu,
       TipOperateBox,
-      Toast
+      Toast,
+      ErrorTipsBox
     }
   }
 </script>

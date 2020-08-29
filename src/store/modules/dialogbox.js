@@ -13,6 +13,10 @@ const state = {
   toastInfo: {
     isShow: false,
     text: ''
+  },
+  errorTipsInfo: {
+    isShow: false,
+    tipText: ''
   }
 }
 
@@ -51,12 +55,21 @@ const mutations = {
   [types.CLOSE_TOAST](state) {
     state.toastInfo.isShow = false
     state.toastInfo.text = null
+  },
+  [types.OPEN_ERROR_TIP_BOX](state, tipText) {
+    state.errorTipsInfo.isShow = true
+    state.errorTipsInfo.tipText = tipText
+  },
+  [types.CLOSE_ERROR_TIP_BOX](state) {
+    state.errorTipsInfo.isShow = false
+    state.errorTipsInfo.tipText = null
   }
 }
 
 const getters = {
   tipOperateInfo: state => state.tipOperateInfo,
-  toastInfo: state => state.toastInfo
+  toastInfo: state => state.toastInfo,
+  errorTipsInfo: state => state.errorTipsInfo
 }
 
 export default {
