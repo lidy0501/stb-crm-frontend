@@ -14,13 +14,14 @@
         <div class="list-item" v-for="item in goodsList" :key="item.goodsId">
           <span class="col1 padL10" :title="item.goodsCode">{{item.goodsCode}}</span>
           <span class="col2 " :title="item.goodsName">{{item.goodsName}}</span>
-          <span class="col3 " :title="item.goodsPrice">{{item.goodsPrice || '--'}}</span>
-          <span class="col4 " :title="item.goodsSpe">{{item.goodsSpe || '--'}}</span>
+          <span class="col3 " :title="item.goodsPrice">{{item.goodsPrice / 100 || '--'}}</span>
+          <span class="col4 " :title="item.skuInfo">{{item.skuInfo || '--'}}</span>
           <span class="col5 " :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col6 ">
-                        <span class="delete-btn" @click="deleteGoods(item)">删除</span>
-                    </span>
+            <span class="delete-btn" @click="deleteGoods(item)">删除</span>
+          </span>
         </div>
+        <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
       </div>
     </div>
   </div>
@@ -30,14 +31,22 @@
 <script>
   import TopHead from "../../../components/TopHead/TopHead.vue"
   import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+  import QuickPager from '../../../components/QuickPager/QuickPager.vue'
 
   export default {
     name: 'GoodsList',
-    components: {TopHead},
+    components: {TopHead, QuickPager},
     data() {
       return {
         goodsSelected: {},
-        goodsList: []
+        goodsList: [],
+        page: {
+          startIndex: 0,
+          currentPage: 1,
+          pageRows: 10,
+          totalPages: 1,
+          totalRows: 0
+        }
       }
     },
     mounted() {
@@ -45,10 +54,20 @@
     },
     methods: {
       init() {
-        this.$http.post('/GoodsController/queryAllGoods').then(res => {
+        this.$http.post('/GoodsController/queryAllGoods', {
+          page: this.page
+        }).then(res => {
           const data = res.data
-          this.goodsList = data
+          this.goodsList = data.list
+          this.page = data.page
+          this.page.currentPage = Math.floor(data.page.startIndex / data.page.pageRows) + 1
         })
+      },
+      QuickPager(page) {
+        this.page.startIndex = page.startIndex
+        this.page.pageRows = page.pageRows
+        this.page.currentPage = page.currentPage
+        this.init()
       },
       deleteGoods(goods) {
         this.$store.commit(OPEN_TIP_OPERATE_BOX, {
