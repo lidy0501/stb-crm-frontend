@@ -102,7 +102,6 @@
         this.$route.go(-1)
       },
       save() {
-        //this.$store.commit(OPEN_ERROR_TIP_BOX, '不能删除')
         this.errorTip = ''
         this.inputFill = true
         this.repeat = false
@@ -138,7 +137,6 @@
         let list = []
         list.push(...this.oldSkuList)
         list.push(...this.newSkuList)
-        console.log(list)
         for (let i = 0; i < list.length - 1; i++) {
           for (let j = i + 1; j <= list.length - 1; j++) {
             if (list[i].skuCode === list[j].skuCode) {
