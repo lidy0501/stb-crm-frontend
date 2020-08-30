@@ -79,6 +79,15 @@
         if (type === 'new') { // 说明是新加的, 直接删除
           this.newSkuList.splice(index, 1);
         } else { // 已经存在的sku，需要检查这个sku有没有在使用，如果已经在使用，是不能删除的
+          this.$http.get('/GoodsController/deleteSkuById/' + this.oldSkuList[index].skuId).then(res => {
+            const data = res.data
+            if (data.code === 0) {
+              this.$store.commit(OPEN_TOAST, '删除成功')
+              this.init()
+            } else {
+              this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
+            }
+          })
         }
       },
       addSku() {
