@@ -30,7 +30,7 @@
 
 <script>
   import TopHead from "../../../components/TopHead/TopHead.vue"
-  import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+  import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST, OPEN_ERROR_TIP_BOX} from '../../../store/constants/home'
   import QuickPager from '../../../components/QuickPager/QuickPager.vue'
 
   export default {
@@ -75,8 +75,12 @@
           sureCallback: () => {
             this.$http.post('/GoodsController/deleteGoodsById/' + goods.goodsId).then(res => {
               const data = res.data
-              this.$store.commit(OPEN_TOAST, data.message)
-              this.init()
+              if (data.code === 0) {
+                this.$store.commit(OPEN_TOAST, data.message)
+                this.init()
+              } else {
+                this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
+              }
             })
           }
         })
