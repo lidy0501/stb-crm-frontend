@@ -11,29 +11,32 @@
           <span class="error-tip">{{errorTips[0]}}</span>
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'产品规格'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'产品规格'" :necessary="true"></left-head>
           <input placeholder="请输入产品规格" v-model="productSpe" v-if="orderState === '0'"/>
           <div v-else class="length2">{{productSpe || '--'}}</div>
+          <span class="error-tip">{{errorTips[1]}}</span>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'产品数量'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'产品数量'" :necessary="true"></left-head>
           <input placeholder="请输入产品数量" v-if="orderState === '0'"
                  v-model="productNum" @input="productNum = productNum.replace(/[^\d]/g, '')"/>
           <div v-else class="length1">{{productNum || '--'}}</div>
+          <span class="error-tip">{{errorTips[2]}}</span>
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
           <input placeholder="请输入物流单号" v-model="deliveryNo" v-if="orderState === '0'"/>
           <div v-else class="length2">{{deliveryNo || '--'}}</div>
+          <span class="error-tip">{{errorTips[3]}}</span>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'客户'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'客户'" :necessary="true"></left-head>
           <div class="search-user" v-if="orderState === '0'">
             <input placeholder="请输入客户名查询客户" v-model.trim="userName" @input="searchUser"/>
             <div class="user-list" v-if="showUserBox">
@@ -46,49 +49,55 @@
           <div v-else class="length1">{{userName || '--'}}</div>
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'公司'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'公司'" :necessary="true"></left-head>
           <input placeholder="请输入公司" v-model="company" v-if="orderState === '0'"/>
           <div v-else class="length2">{{company || '--'}}</div>
+          <span class="error-tip">{{errorTips[4]}}</span>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'订单总金额'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'订单总金额'" :necessary="true"></left-head>
           <input placeholder="请输入订单总金额" v-model="totalFee" class="money-input"
                  @input="totalFee = totalFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
           <div v-else>{{totalFee}}</div>
           <span>&nbsp;元</span>
+          <span class="error-tip">{{errorTips[5]}}</span>
         </div>
         <div class="item">
-          <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
           <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" v-if="orderState === '0'"/>
           <div v-else class="length2">{{deliveryTime || '--'}}</div>
+          <span class="error-tip">{{errorTips[6]}}</span>
         </div>
       </div>
 
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'首付金额'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'首付金额'" :necessary="true"></left-head>
           <input placeholder="请输入首付金额" v-model="downPayFee" class="money-input"
                    @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
           <div v-else>{{downPayFee}}</div>
           <span>&nbsp;元</span>
+          <span class="error-tip">{{errorTips[7]}}</span>
         </div>
 
         <div class="item">
-          <left-head class="margin-20" :left-title="'付款方式'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
           <input placeholder="请输入付款方式" v-model="payType" v-if="orderState === '0'"/>
           <div v-else class="length2">{{payType || '--'}}</div>
+          <span class="error-tip">{{errorTips[8]}}</span>
         </div>
       </div>
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'尾款'" :necessary="false"></left-head>
+          <left-head class="margin-20" :left-title="'尾款'" :necessary="true"></left-head>
           <input placeholder="请输入尾款" v-model="finalPayFee" class="money-input"
                  @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
           <div v-else>{{finalPayFee}}</div>
           <span>&nbsp;元</span>
+          <span class="error-tip">{{errorTips[9]}}</span>
         </div>
         <div class="item">
           <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>
@@ -214,7 +223,60 @@
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 0, '')
-          this.saveFlag = true
+        }
+        if (!this.productSpe) {
+          this.$set(this.errorTips, 1, '产品规格不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 1, '')
+        }
+        if (!this.productNum) {
+          this.$set(this.errorTips, 2, '产品数量不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 2, '')
+        }
+        if (!this.deliveryNo) {
+          this.$set(this.errorTips, 3, '物流单号不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 3, '')
+        }
+        if (!this.company) {
+          this.$set(this.errorTips, 4, '公司不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 4, '')
+        }
+        if (!this.totalFee) {
+          this.$set(this.errorTips, 5, '订单总金额不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 5, '')
+        }
+        if (!this.deliveryTime) {
+          this.$set(this.errorTips, 6, '交期不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 6, '')
+        }
+        if (!this.downPayFee) {
+          this.$set(this.errorTips, 7, '首付金额不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 7, '')
+        }
+        if (!this.payType) {
+          this.$set(this.errorTips, 8, '付款方式不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 8, '')
+        }
+        if (!this.finalPayFee) {
+          this.$set(this.errorTips, 9, '尾款不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 9, '')
         }
         this.$forceUpdate
       },
