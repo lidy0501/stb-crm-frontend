@@ -15,12 +15,12 @@
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'商品价格'" :necessary="true"></left-head>
-        <input placeholder="请输入商品价格" v-model="goodsPrice"/>
+        <input placeholder="请输入商品价格" v-model="goodsPrice" @input="inputMoney(goodsPrice)"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'商品规格'" :necessary="true"></left-head>
-        <input placeholder="请输入商品规格" v-model="goodsSpe"/>
+        <DrowDown :defaultOption="'请选择规格'" :options='skuList' @selectOption='selectSku' :boxWidth="312"></DrowDown>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
       <div class="item2">
@@ -37,25 +37,46 @@
   import LeftHead from '../../../components/LeftHead/LeftHead.vue'
   import TopHead from '../../../components/TopHead/TopHead.vue'
   import FooterBtn from '../../../components/FooterBtn/FooterBtn.vue'
-  import {OPEN_TOAST} from '../../../store/constants/home'
+  import {OPEN_ERROR_TIP_BOX, OPEN_TOAST} from '../../../store/constants/home'
   import DrowDown from '../../../components/DrowDown/DrowDown.vue'
 
   export default {
     name: 'AddGoods',
-    components: {LeftHead, TopHead, FooterBtn},
+    components: {LeftHead, TopHead, FooterBtn, DrowDown},
     data() {
       return {
         //goodsId: this.$route.params.goodsId,没用到
         goodsCode: '',
         goodsName: '',
-        goodsPrice: '',
+        goodsPrice: '', // 页面展示的是元，数据库存的是分
         goodsSpe: '',
         remark: '',
-        saveFlag: '',
-        errorTips: []
+        skuId: '',
+        saveFlag: true,
+        errorTips: [],
+        skuList: [{code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}]
       }
     },
+    mounted() {
+      this.querySkuList()
+    },
     methods: {
+      inputMoney(goodsPrice) {
+        goodsPrice = goodsPrice.replace(/[^0-9|\\.]+/g, '')
+        this.goodsPrice = this.$utils.fixToNum(goodsPrice) + ''
+      },
+      querySkuList() {
+        this.$http.post('/GoodsController/querySkuList').then(res => {
+          const data = res.data
+          let list = data
+          this.skuList = list.map(x => {
+            return {code: x.skuId, name: '编码:' + x.skuCode + '  单位:' + x.skuUnit + '  花色:' + x.skuColor}
+          })
+        })
+      },
+      selectSku(code) {
+        this.skuId = code
+      },
       goBack() {
         this.$router.go(-1)
       },
@@ -67,16 +88,18 @@
         this.$http.post('/GoodsController/addGoods', {
           goodsCode: this.goodsCode,
           goodsName: this.goodsName,
-          goodsPrice: +this.goodsPrice,
-          goodsSpe: this.goodsSpe,
+          goodsPrice: +this.goodsPrice * 100, // 页面展示的是元，数据库存的是分
+          skuId: this.skuId,
           remark: this.remark
         }).then(res => {
           const data = res.data
-          this.$store.commit(OPEN_TOAST, data.message)
           if (data.code === 0) {
+            this.$store.commit(OPEN_TOAST, '删除成功')
             setTimeout(() => {
               this.$router.push('goods-list')
-            }, 2100)
+            }, 1000)
+          } else {
+            this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
           }
         })
       },
@@ -94,13 +117,13 @@
           this.$set(this.errorTips, 1, '')
         }
         if (!this.goodsPrice) {
-          this.$set(this.errorTips, 2, '商品名称不能为空')
+          this.$set(this.errorTips, 2, '商品价格不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 2, '')
         }
-        if (!this.goodsSpe) {
-          this.$set(this.errorTips, 3, '商品名称不能为空')
+        if (!this.skuId) {
+          this.$set(this.errorTips, 3, '商品规格不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 3, '')

@@ -99,7 +99,7 @@
         subtotal: '',
         remark: '',
         operatorId: '',
-        saveFlag: '',
+        saveFlag: true,
         errorTips: [],
         canOperate: true
       }

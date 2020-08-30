@@ -16,6 +16,9 @@ import store from './store'
 
 import '../src/assets/icon/iconfont.css'
 
+import utils from './utils'
+Vue.prototype.$utils = utils
+
 // 创建vue根实例
 new Vue({
   el: '#app', // 使用vue接管index.html中id为app的div的内容

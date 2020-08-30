@@ -70,7 +70,7 @@
         staffEmail: '',
         remark: '',
         staffRights: [],
-        saveFlag: '',
+        saveFlag: true,
         errorTips: [],
         rights: [],
         canOperate: true
