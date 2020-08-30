@@ -46,7 +46,7 @@
           return
         }
         this.$store.commit(OPEN_TIP_OPERATE_BOX, {
-          tipText: '确定要将该客户分配给' + this.staff.staffName+ '吗？',
+          tipText: '确定要将该客户分配给' + this.staff.staffName + '吗？',
           sureCallback: () => {
             this.$emit('confirm', this.staff.staffId)
           }

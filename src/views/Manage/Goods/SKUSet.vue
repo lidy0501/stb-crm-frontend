@@ -52,7 +52,6 @@
   import FooterBtn from '../../../components/FooterBtn/FooterBtn.vue'
 
 
-
   export default {
     name: 'SKUSet',
     components: {TopHead, FooterBtn},
@@ -133,7 +132,7 @@
           }
         })
       },
-      verifyRepeat () {
+      verifyRepeat() {
         let list = []
         list.push(...this.oldSkuList)
         list.push(...this.newSkuList)
@@ -205,9 +204,6 @@
 
   .footer-btn
     background-color #fff
-
-
-
 
 
 </style>

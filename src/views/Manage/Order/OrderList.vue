@@ -32,7 +32,7 @@
           <span class="col4" :title="item.company">{{item.company || '--'}}</span>
           <span class="col5" :title="item.totalFee">{{item.totalFee}}</span>
           <span class="col6" :title="item.deliveryNo">{{item.deliveryNo || '--'}}</span>
-          <span class="col7" >{{item.orderState === '0' ? '未完成' : '已完成'}}</span>
+          <span class="col7">{{item.orderState === '0' ? '未完成' : '已完成'}}</span>
           <span class="col8" :title="item.operatorName">{{item.operatorName}}</span>
           <span class="col9" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col10">

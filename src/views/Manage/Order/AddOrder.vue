@@ -77,7 +77,7 @@
         <div class="item">
           <left-head class="margin-20" :left-title="'首付金额'" :necessary="true"></left-head>
           <input placeholder="请输入首付金额" v-model="downPayFee" class="money-input"
-                   @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+                 @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
           <div v-else>{{downPayFee}}</div>
           <span>&nbsp;元</span>
           <span class="error-tip">{{errorTips[7]}}</span>
@@ -104,11 +104,11 @@
         </div>
       </div>
 
-<!--      <div class="item2">-->
-<!--        <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>-->
-<!--        <textarea placeholder="请输入付款进度" maxlength="200" v-model="payProgress" v-if="orderState === '0'"/>-->
-<!--        <div v-else class="length3">{{payProgress || '&#45;&#45;'}}</div>-->
-<!--      </div>-->
+      <!--      <div class="item2">-->
+      <!--        <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>-->
+      <!--        <textarea placeholder="请输入付款进度" maxlength="200" v-model="payProgress" v-if="orderState === '0'"/>-->
+      <!--        <div v-else class="length3">{{payProgress || '&#45;&#45;'}}</div>-->
+      <!--      </div>-->
       <div class="item2">
         <left-head class="margin-20" :left-title="'付款记录'" :necessary="false"></left-head>
         <textarea placeholder="请输入付款记录" maxlength="200" v-model="payRecord" v-if="orderState === '0'"/>

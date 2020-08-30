@@ -10,7 +10,8 @@
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input placeholder="请输入员工手机号" v-model.trim="staffPhone" maxlength="11" @input="staffPhone = staffPhone.replace(/[^\d]/g,'')"/>
+        <input placeholder="请输入员工手机号" v-model.trim="staffPhone" maxlength="11"
+               @input="staffPhone = staffPhone.replace(/[^\d]/g,'')"/>
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
@@ -83,7 +84,7 @@
         this.$router.go(-1)
       },
       save() {
-        if (this.staffId === localStorage.getItem('token') ) {
+        if (this.staffId === localStorage.getItem('token')) {
           this.$store.commit(OPEN_TOAST, '不能编辑本人信息')
           return
         }

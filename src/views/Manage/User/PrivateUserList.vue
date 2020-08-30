@@ -1,16 +1,16 @@
 <template>
   <div class="add-staff">
-      <div class="title">
-        <div class="title-name">公司客户列表</div>
-        <div class="search-box">
-          <div class="input-sty">
-            <i class="iconfont icon-sousuo"></i>
-            <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司"/>
-          </div>
-          <div class="btn-search" @click="search">查询</div>
+    <div class="title">
+      <div class="title-name">公司客户列表</div>
+      <div class="search-box">
+        <div class="input-sty">
+          <i class="iconfont icon-sousuo"></i>
+          <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司"/>
         </div>
+        <div class="btn-search" @click="search">查询</div>
       </div>
-      <div class="list-container">
+    </div>
+    <div class="list-container">
       <div class="list-title">
         <span class="col1 padL10">客户编码</span>
         <span class="col2">客户姓名</span>
@@ -33,7 +33,7 @@
           <span class="col7">{{item.operatorName}}</span>
           <span class="col8">{{item.followDays}}</span>
           <span class="col9">
-            <span class="common-btn margR5"  @click="$router.push(`add-user/${item.userId}`)">详情</span>
+            <span class="common-btn margR5" @click="$router.push(`add-user/${item.userId}`)">详情</span>
             <span class="common-btn margR5" @click="changeUserType(item)">公有化</span>
             <span class="common-btn" @click="deleteUser(item)">删除</span>
           </span>
@@ -273,8 +273,6 @@
     overflow hidden
     text-overflow ellipsis
     white-space nowrap
-
-
 
 
 </style>

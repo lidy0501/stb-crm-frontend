@@ -23,13 +23,13 @@
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30" />
+        <input v-if="!userId" placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30"/>
         <div v-else>{{userPhone}}</div>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'固定电话'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30" />
+        <input v-if="!userId" placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30"/>
         <div v-else>{{userTelephone}}</div>
         <span class="error-tip">{{errorTips[4]}}</span>
       </div>
@@ -86,7 +86,7 @@
     data() {
       return {
         userId: this.$route.params.userId,
-        userCode:'',
+        userCode: '',
         userName: '',
         nation: '',
         company: '',
@@ -105,12 +105,12 @@
       }
     },
     mounted() {
-      if (this.userId){
+      if (this.userId) {
         this.init()
       }
     },
     methods: {
-      init(){
+      init() {
         this.$http.post('/UserController/selectUserByUserId/' + this.userId).then(res => {
           const data = res.data
           Object.assign(this, data)
@@ -260,6 +260,7 @@
     display flex
     flex-wrap wrap
     width 900px
+
   .right-item
     display flex
     width 150px
