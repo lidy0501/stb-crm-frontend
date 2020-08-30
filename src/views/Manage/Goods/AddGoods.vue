@@ -94,7 +94,7 @@
         }).then(res => {
           const data = res.data
           if (data.code === 0) {
-            this.$store.commit(OPEN_TOAST, '删除成功')
+            this.$store.commit(OPEN_TOAST, '保存成功')
             setTimeout(() => {
               this.$router.push('goods-list')
             }, 1000)
