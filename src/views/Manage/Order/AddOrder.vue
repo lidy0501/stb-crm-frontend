@@ -198,6 +198,7 @@
         if (!this.saveFlag) return
         this.$http.post('/OrderController/addOrder', {
           orderId: this.orderId,
+          orderCode: this.orderCode,
           productName: this.productName,
           productSpe: this.productSpe,
           productNum: +this.productNum,
