@@ -182,10 +182,12 @@
       width 200px
       height 40px
       align-items center
+      font-size 14px
 
       input
         width 150px
         height 30px
+
 
   .operate-box
 

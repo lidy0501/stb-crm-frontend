@@ -13,7 +13,8 @@
 
     <div class="list-container">
       <div class="list-title">
-        <span class="col1 padL10">产品名称</span>
+        <span class="col9 padL10">订单编码</span>
+        <span class="col1">产品名称</span>
         <span class="col2">数量</span>
         <span class="col3">客户</span>
         <span class="col4">交易公司</span>
@@ -21,12 +22,12 @@
         <span class="col6">物流单号</span>
         <span class="col7">订单状态</span>
         <span class="col8">跟单人</span>
-        <span class="col9">备注</span>
         <span class="col10">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in orderList" :key="item.orderId">
-          <span class="col1 padL10" :title="item.productName">{{item.productName}}</span>
+          <span class="col9 padL10" :title="item.orderCode">{{item.orderCode}}</span>
+          <span class="col1" :title="item.productName">{{item.productName}}</span>
           <span class="col2" :title="item.productNum">{{item.productNum}}</span>
           <span class="col3" :title="item.userName">{{item.userName || '--'}}</span>
           <span class="col4" :title="item.company">{{item.company || '--'}}</span>
@@ -34,7 +35,6 @@
           <span class="col6" :title="item.deliveryNo">{{item.deliveryNo || '--'}}</span>
           <span class="col7">{{item.orderState === '0' ? '未完成' : '已完成'}}</span>
           <span class="col8" :title="item.operatorName">{{item.operatorName}}</span>
-          <span class="col9" :title="item.remark">{{item.remark || '--'}}</span>
           <span class="col10">
             <span class="delete-btn" @click="changeOrderState(item, item.orderState === '0' ? '1' : '0')">
               {{item.orderState === '0' ? '完成' : '未完成'}}</span>
@@ -242,7 +242,6 @@
 
   .col9
     width 10%
-
 
   .padL10
     padding-left 10px
