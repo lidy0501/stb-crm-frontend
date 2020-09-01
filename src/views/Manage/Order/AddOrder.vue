@@ -5,12 +5,6 @@
       <div class="title">订单基本信息</div>
       <div class="layer">
         <div class="item">
-          <left-head class="margin-20" :left-title="'订单编码'" :necessary="true"></left-head>
-          <input placeholder="请输入订单编码" v-model="orderCode" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{orderCode || '--'}}</div>
-          <span class="error-tip">{{errorTips[10]}}</span>
-        </div>
-        <div class="item">
           <left-head class="margin-20" :left-title="'产品名称'" :necessary="true"></left-head>
           <input placeholder="请输入产品名称" v-model="productName" v-if="orderState === '0'"/>
           <div v-else class="length1">{{productName}}</div>
@@ -145,7 +139,6 @@
       return {
         orderId: this.$route.params.orderId,
         orderState: '0', // 默认未完成
-        orderCode: '',
         productName: '',
         productSpe: '',
         productNum: 1,
@@ -191,6 +184,7 @@
         })
       },
       save() {
+        return // todo 及得放开
         if (!this.canOperate) return
         this.canOperate = false
         this.saveFlag = true
@@ -198,7 +192,6 @@
         if (!this.saveFlag) return
         this.$http.post('/OrderController/addOrder', {
           orderId: this.orderId,
-          orderCode: this.orderCode,
           productName: this.productName,
           productSpe: this.productSpe,
           productNum: +this.productNum,
@@ -226,12 +219,6 @@
         })
       },
       validateInfo() {
-        if (!this.orderCode) {
-          this.$set(this.errorTips, 10, '订单编号不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 10, '')
-        }
         if (!this.productName) {
           this.$set(this.errorTips, 0, '产品名称不能为空')
           this.saveFlag = false
