@@ -71,7 +71,7 @@
       }
     },
     mounted() {
-      this.init()
+      //this.init()
     },
     methods: {
       search() {

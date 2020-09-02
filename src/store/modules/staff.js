@@ -21,6 +21,11 @@ const mutations = {
     localStorage.setItem('token', '')
     sessionStorage.setItem('staff', JSON.stringify(''))
     localStorage.setItem('staffName', '')
+    localStorage.clear() // 不知道要不要
+    sessionStorage.clear() // 不知道要不要
+    localStorage.removeItem('token')
+    localStorage.removeItem('staffName')
+    sessionStorage.removeItem('staff')
   },
   SET_STAFF_NAME: (state, staffName) => {
     state.staffName = staffName

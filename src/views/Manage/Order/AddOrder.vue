@@ -1,122 +1,113 @@
 <template>
-  <div class="add-staff">
+  <div class="add-order">
     <top-head :title="'新增订单'"></top-head>
     <div class="base-info">
       <div class="title">订单基本信息</div>
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'产品名称'" :necessary="true"></left-head>
-          <input placeholder="请输入产品名称" v-model="productName" v-if="orderState === '0'"/>
-          <div v-else class="length1">{{productName}}</div>
-          <span class="error-tip">{{errorTips[0]}}</span>
-        </div>
-        <div class="item">
-          <left-head class="margin-20" :left-title="'产品规格'" :necessary="true"></left-head>
-          <input placeholder="请输入产品规格" v-model="productSpe" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{productSpe || '--'}}</div>
-          <span class="error-tip">{{errorTips[1]}}</span>
-        </div>
-      </div>
-
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'产品数量'" :necessary="true"></left-head>
-          <input placeholder="请输入产品数量" v-if="orderState === '0'"
-                 v-model="productNum" @input="productNum = productNum.replace(/[^\d]/g, '')"/>
-          <div v-else class="length1">{{productNum || '--'}}</div>
-          <span class="error-tip">{{errorTips[2]}}</span>
-        </div>
-        <div class="item">
-          <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
-          <input placeholder="请输入物流单号" v-model="deliveryNo" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{deliveryNo || '--'}}</div>
-          <span class="error-tip">{{errorTips[3]}}</span>
-        </div>
-      </div>
-
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'客户'" :necessary="true"></left-head>
-          <div class="search-user" v-if="orderState === '0'">
-            <input placeholder="请输入客户名查询客户" v-model.trim="userName" @input="searchUser"/>
-            <div class="user-list" v-if="showUserBox">
-              <div v-if="!userList.length" class="no-list">未查到客户</div>
-              <div v-for="(item, index) in userList" :key="index" class="user-item" @click="selectUser(item)">
-                {{item.userName}} {{item.company}}
+      <div class="content-item">
+        <left-head class="margin-20 marginT10" :left-title="'商品信息'" :necessary="true"></left-head>
+        <div class="goods-content">
+          <div class="goods-item" v-for="(goods, index) in goodsList">
+            <SelectGoodsBox  :defaultOption="'请选择商品'" :options='options' :goods="goods" @selectOption='selectGoods' :boxWidth="400"></SelectGoodsBox>
+            <div class="op-box">
+              <div class="goods-num">
+                <left-head class="margin-20" :left-title="'产品数量'" :necessary="true"></left-head>
+                <input type="text" placeholder="商品数量" v-model="goods.amount">
+              </div>
+              <div class="add-crease">
+                <div class="btn-primary" @click="addGoods" v-if="index === goodsList.length - 1">添加</div>
+                <div class="btn-default" @click="deleteGoods(index)">删除</div>
               </div>
             </div>
           </div>
-          <div v-else class="length1">{{userName || '--'}}</div>
-        </div>
-        <div class="item">
-          <left-head class="margin-20" :left-title="'公司'" :necessary="true"></left-head>
-          <input placeholder="请输入公司" v-model="company" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{company || '--'}}</div>
-          <span class="error-tip">{{errorTips[4]}}</span>
         </div>
       </div>
 
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'订单总金额'" :necessary="true"></left-head>
-          <input placeholder="请输入订单总金额" v-model="totalFee" class="money-input"
-                 @input="totalFee = totalFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-          <div v-else>{{totalFee}}</div>
-          <span>&nbsp;元</span>
-          <span class="error-tip">{{errorTips[5]}}</span>
-        </div>
-        <div class="item">
-          <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
-          <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{deliveryTime || '--'}}</div>
-          <span class="error-tip">{{errorTips[6]}}</span>
-        </div>
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'订单编码'" :necessary="true"></left-head>
+        <input placeholder="请输入订单编码" v-model="orderCode" v-if="orderState === '0'"/>
+        <div v-else class="length2">{{orderCode || '--'}}</div>
+        <span class="error-tip">{{errorTips[0]}}</span>
       </div>
 
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'首付金额'" :necessary="true"></left-head>
-          <input placeholder="请输入首付金额" v-model="downPayFee" class="money-input"
-                 @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-          <div v-else>{{downPayFee}}</div>
-          <span>&nbsp;元</span>
-          <span class="error-tip">{{errorTips[7]}}</span>
+      <div class="item">
+        <left-head class="margin-20" :left-title="'客户'" :necessary="true"></left-head>
+        <div class="search-user" v-if="orderState === '0'">
+          <input placeholder="请输入客户名查询客户" v-model.trim="userName" @input="searchUser"/>
+          <div class="user-list" v-if="showUserBox">
+            <div v-if="!userList.length" class="no-list">未查到客户</div>
+            <div v-for="(item, index) in userList" :key="index" class="user-item" @click="selectUser(item)">
+              {{item.userName}} {{item.company}}
+            </div>
+          </div>
+          <span class="error-tip">{{errorTips[1]}}</span>
         </div>
-
-        <div class="item">
-          <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
-          <input placeholder="请输入付款方式" v-model="payType" v-if="orderState === '0'"/>
-          <div v-else class="length2">{{payType || '--'}}</div>
-          <span class="error-tip">{{errorTips[8]}}</span>
-        </div>
-      </div>
-      <div class="layer">
-        <div class="item">
-          <left-head class="margin-20" :left-title="'尾款'" :necessary="true"></left-head>
-          <input placeholder="请输入尾款" v-model="finalPayFee" class="money-input"
-                 @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-          <div v-else>{{finalPayFee}}</div>
-          <span>&nbsp;元</span>
-          <span class="error-tip">{{errorTips[9]}}</span>
-        </div>
-        <div class="item">
-          <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>
-        </div>
+        <div v-else class="length1">{{userName || '--'}}</div>
       </div>
 
-      <!--      <div class="item2">-->
-      <!--        <left-head class="margin-20" :left-title="'付款进度'" :necessary="false"></left-head>-->
-      <!--        <textarea placeholder="请输入付款进度" maxlength="200" v-model="payProgress" v-if="orderState === '0'"/>-->
-      <!--        <div v-else class="length3">{{payProgress || '&#45;&#45;'}}</div>-->
-      <!--      </div>-->
-      <div class="item2">
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'公司'" :necessary="true"></left-head>
+        <input placeholder="请输入公司" v-model="company" v-if="orderState === '0'"/>
+        <div v-else class="length2">{{company || '--'}}</div>
+        <span class="error-tip">{{errorTips[2]}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
+        <input placeholder="请输入物流单号" v-model="deliveryNo" v-if="orderState === '0'"/>
+        <div v-else class="length2">{{deliveryNo || '--'}}</div>
+        <span class="error-tip">{{errorTips[3]}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'订单总金额'" :necessary="true"></left-head>
+        <input placeholder="请输入订单总金额" v-model="totalFee"
+               @input="totalFee = totalFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+        <div v-else>{{totalFee}}</div>
+        <span>&nbsp;元</span>
+        <span class="error-tip">{{errorTips[4]}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'已付金额'" :necessary="true"></left-head>
+        <input placeholder="请输入已付金额" v-model="downPayFee" class="money-input"
+               @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+        <div v-else>{{downPayFee}}</div>
+        <span>&nbsp;元</span>
+        <span class="error-tip">{{errorTips[5]}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'未付金额'" :necessary="false"></left-head>
+        <input placeholder="请输入未付金额" v-model="finalPayFee"
+               @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
+        <div v-else>{{finalPayFee}}</div>
+        <span>&nbsp;元</span>
+        <span class="error-tip">{{''}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
+        <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" v-if="orderState === '0'"/>
+        <div v-else class="length2">{{deliveryTime || '--'}}</div>
+        <span class="error-tip">{{errorTips[6]}}</span>
+      </div>
+
+      <div class="order-info-item">
+        <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
+        <input placeholder="请输入付款方式" v-model="payType" v-if="orderState === '0'"/>
+        <div v-else class="length2">{{payType || '--'}}</div>
+        <span class="error-tip">{{errorTips[7]}}</span>
+      </div>
+
+      <div class="content-item">
         <left-head class="margin-20" :left-title="'付款记录'" :necessary="false"></left-head>
         <textarea placeholder="请输入付款记录" maxlength="200" v-model="payRecord" v-if="orderState === '0'"/>
         <div v-else class="length3">{{payRecord || '--'}}</div>
       </div>
-      <div class="item2">
+
+      <div class="content-item">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
-        <textarea placeholder="请输入客户备注" maxlength="200" v-model="remark" v-if="orderState === '0'"/>
+        <textarea placeholder="请输入订单备注" maxlength="200" v-model="remark" v-if="orderState === '0'"/>
         <div v-else class="length3">{{remark || '--'}}</div>
       </div>
       <footer-btn @goBack="goBack" @save="save" :needSave="orderState === '0'"></footer-btn>
@@ -129,19 +120,19 @@
   import LeftHead from '../../../components/LeftHead/LeftHead.vue'
   import FooterBtn from '../../../components/FooterBtn/FooterBtn.vue'
   import lodash from 'lodash'
-  import {OPEN_TOAST} from '../../../store/constants/home'
+  import {OPEN_TOAST, OPEN_ERROR_TIP_BOX} from '../../../store/constants/home'
+  import SelectGoodsBox from './components/SelectGoodsBox.vue'
+
 
 
   export default {
     name: 'AddOrder',
-    components: {LeftHead, TopHead, FooterBtn},
+    components: {LeftHead, TopHead, FooterBtn, SelectGoodsBox},
     data() {
       return {
         orderId: this.$route.params.orderId,
         orderState: '0', // 默认未完成
-        productName: '',
-        productSpe: '',
-        productNum: 1,
+        orderCode: '',
         deliveryNo: '',
         userName: '',
         userId: '',
@@ -158,7 +149,9 @@
         saveFlag: '',
         errorTips: [],
         userList: [],
-        canOperate: true // 可以操作
+        canOperate: true, // 可以操作
+        options: [{code: '1', name: '商品1'}, {code: '2', name: '商品2'}, {code: '3', name: '商品3'}],
+        goodsList: [{goodsId: '', amount: 0}]
       }
     },
     mounted() {
@@ -172,8 +165,30 @@
       if (_this.orderId) { // 编辑
         _this.init()
       }
+      _this.queryAllSelectGoodsVo()
     },
     methods: {
+      queryAllSelectGoodsVo() {
+        this.$http.post('/OrderController/queryAllSelectGoodsVo').then(res => {
+          const data = res.data
+          this.options = data.map(x => {
+            return {code: x.goodsId, name: x.goodsName + ' 单位：' + x.skuUnit + ' 花色' + x.skuColor}
+          })
+        })
+      },
+      selectGoods(goods, option) {
+        goods.goodsId = option.code
+        console.log(goods)
+        console.log(option)
+      },
+      addGoods() {
+        this.goodsList.push({goodsId: '', amount: 0})
+      },
+      deleteGoods(index) {
+        if (this.goodsList.length === 1) return
+        this.goodsList.splice(index, 1);
+      },
+
       goBack() {
         this.$router.go(-1)
       },
@@ -184,101 +199,120 @@
         })
       },
       save() {
-        return // todo 及得放开
+        if (!this.orderId) { // 新增
+          this.saveNewAdd()
+        } else { // 编辑
+
+        }
+      },
+      saveNewAdd() {
+        let goodsTip = ''
+        this.goodsList.forEach(goods => {
+          if (!goods.goodsId || !goods.amount) {
+            goodsTip = '请完善商品信息'
+          }
+        })
+        if (goodsTip) {
+          this.$store.commit(OPEN_ERROR_TIP_BOX, '请完善商品信息')
+          return
+        }
         if (!this.canOperate) return
         this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
         this.$http.post('/OrderController/addOrder', {
-          orderId: this.orderId,
-          productName: this.productName,
-          productSpe: this.productSpe,
-          productNum: +this.productNum,
-          deliveryNo: this.deliveryNo,
+          goodsList: this.goodsList,
+          orderCode: this.orderCode,
           userId: this.userId,
-          userName: this.userId ? this.userName : '',
+          userName: this.userName,
           company: this.company,
-          totalFee: +this.totalFee,
-          downPayFee: +this.downPayFee,
-          finalPayFee: this.finalPayFee,
+          deliveryNo: this.deliveryNo,
+          totalFee: +this.totalFee * 100,
+          downPayFee: +this.downPayFee * 100,
+          finalPayFee: this.finalPayFee * 100,
           deliveryTime: this.deliveryTime,
           payType: this.payType,
-          payProgress: this.payProgress,
           payRecord: this.payRecord,
           remark: this.remark
         }).then(res => {
           const data = res.data
-          this.$store.commit(OPEN_TOAST, data.message)
           if (data.code === 0) {
+            this.$store.commit(OPEN_TOAST, data.message)
             setTimeout(() => {
               this.$router.push('/manage/order-list')
               this.canOperate = true
             }, 2100)
+          } else {
+            this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
           }
         })
       },
       validateInfo() {
-        if (!this.productName) {
-          this.$set(this.errorTips, 0, '产品名称不能为空')
+        // 订单编码
+        if (!this.orderCode) {
+          this.$set(this.errorTips, 0, '订单编码不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 0, '')
         }
-        if (!this.productSpe) {
-          this.$set(this.errorTips, 1, '产品规格不能为空')
+        // 客户
+        if (!this.userId) {
+          this.$set(this.errorTips, 1, '请选择客户')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 1, '')
         }
-        if (!this.productNum) {
-          this.$set(this.errorTips, 2, '产品数量不能为空')
+        // 公司
+        if (!this.company) {
+          this.$set(this.errorTips, 2, '请输入公司')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 2, '')
         }
+        // 物流单号
         if (!this.deliveryNo) {
           this.$set(this.errorTips, 3, '物流单号不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 3, '')
         }
-        if (!this.company) {
-          this.$set(this.errorTips, 4, '公司不能为空')
+        // 订单总额
+        if (!this.totalFee) {
+          this.$set(this.errorTips, 4, '请输入订单总金额')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 4, '')
         }
-        if (!this.totalFee) {
-          this.$set(this.errorTips, 5, '订单总金额不能为空')
+        // 已付金额
+        if (!this.downPayFee) {
+          this.$set(this.errorTips, 5, '请输入已付金额')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 5, '')
         }
+        // 未付金额(应该不需要校验吧？)
+        // if (!this.finalPayFee) {
+        //   this.$set(this.errorTips, 6, '')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 9, '')
+        // }
+
         if (!this.deliveryTime) {
-          this.$set(this.errorTips, 6, '交期不能为空')
+          this.$set(this.errorTips, 6, '请输入交期')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 6, '')
         }
-        if (!this.downPayFee) {
-          this.$set(this.errorTips, 7, '首付金额不能为空')
+
+        if (!this.payType) {
+          this.$set(this.errorTips, 7, '付款方式不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 7, '')
         }
-        if (!this.payType) {
-          this.$set(this.errorTips, 8, '付款方式不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 8, '')
-        }
-        if (!this.finalPayFee) {
-          this.$set(this.errorTips, 9, '尾款不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 9, '')
-        }
+
         this.$forceUpdate
       },
       selectUser(item) {
@@ -299,7 +333,8 @@
 </script>
 
 <style module lang="stylus" scoped>
-  .add-staff
+  .add-order
+    font-size 14px
     width 100%
 
   .base-info
@@ -321,60 +356,79 @@
   .margin-20
     margin-right 20px
 
-  .item
+  .content-item
+    display flex
+    margin-bottom 10px
+
+  .goods-item
+    display flex
+    height 45px
+    align-items center
+    margin-bottom 10px
+
+  .op-box
     display flex
     align-items center
-    margin-bottom 20px
 
-  input
-    height 40px
-    padding-left 10px
-    width 300px
-
-  .item2
+  .goods-num
     display flex
-    margin-bottom 20px
-
-  textarea
-    width 85.3%
-    height 80px
-    padding 10px
-    outline none
-    font-size 16px
-
-  .staff-right
-    display flex
-    flex-wrap wrap
-    width 900px
-
-  .right-item
-    display flex
-    width 150px
     align-items center
-    height 20px
-    margin-bottom 20px
 
-    i
-      font-size 16px
-      margin-right 5px
+    > input
+      width 100px
+      height 38px
 
-  .selected
-    color green
-
-  .un-selected
-    color #d7d7d7
-
-  .error-tip
-    color #f00
-    font-size 12px
+  .add-crease
     margin-left 20px
+    display flex
+
+    > div
+      width 50px
+      height 25px
+      text-align center
+      line-height 25px
+      border-radius 5px
+      cursor pointer
+
+  .btn-default
+    border 1px solid mediumseagreen
+    color mediumseagreen
+    background-color #fff
+    margin-right 50px
+
+  .btn-primary
+    background-color mediumseagreen
+    color #fff
+    margin-right 20px
+
+  .order-info-item
+    display flex
+    align-items center
+    margin-bottom 20px
+
+    input
+      height 38px
+      padding-left 10px
+      width 388px
+
+  .length1
+    width 280px
+
+  .length2
+    width 270px
+
+  .marginT10
+    margin-top 10px
 
   .search-user
     position relative
 
+    > input
+      width 388px
+
   .user-list
     position absolute
-    width 313px
+    width 388px
     height 250px
     left 0
     top 45px
@@ -397,21 +451,7 @@
     color #f0f0f0
     text-align center
 
-  .money-input
-    width 280px
 
-  .length1
-    width 280px
 
-  .length2
-    width 270px
 
-  .length3
-    width 85.2%
-
-  .text-flow
-    word-break break-all
-    overflow hidden
-    text-overflow ellipsis
-    white-space nowrap
 </style>
