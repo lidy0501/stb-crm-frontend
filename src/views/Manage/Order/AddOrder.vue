@@ -178,8 +178,6 @@
       },
       selectGoods(goods, option) {
         goods.goodsId = option.code
-        console.log(goods)
-        console.log(option)
       },
       addGoods() {
         this.goodsList.push({goodsId: '', amount: 0})
@@ -216,6 +214,21 @@
           this.$store.commit(OPEN_ERROR_TIP_BOX, '请完善商品信息')
           return
         }
+        // 校验重复商品
+        let repeatGoods = false // 默认无重复
+        for (let i = 0; i < this.goodsList.length - 1; i++) {
+          for (let j = i + 1; j <= this.goodsList.length - 1; j++) {
+            if (this.goodsList[i].goodsId === this.goodsList[j].goodsId) {
+              repeatGoods = true
+              break
+            }
+          }
+        }
+        if (repeatGoods) {
+          this.$store.commit(OPEN_ERROR_TIP_BOX, '所选商品不能重复')
+          return
+        }
+
         if (!this.canOperate) return
         this.canOperate = false
         this.saveFlag = true
