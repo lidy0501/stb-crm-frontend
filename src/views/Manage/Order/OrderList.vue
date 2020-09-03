@@ -18,9 +18,10 @@
         <span class="col3">客户</span>
         <span class="col4">交易公司</span>
         <span class="col5">订单总额(元)</span>
-        <span class="col6">订单状态</span>
-        <span class="col7">跟单人</span>
-        <span class="col8">操作</span>
+        <span class="col6">交易进度(%)</span>
+        <span class="col7">订单状态</span>
+        <span class="col8">跟单人</span>
+        <span class="col9">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in orderList" :key="item.orderId">
@@ -34,9 +35,10 @@
           <div class="col3" :title="item.userName">{{item.userName}}</div>
           <div class="col4" :title="item.company">{{item.company}}</div>
           <div class="col5">{{item.totalFee / 100.0}}</div>
-          <div class="col6">{{item.orderState === '0' ? '未完成' : '已完成'}}</div>
-          <div class="col7" :title="item.operatorName">{{item.operatorName}}</div>
-          <div class="col8">
+          <div class="col6">{{(100 * item.downPayFee) / item.totalFee}}</div>
+          <div class="col7">{{item.orderState === '0' ? '未完成' : '已完成'}}</div>
+          <div class="col8" :title="item.operatorName">{{item.operatorName}}</div>
+          <div class="col9">
             <span class="delete-btn" @click="changeOrderState(item, item.orderState === '0' ? '1' : '0')">
               {{item.orderState === '0' ? '完成' : '未完成'}}</span>
             <span class="delete-btn" @click="$router.push(`add-order/${item.orderId}`)">查看</span>
@@ -222,21 +224,24 @@
     width 10%
 
   .col2
-    width 25%
+    width 20%
 
   .col3
-    width 9%
+    width 6%
 
   .col4
     width 10%
 
   .col5
-    width 10%
+    width 9%
 
   .col6
-    width 8%
+    width 9%
 
   .col7
+    width 9%
+
+  .col8
     width 8%
 
 
