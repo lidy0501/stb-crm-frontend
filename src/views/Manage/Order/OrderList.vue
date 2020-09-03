@@ -5,7 +5,7 @@
       <div class="search-box">
         <div class="input-sty">
           <i class="iconfont icon-sousuo"></i>
-          <input type="text" v-model="searchValue" placeholder="产品/客户/公司/跟单人"/>
+          <input type="text" v-model="searchValue" placeholder="订单编号/客户/公司/跟单人"/>
         </div>
         <div class="btn-search" @click="search">查询</div>
       </div>
@@ -13,34 +13,35 @@
 
     <div class="list-container">
       <div class="list-title">
-        <span class="col9 padL10">订单编码</span>
-        <span class="col1">产品名称</span>
-        <span class="col2">数量</span>
+        <span class="col1 padL10">订单编码</span>
+        <span class="col2">产品信息</span>
         <span class="col3">客户</span>
         <span class="col4">交易公司</span>
         <span class="col5">订单总额(元)</span>
-        <span class="col6">物流单号</span>
-        <span class="col7">订单状态</span>
-        <span class="col8">跟单人</span>
-        <span class="col10">操作</span>
+        <span class="col6">订单状态</span>
+        <span class="col7">跟单人</span>
+        <span class="col8">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in orderList" :key="item.orderId">
-          <span class="col9 padL10" :title="item.orderCode">{{item.orderCode}}</span>
-          <span class="col1" :title="item.productName">{{item.productName}}</span>
-          <span class="col2" :title="item.productNum">{{item.productNum}}</span>
-          <span class="col3" :title="item.userName">{{item.userName || '--'}}</span>
-          <span class="col4" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col5" :title="item.totalFee">{{item.totalFee}}</span>
-          <span class="col6" :title="item.deliveryNo">{{item.deliveryNo || '--'}}</span>
-          <span class="col7">{{item.orderState === '0' ? '未完成' : '已完成'}}</span>
-          <span class="col8" :title="item.operatorName">{{item.operatorName}}</span>
-          <span class="col10">
+          <div class="col1 padL10" :title="item.orderCode">{{item.orderCode}}</div>
+          <div class="col2">
+            <div class="goods-item text-flow" v-for="goods in item.goodsItemList"
+                 :title="`${goods.goodsName}  x${goods.amount}${goods.skuUnit} ${goods.skuColor}`">
+              {{`${goods.goodsName}  x${goods.amount}${goods.skuUnit} ${goods.skuColor}`}}
+            </div>
+          </div>
+          <div class="col3" :title="item.userName">{{item.userName}}</div>
+          <div class="col4" :title="item.company">{{item.company}}</div>
+          <div class="col5">{{item.totalFee / 100.0}}</div>
+          <div class="col6">{{item.orderState === '0' ? '未完成' : '已完成'}}</div>
+          <div class="col7" :title="item.operatorName">{{item.operatorName}}</div>
+          <div class="col8">
             <span class="delete-btn" @click="changeOrderState(item, item.orderState === '0' ? '1' : '0')">
               {{item.orderState === '0' ? '完成' : '未完成'}}</span>
             <span class="delete-btn" @click="$router.push(`add-order/${item.orderId}`)">查看</span>
             <span class="delete-btn" @click="changeOrderState(item, '9')">删除</span>
-          </span>
+          </div>
         </div>
         <QuickPager :page="page" @QuickPager="QuickPager"></QuickPager>
       </div>
@@ -71,7 +72,7 @@
       }
     },
     mounted() {
-      //this.init()
+      this.init()
     },
     methods: {
       search() {
@@ -202,11 +203,12 @@
 
   .list-item
     display flex
-    height 45px
-    line-height 45px
+    min-height 45px
+    /*line-height 45px*/
+    align-items center
     border-bottom 1px solid #f0f0f0
 
-    > span
+    > div
       word-break break-all
       overflow hidden
       text-overflow ellipsis
@@ -220,7 +222,7 @@
     width 10%
 
   .col2
-    width 5%
+    width 25%
 
   .col3
     width 9%
@@ -232,16 +234,11 @@
     width 10%
 
   .col6
-    width 12%
-
-  .col7
-    width 7%
-
-  .col8
     width 8%
 
-  .col9
-    width 10%
+  .col7
+    width 8%
+
 
   .padL10
     padding-left 10px
@@ -263,5 +260,11 @@
     overflow hidden
     text-overflow ellipsis
     white-space nowrap
+
+  .goods-item
+    height 25px
+    line-height 25px
+    width 100%
+
 
 </style>

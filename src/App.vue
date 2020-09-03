@@ -23,7 +23,7 @@
   }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus" scoped module>
   @import "assets/styles/reset.css"
   .main-page
     height 100%
