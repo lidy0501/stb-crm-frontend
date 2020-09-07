@@ -35,13 +35,13 @@
           <div class="col3" :title="item.userName">{{item.userName}}</div>
           <div class="col4" :title="item.company">{{item.company}}</div>
           <div class="col5">{{item.totalFee / 100.0}}</div>
-          <div class="col6">{{(100 * item.downPayFee) / item.totalFee}}</div>
+          <div class="col6">{{(100 * item.downPayFee / item.totalFee).toFixed(1)}}</div>
           <div class="col7">{{item.orderState === '0' ? '未完成' : '已完成'}}</div>
           <div class="col8" :title="item.operatorName">{{item.operatorName}}</div>
           <div class="col9">
             <span class="delete-btn" @click="changeOrderState(item, item.orderState === '0' ? '1' : '0')">
               {{item.orderState === '0' ? '完成' : '未完成'}}</span>
-            <span class="delete-btn" @click="$router.push(`add-order/${item.orderId}`)">查看</span>
+            <span class="delete-btn" @click="$router.push(`order-details/${item.orderId}`)">查看</span>
             <span class="delete-btn" @click="changeOrderState(item, '9')">删除</span>
           </div>
         </div>

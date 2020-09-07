@@ -24,14 +24,13 @@
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'订单编码'" :necessary="true"></left-head>
-        <input placeholder="请输入订单编码" v-model="orderCode" v-if="orderState === '0'"/>
-        <div v-else class="length2">{{orderCode || '--'}}</div>
+        <input placeholder="请输入订单编码" v-model="orderCode"/>
         <span class="error-tip">{{errorTips[0]}}</span>
       </div>
 
       <div class="item">
         <left-head class="margin-20" :left-title="'客户'" :necessary="true"></left-head>
-        <div class="search-user" v-if="orderState === '0'">
+        <div class="search-user">
           <input placeholder="请输入客户名查询客户" v-model.trim="userName" @input="searchUser"/>
           <div class="user-list" v-if="showUserBox">
             <div v-if="!userList.length" class="no-list">未查到客户</div>
@@ -41,28 +40,24 @@
           </div>
           <span class="error-tip">{{errorTips[1]}}</span>
         </div>
-        <div v-else class="length1">{{userName || '--'}}</div>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'公司'" :necessary="true"></left-head>
-        <input placeholder="请输入公司" v-model="company" v-if="orderState === '0'"/>
-        <div v-else class="length2">{{company || '--'}}</div>
+        <input placeholder="请输入公司" v-model="company"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
-        <input placeholder="请输入物流单号" v-model="deliveryNo" v-if="orderState === '0'"/>
-        <div v-else class="length2">{{deliveryNo || '--'}}</div>
+        <input placeholder="请输入物流单号" v-model="deliveryNo"/>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'订单总金额'" :necessary="true"></left-head>
         <input placeholder="请输入订单总金额" v-model="totalFee"
-               @input="totalFee = totalFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-        <div v-else>{{totalFee}}</div>
+               @input="verifyTotalFee(totalFee)"/>
         <span>&nbsp;元</span>
         <span class="error-tip">{{errorTips[4]}}</span>
       </div>
@@ -70,8 +65,7 @@
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'已付金额'" :necessary="true"></left-head>
         <input placeholder="请输入已付金额" v-model="downPayFee" class="money-input"
-               @input="downPayFee = downPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-        <div v-else>{{downPayFee}}</div>
+               @input="verifyDownPayFee(downPayFee)"/>
         <span>&nbsp;元</span>
         <span class="error-tip">{{errorTips[5]}}</span>
       </div>
@@ -79,38 +73,34 @@
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'未付金额'" :necessary="false"></left-head>
         <input placeholder="请输入未付金额" v-model="finalPayFee"
-               @input="finalPayFee = finalPayFee.replace(/[^\d]/g, '')" v-if="orderState === '0'"/>
-        <div v-else>{{finalPayFee}}</div>
+               @input="verifyFinalPayFee(finalPayFee)"/>
         <span>&nbsp;元</span>
         <span class="error-tip">{{''}}</span>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
-        <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" v-if="orderState === '0'"/>
-        <div v-else class="length2">{{deliveryTime || '--'}}</div>
+        <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" @input="deliveryTime = deliveryTime.replace(/[^\d-]/g, '')
+"/>
         <span class="error-tip">{{errorTips[6]}}</span>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
-        <input placeholder="请输入付款方式" v-model="payType" v-if="orderState === '0'"/>
-        <div v-else class="length2">{{payType || '--'}}</div>
+        <input placeholder="请输入付款方式" v-model="payType"/>
         <span class="error-tip">{{errorTips[7]}}</span>
       </div>
 
       <div class="content-item">
         <left-head class="margin-20" :left-title="'付款记录'" :necessary="false"></left-head>
-        <textarea placeholder="请输入付款记录" maxlength="200" v-model="payRecord" v-if="orderState === '0'"/>
-        <div v-else class="length3">{{payRecord || '--'}}</div>
+        <textarea placeholder="请输入付款记录" maxlength="200" v-model="payRecord"/>
       </div>
 
       <div class="content-item">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
-        <textarea placeholder="请输入订单备注" maxlength="200" v-model="remark" v-if="orderState === '0'"/>
-        <div v-else class="length3">{{remark || '--'}}</div>
+        <textarea placeholder="请输入订单备注" maxlength="200" v-model="remark"/>
       </div>
-      <footer-btn @goBack="goBack" @save="save" :needSave="orderState === '0'"></footer-btn>
+      <footer-btn @goBack="goBack" @save="save"></footer-btn>
     </div>
   </div>
 </template>
@@ -130,7 +120,6 @@
     components: {LeftHead, TopHead, FooterBtn, SelectGoodsBox},
     data() {
       return {
-        orderId: this.$route.params.orderId,
         orderState: '0', // 默认未完成
         orderCode: '',
         deliveryNo: '',
@@ -162,12 +151,21 @@
           _this.showUserBox = false
         }
       })
-      if (_this.orderId) { // 编辑
-        _this.init()
-      }
       _this.queryAllSelectGoodsVo()
     },
     methods: {
+      verifyTotalFee(totalFee) {
+        totalFee = totalFee.replace(/[^0-9]\\./g, '')
+        this.totalFee = this.$utils.fixToNum(totalFee) + ''
+      },
+      verifyDownPayFee(downPayFee) {
+        downPayFee = downPayFee.replace(/[^0-9]\\./g, '')
+        this.downPayFee = this.$utils.fixToNum(downPayFee) + ''
+      },
+      verifyFinalPayFee(finalPayFee) {
+        finalPayFee = finalPayFee.replace(/[^0-9]\\./g, '')
+        this.finalPayFee = this.$utils.fixToNum(finalPayFee) + ''
+      },
       queryAllSelectGoodsVo() {
         this.$http.post('/OrderController/queryAllSelectGoodsVo').then(res => {
           const data = res.data
@@ -190,20 +188,7 @@
       goBack() {
         this.$router.go(-1)
       },
-      init() {
-        this.$http.post('/OrderController/selectOrderByOrderId/' + this.orderId).then(res => {
-          const data = res.data
-          Object.assign(this, data)
-        })
-      },
       save() {
-        if (!this.orderId) { // 新增
-          this.saveNewAdd()
-        } else { // 编辑
-
-        }
-      },
-      saveNewAdd() {
         let goodsTip = ''
         this.goodsList.forEach(goods => {
           if (!goods.goodsId || !goods.amount) {
@@ -326,7 +311,7 @@
           this.$set(this.errorTips, 7, '')
         }
 
-        this.$forceUpdate
+        this.$forceUpdate()
       },
       selectUser(item) {
         this.userName = item.userName

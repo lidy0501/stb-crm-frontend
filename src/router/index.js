@@ -13,6 +13,7 @@ import AddUser from '../views/Manage/User/AddUser.vue'
 import PrivateUserList from '../views/Manage/User/PrivateUserList.vue'
 import PublicUserList from '../views/Manage/User/PublicUserList.vue'
 import AddOrder from '../views/Manage/Order/AddOrder.vue'
+import OrderDetails from '../views/Manage/Order/OrderDetails.vue'
 import OrderList from '../views/Manage/Order/OrderList.vue'
 import AddGoods from '../views/Manage/Goods/AddGoods.vue'
 import GoodsList from '../views/Manage/Goods/GoodsList.vue'
@@ -71,6 +72,10 @@ export const routerMap = [
         name: 'AddOrder',
         path: 'add-order/:orderId?',
         component: AddOrder
+      },{
+        name: 'OrderDetails',
+        path: 'order-details/:orderId',
+        component: OrderDetails
       },
       {
         name: 'OrderList',
