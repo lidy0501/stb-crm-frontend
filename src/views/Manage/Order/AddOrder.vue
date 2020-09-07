@@ -72,8 +72,7 @@
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'未付金额'" :necessary="false"></left-head>
-        <input placeholder="请输入未付金额" v-model="finalPayFee"
-               @input="verifyFinalPayFee(finalPayFee)"/>
+        <input placeholder="未付金额" v-model="finalPayFee" disabled="disabled"/>
         <span>&nbsp;元</span>
         <span class="error-tip">{{''}}</span>
       </div>
@@ -128,7 +127,6 @@
         company: '',
         totalFee: '',
         downPayFee: '',
-        finalPayFee: '',
         deliveryTime: '',
         payProgress: '',
         payRecord: '',
@@ -153,6 +151,13 @@
       })
       _this.queryAllSelectGoodsVo()
     },
+    computed: {
+      finalPayFee() {
+        let final =  this.totalFee - this.downPayFee
+        if (final >= 0) return final
+        return 0
+      }
+    },
     methods: {
       verifyTotalFee(totalFee) {
         totalFee = totalFee.replace(/[^0-9]\\./g, '')
@@ -161,10 +166,6 @@
       verifyDownPayFee(downPayFee) {
         downPayFee = downPayFee.replace(/[^0-9]\\./g, '')
         this.downPayFee = this.$utils.fixToNum(downPayFee) + ''
-      },
-      verifyFinalPayFee(finalPayFee) {
-        finalPayFee = finalPayFee.replace(/[^0-9]\\./g, '')
-        this.finalPayFee = this.$utils.fixToNum(finalPayFee) + ''
       },
       queryAllSelectGoodsVo() {
         this.$http.post('/OrderController/queryAllSelectGoodsVo').then(res => {
@@ -289,13 +290,7 @@
         } else {
           this.$set(this.errorTips, 5, '')
         }
-        // 未付金额(应该不需要校验吧？)
-        // if (!this.finalPayFee) {
-        //   this.$set(this.errorTips, 6, '')
-        //   this.saveFlag = false
-        // } else {
-        //   this.$set(this.errorTips, 9, '')
-        // }
+
 
         if (!this.deliveryTime) {
           this.$set(this.errorTips, 6, '请输入交期')
@@ -326,7 +321,7 @@
           this.userList = data
         })
       }, 500)
-    },
+    }
   }
 </script>
 

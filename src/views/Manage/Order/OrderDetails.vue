@@ -36,22 +36,20 @@
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'订单总金额'" :necessary="true"></left-head>
-        <div>{{totalFee / 100}} 元</div>
+        <div>{{totalFee}} 元</div>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'已付金额'" :necessary="true"></left-head>
-        <input placeholder="请输入已付金额" v-model="inputDownPayFee" class="money-input"
-               @input="verifyInputDownPayFee(inputDownPayFee)" v-if="orderState === '0'"/>
-        <div v-else>{{downPayFee / 100}}</div>
+        <input placeholder="请输入已付金额" v-model="downPayFee" class="money-input"
+               @input="verifyInputDownPayFee(downPayFee)" v-if="orderState === '0'"/>
+        <div v-else>{{downPayFee}}</div>
         <span>&nbsp;元</span>
       </div>
 
       <div class="order-info-item">
         <left-head class="margin-20" :left-title="'未付金额'" :necessary="false"></left-head>
-        <input placeholder="请输入未付金额" v-model="inputFinalPayFee"
-               @input="verifyInputDownPayFee(inputFinalPayFee)" v-if="orderState === '0'"/>
-        <div v-else>{{finalPayFee / 100}}</div>
+        <input placeholder="0" v-model="finalPayFee" disabled="disabled"/>
         <span>&nbsp;元</span>
       </div>
 
@@ -105,7 +103,6 @@
         inputDownPayFee: this.downPayFee / 100, // 输入框里的已付款
         downPayFee: '', // 已付金额
         inputFinalPayFee: this.finalPayFee / 100, // 输入框里的未付款
-        finalPayFee: '', // 未付金额
         deliveryTime: '',
         payProgress: '',
         payRecord: '',
@@ -120,6 +117,17 @@
     mounted() {
       this.init()
     },
+    computed: {
+      finalPayFee: {
+        set(newV) {
+        },
+        get() {
+          let final =  this.totalFee - this.downPayFee
+          if (final >= 0) return final
+          return 0
+        }
+      }
+    },
     methods: {
       goBack() {
         this.$router.go(-1)
@@ -128,14 +136,14 @@
         this.$http.post('/OrderController/selectOrderByOrderId/' + this.orderId).then(res => {
           const data = res.data
           Object.assign(this, data)
-          this.inputFinalPayFee = this.finalPayFee / 100
-          this.inputDownPayFee = this.downPayFee / 100
+          this.totalFee /= 100.0
+          this.downPayFee /= 100.0
         })
       },
       save() {
         if (!this.canOperate) return
         this.canOperate = false
-        if (!this.inputDownPayFee) {
+        if (!this.downPayFee) {
           this.$set(this.errorTips, 0, '请输入已付金额')
           return
         } {
@@ -143,8 +151,8 @@
         }
         this.$http.post('/OrderController/saveEditOrder', {
           orderId: this.orderId,
-          downPayFee: this.inputDownPayFee * 100,
-          finalPayFee: this.inputFinalPayFee * 100,
+          downPayFee: this.downPayFee * 100,
+          finalPayFee: this.finalPayFee * 100,
           payRecord: this.payRecord,
           remark: this.remark
         }).then(res => {
@@ -164,13 +172,9 @@
         goodsPrice = goodsPrice.replace(/[^0-9|\\.]+/g, '')
         this.goodsPrice = this.$utils.fixToNum(goodsPrice) + ''
       },
-      verifyInputDownPayFee(inputDownPayFee) {
-        inputDownPayFee = inputDownPayFee.replace(/[^0-9]\\./g, '')
-        this.inputDownPayFee = this.$utils.fixToNum(inputDownPayFee) + ''
-      },
-      verifyInputDownPayFee(inputFinalPayFee) {
-        inputFinalPayFee = inputFinalPayFee.replace(/[^0-9]\\./g, '')
-        this.inputFinalPayFee = this.$utils.fixToNum(inputFinalPayFee) + ''
+      verifyInputDownPayFee(downPayFee) {
+        downPayFee = downPayFee.replace(/[^0-9]\\./g, '')
+        this.downPayFee = this.$utils.fixToNum(downPayFee) + ''
       }
     }
   }
