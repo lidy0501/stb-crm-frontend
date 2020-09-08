@@ -18,6 +18,7 @@ import OrderList from '../views/Manage/Order/OrderList.vue'
 import AddGoods from '../views/Manage/Goods/AddGoods.vue'
 import GoodsList from '../views/Manage/Goods/GoodsList.vue'
 import SKUSet from '../views/Manage/Goods/SKUSet.vue'
+import StaffFinance from "../views/Manage/Finance/StaffFinance.vue"
 
 export const routerMap = [
   {
@@ -96,6 +97,11 @@ export const routerMap = [
         name: 'SKUSet',
         path: 'sku-set',
         component: SKUSet
+      },
+      {
+        name: 'StaffFinance',
+        path: 'staff-finance',
+        component: StaffFinance
       }
     ]
   }
