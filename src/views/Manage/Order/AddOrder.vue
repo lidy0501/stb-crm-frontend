@@ -421,7 +421,7 @@
 
   .user-list
     position absolute
-    width 388px
+    width 400px
     height 250px
     left 0
     top 45px

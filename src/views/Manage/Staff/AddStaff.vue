@@ -169,7 +169,7 @@
         } else {
           this.$set(this.errorTips, 5, '')
         }
-        this.$forceUpdate
+        this.$forceUpdate()
       },
       validateRights() {
         let list = this.staffRights.filter(x => x.selected)
