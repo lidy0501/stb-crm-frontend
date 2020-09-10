@@ -57,7 +57,7 @@
         }
         const _this = this
         const {staffCode, password} = this
-        if (staffCode !== 'A000') return // todo 记得放开
+        // if (staffCode !== 'A000') return // todo 记得放开
         this.$http.post('/LoginController/login', {staffCode, password}).then(res => {
           // const token = res.headers['authorization']
           // _this.$store.commit('SET_TOKEN', token)
