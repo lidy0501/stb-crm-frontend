@@ -20,6 +20,7 @@ import GoodsList from '../views/Manage/Goods/GoodsList.vue'
 import SKUSet from '../views/Manage/Goods/SKUSet.vue'
 import StaffFinance from '../views/Manage/Finance/StaffFinance.vue'
 import AddContract from '../views/Manage/Contract/AddContract.vue'
+import ContractList from '../views/Manage/Contract/ContractList.vue'
 
 export const routerMap = [
   {
@@ -108,6 +109,11 @@ export const routerMap = [
         name: 'AddContract',
         path: 'add-contract',
         component: AddContract
+      },
+      {
+        name: 'ContractList',
+        path: 'contract-list',
+        component: ContractList
       }
     ]
   }
