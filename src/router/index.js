@@ -18,7 +18,7 @@ import OrderList from '../views/Manage/Order/OrderList.vue'
 import AddGoods from '../views/Manage/Goods/AddGoods.vue'
 import GoodsList from '../views/Manage/Goods/GoodsList.vue'
 import SKUSet from '../views/Manage/Goods/SKUSet.vue'
-import StaffFinance from '../views/Manage/Finance/StaffFinance.vue'
+import FinanceManage from '../views/Manage/Finance/FinanceManage.vue'
 import AddContract from '../views/Manage/Contract/AddContract.vue'
 import ContractList from '../views/Manage/Contract/ContractList.vue'
 
@@ -101,9 +101,9 @@ export const routerMap = [
         component: SKUSet
       },
       {
-        name: 'StaffFinance',
-        path: 'staff-finance',
-        component: StaffFinance
+        name: 'FinanceManage',
+        path: 'finance-manage',
+        component: FinanceManage
       },
       {
         name: 'AddContract',
