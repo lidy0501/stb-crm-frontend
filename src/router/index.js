@@ -21,6 +21,7 @@ import SKUSet from '../views/Manage/Goods/SKUSet.vue'
 import FinanceManage from '../views/Manage/Finance/FinanceManage.vue'
 import AddContract from '../views/Manage/Contract/AddContract.vue'
 import ContractList from '../views/Manage/Contract/ContractList.vue'
+import DownloadTemplate from '../views/Manage/Contract/DownloadTemplate.vue'
 
 export const routerMap = [
   {
@@ -114,6 +115,11 @@ export const routerMap = [
         name: 'ContractList',
         path: 'contract-list',
         component: ContractList
+      },
+      {
+        name: 'DownloadTemplate',
+        path: 'download-template',
+        component: DownloadTemplate
       }
     ]
   }
