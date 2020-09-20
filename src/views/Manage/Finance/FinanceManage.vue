@@ -1,130 +1,188 @@
 <template>
-  <div class="add-staff">
+  <div class="finance-manage">
     <div class="title">
       <div class="title-name">财务管理</div>
-    </div>
-    <div id="calender">
-      <div class="txt-c p-10">
-        <span @click="prev"> ⬅️ </span>
-        <input type="text" v-model="year">年
-        <input type="text" v-model="month" class="month">月
-        <span @click="next"> ➡️️️️ </span>
-      </div>
-      <div class="weekDay flex jc-sb p-5 day">
-        <p v-for="item in weekList" :key="item.id">{{item}}</p>
-      </div>
-      <div class="weekDay flex p-5 day">
-        <p v-for="item in spaceDay" :key="item.id"></p>
-        <p v-for="(item,idx) in (monthDay[this.month-1] || 30)" @click="setDay(idx)" :class="idx==activeDay?'active':''"
-           :key="item.id">{{item}}</p>
-      </div>
-    </div>
-    <div class="list-container">
       <div class="search-box">
+        <div class="block">
+          <span class="demonstration">日期：</span>
+          <el-date-picker
+              v-model="date"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions">
+          </el-date-picker>
+        </div>
         <div class="input-sty">
           <i class="iconfont icon-sousuo"></i>
-          <input type="text" v-model="searchValue" placeholder="跟单人编号/跟单人"/>
+          <input type="text" v-model="searchValue" placeholder="员工姓名/员工账号"/>
         </div>
         <div class="btn-search" @click="search">查询</div>
       </div>
     </div>
+
+    <div class="finance-container">
+      <div class="left-sec">
+        <template v-if="staffCode">
+          <div>姓名：{{staffName}}</div>
+          <div>账号：{{staffCode}}</div>
+        </template>
+        <template v-else>
+          <div class="no-order">暂无员工信息</div>
+        </template>
+
+      </div>
+
+      <div class="right-sec">
+        <template v-if="orderItems.length > 0">
+          <div class="list-container">
+            <div class="list-title">
+              <div class="col1 padL10">订单编码</div>
+              <div class="col2">订单总额(元)</div>
+              <div class="col3">订单成本(元)</div>
+            </div>
+            <div class="list-content">
+              <div class="list-item" v-for="(item, index) in orderItems">
+                <div class="col1 padL10 active" @click="$router.push(`order-details/${item.orderId}`)">{{item.orderCode}}</div>
+                <div class="col2">{{item.totalFee / 100.0}}</div>
+                <div class="col3">{{item.goodsFee / 100.0}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="finance-types">
+            <div class="type-item">
+              <span>提成1：</span>
+              <span class="formula">(订单销售额-订单成本) x 30%</span>
+              <span class="calculate-btn" @click="calculate(1)">计算提成</span>
+            </div>
+            <div class="type-item">
+              <span>提成2：</span>
+              <span class="formula">(订单销售额-订单成本)</span>
+              <span class="calculate-btn"  @click="calculate(2)">计算提成</span>
+            </div>
+            <div class="type-item">
+              <span>提成3：</span>
+              <span class="formula">订单销售额 x 10%</span>
+              <span class="calculate-btn"  @click="calculate(3)">计算提成</span>
+            </div>
+            <div class="type-item">
+              <span>提成4：</span>
+              <span class="formula">订单销售额 x 6%</span>
+              <span class="calculate-btn"  @click="calculate(4)">计算提成</span>
+            </div>
+          </div>
+        </template>
+
+        <template v-else>
+          <div class="no-order">暂无订单信息</div>
+        </template>
+      </div>
+    </div>
+    <CalculateBox v-if="showCalculateBox" @close="showCalculateBox = false"
+      :type="type" :gross="gross" :cost="cost">
+    </CalculateBox>
   </div>
 </template>
 
 <script>
-  import TopHead from '../../../components/TopHead/TopHead.vue'
-  import QuickPager from '../../../components/QuickPager/QuickPager.vue'
-  import {OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+import TopHead from '../../../components/TopHead/TopHead.vue'
+import QuickPager from '../../../components/QuickPager/QuickPager.vue'
+import CalculateBox from './components/CalculateBox.vue'
+import {OPEN_ERROR_TIP_BOX, OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
 
 
-  export default {
-    name: 'StaffFinance',
-    components: {TopHead, QuickPager},
-    data() {
-      return {
-        year: '', // 年份
-        month: '', // 月份
-        day: '', // 天数
-        current: '', // 当前时间
-        weekList: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-        monthDay: [31, '', 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-        activeDay: '', // 选中的日期
-        spaceDay: '', // 每个月第一天是星期几
-        February: '' // 判断2月份的天数
+export default {
+  components: {TopHead, QuickPager, CalculateBox},
+  data() {
+    return {
+      searchValue: '',
+      staffName: '',
+      staffCode: '',
+      showCalculateBox: false,
+      orderItems: [],
+      type: 1, // 提成方式 1， 2， 3， 4
+      gross: 0, // 所有订单金额总和
+      cost: 0, // 所有订单的成本
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      date: '',
+      startDate: '',
+      endDate: '',
+    }
+  },
+  watch: {
+    date(n, o) {
+      this.startDate = n[0]
+      this.endDate = n[1]
+    }
+  },
+  methods: {
+    search() {
+      if (!this.date) {
+        this.$store.commit(OPEN_ERROR_TIP_BOX, '请选择时间')
+        return
       }
-    },
-    created() {
-      this.current = new Date()
-      this.getTheCurrentDate()
-      this.getMonthFisrtDay()
-      this.February = this.isLeapYear(this.year) ? 28 : 29
-      this.monthDay.splice(1, 1, this.February)
-    },
-    watch: {
-      month() {
-        if (this.month > 12 || this.month < 1) {
-          console.log('请输入正确月份')
-          return
-        }
-        this.getMonthFisrtDay()
-      },
-      year() {
-        this.getMonthFisrtDay()
+      if (!this.searchValue) {
+        this.$store.commit(OPEN_ERROR_TIP_BOX, '请输入查询条件')
+        return
       }
+      this.$http.post('/FinanceController/staffFinance', {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        searchValue: this.searchValue
+      }).then(res => {
+        const data = res.data
+        if (data.code === 0) {
+          this.staffName = data.data.staffName
+          this.staffCode = data.data.staffCode
+          this.gross = data.data.gross
+          this.cost = data.data.cost
+          this.orderItems = data.data.orderItems
+        } else {
+          this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
+        }
+      })
     },
-    methods: {
-      // 判断是否是闰年
-      isLeapYear(year) {
-        return year % 4 == 0
-      },
-      // 选取特定天数
-      setDay(idx) {
-        this.activeDay = idx
-        this.day = idx + 1
-        console.log('选择的日期是' + this.year + ' ' + this.month + ' ' + this.day)
-      },
-      // 判断月份的第一天是星期几
-      getMonthFisrtDay() {
-        var firstDayOfCurrentMonth = new Date(this.year, this.month - 1, 1) // 某年某月的第一天
-        if (firstDayOfCurrentMonth.getDay() == 0) {
-          this.spaceDay = 6
-        } else {
-          this.spaceDay = firstDayOfCurrentMonth.getDay() - 1
-        }
-      },
-      // 获取当前的日期
-      getTheCurrentDate() {
-        this.year = this.current.getFullYear()
-        this.month = this.current.getMonth() + 1
-        this.day = this.current.getDate()
-      },
-      prev() {
-        if (this.month == 1) {
-          this.year--
-          this.month = 12
-        } else {
-          this.month--
-        }
-        this.activeDay = 0
-        this.getMonthFisrtDay()
-      },
-      next() {
-        if (this.month == 12) {
-          this.year++
-          this.month = 1
-        } else {
-          this.month++
-        }
-        this.activeDay = 0
-        this.getMonthFisrtDay()
-      }
+    calculate(type) {
+      this.type = type
+      this.showCalculateBox = true
     }
   }
+}
 </script>
 
 <style module lang="stylus" scoped>
-  .add-staff
-    width 100%
+.finance-manage
+  width 100%
 
   .title
     background-color #fff
@@ -134,6 +192,7 @@
     display flex
     align-items center
     justify-content space-between
+    font-weight normal !important
 
 
   .title-name
@@ -146,6 +205,7 @@
 
 
   .input-sty
+    margin-left 20px
     width 280px
     display flex
     height 40px
@@ -176,50 +236,60 @@
     font-weight 200
 
 
-  .list-container
+  .finance-container
     margin-top 20px
     background-color #fff
     border-radius 5px
+    display flex
+
+  .left-sec
+    padding 20px
+    width 200px
+    background-color #d0d0d0
+
+    > div
+      height 30px
+      line-height 30px
+
+  .right-sec
+    flex 1
+    padding 20px
 
   .list-title
-    height 50px
     display flex
-    line-height 50px
     background-color #f0f4f6
-    font-weight bold
-    font-size 14px
-
-  .list-content
-    height 560px
-    overflow-y auto
-    font-size 14px
-
-    &::-webkit-scrollbar
-      display none
+    height 50px
+    align-items center
 
   .list-item
     display flex
-    min-height 45px
-    /*line-height 45px*/
+    height 40px
     align-items center
-    border-bottom 1px solid #f0f0f0
-
-    > div
-      word-break break-all
-      overflow hidden
-      text-overflow ellipsis
-      white-space nowrap
 
     &:hover
       background-color #edf6f6
+
+  .col1
+    width 20%
+
+  .col2
+    width 20%
+
+  .col3
+    width 20%
 
 
   .padL10
     padding-left 10px
 
-  .delete-btn
+  .active
+    color dodgerblue
+    cursor pointer
+
+
+  .calculate-btn
     display inline-block
-    width 50px
+    width 70px
     height 30px
     color #3cb371
     text-align center
@@ -235,70 +305,26 @@
     text-overflow ellipsis
     white-space nowrap
 
-  .goods-item
-    height 25px
-    line-height 25px
-    width 100%
+  .finance-types
+    border-top 1px solid #d0d0d0
+    padding 20px 10px
 
-  #calender {
-    .txt-c {
-      text-align: center;
-    }
+  .type-item
+    height 40px
+    line-height 40px
 
-    .p-10 {
-      padding: 2rem;
-    }
+    > span
+      display inline-block
 
-    .p-5 {
-      padding: 1rem;
-    }
+      &:nth-child(1)
+        width 60px
 
-    .flex {
-      display: flex;
-    }
+  .formula
+    display inline-block
+    width 250px
 
-    .jc-sb {
-      justify-content: space-between;
-    }
+  .no-order
+    text-align center
 
-    input {
-      width: 50px;
 
-      &.month {
-        width: 30px;
-      }
-    }
-
-    .day {
-      flex-wrap: wrap;
-
-      p {
-        width: 14.28%;
-        /*flex: 0 0 0 ;*/
-        text-align: center;
-        line-height: 2.4rem;
-        height: 2.4rem;
-        position: relative;
-        z-index: 100;
-
-        &.active {
-          color: #fff;
-        }
-
-        &.active:before {
-          content: '';
-          height: 2.5rem;
-          width: 2.5rem;
-          position: absolute;
-          z-index: -1;
-          left: 0;
-          top: 0;
-          transform: translateX(50%);
-          border-radius: 50%;
-          background: #e97163;
-          color: #fff;
-        }
-      }
-    }
-  }
 </style>

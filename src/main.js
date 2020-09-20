@@ -14,7 +14,13 @@ import  './http/index.js'
 
 import store from './store'
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+
 import '../src/assets/icon/iconfont.css'
+
+Vue.use(ElementUI)
 
 import utils from './utils'
 Vue.prototype.$utils = utils
