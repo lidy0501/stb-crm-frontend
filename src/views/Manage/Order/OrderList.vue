@@ -92,6 +92,7 @@
           searchValue: this.searchValue,
           startIndex: this.page.startIndex
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.orderList = data.list
           this.page = data.page
@@ -113,6 +114,7 @@
           tipText: text,
           sureCallback: () => {
             this.$http.post(`/OrderController/changeOrderState/${order.orderId}/${state}`).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {

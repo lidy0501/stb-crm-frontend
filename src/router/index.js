@@ -137,11 +137,13 @@ Router.prototype.push = function replace(location, onResolve, onReject) {
 }
 
 
-
+// import glo_loading from '../loading/index' //loading组件的简单封装的简单封装
+// import {routerLoading} from '../config/load' //全局的页面跳转loading是否启用
 
 // 挂载导航守卫
 router.beforeEach((to, from, next) => {
-  console.log(1)
+  //routerLoading ? glo_loading.loadingShow() : '' //如果全局启用页面跳转则加载loading
+
   // to 将要访问
   // from 从哪访问
   // next 接着干的事   next(url) 重定向到url上，    next() 是继续访问to路径
@@ -150,6 +152,7 @@ router.beforeEach((to, from, next) => {
   const staff = window.sessionStorage.getItem('staff') //取出员工信息
   if (!staff) return next('/login') // 无值，返回登录页
   next() // 符合要求放行
+  //routerLoading ? glo_loading.loadingHide() : ''//关闭loading层
 })
 
 export default router

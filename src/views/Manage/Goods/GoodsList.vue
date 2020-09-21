@@ -57,6 +57,7 @@
         this.$http.post('/GoodsController/queryAllGoods', {
           page: this.page
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.goodsList = data.list
           this.page = data.page
@@ -74,6 +75,7 @@
           tipText: '确定要删除' + goods.goodsName + '吗？',
           sureCallback: () => {
             this.$http.post('/GoodsController/deleteGoodsById/' + goods.goodsId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               if (data.code === 0) {
                 this.$store.commit(OPEN_TOAST, data.message)

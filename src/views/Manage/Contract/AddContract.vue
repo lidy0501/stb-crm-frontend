@@ -110,6 +110,7 @@
         this.$http.post('/ContractController/queryOrdersByLikeCode?orderCode=' + this.orderCode).then(res => {
           const data = res.data
           this.orderList = data
+          this.$glo_loading.loadingHide()
         })
       }, 500),
       selectOrder(order) {
@@ -121,8 +122,6 @@
         this.$router.go(-1)
       },
       save() {
-        // if (!this.canOperate) return
-        // this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
@@ -136,13 +135,11 @@
           orderCode: this.orderCode,
           orderPrice: this.orderPrice * 100
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           if (data.code === 0) {
             this.$store.commit(OPEN_TOAST, data.message)
-            setTimeout(() => {
-              this.$router.push('/manage/contract-list')
-              this.canOperate = true
-            }, 2100)
+            this.$router.push('/manage/contract-list')
           } else {
             this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
           }

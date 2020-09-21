@@ -59,6 +59,7 @@
         const {staffCode, password} = this
         // if (staffCode !== 'A000') return // todo 记得放开
         this.$http.post('/LoginController/login', {staffCode, password}).then(res => {
+          _this.$glo_loading.loadingHide()
           // const token = res.headers['authorization']
           // _this.$store.commit('SET_TOKEN', token)
           if (res.data.code === 0) {
@@ -75,7 +76,6 @@
 
             _this.SET_STAFF_NAME(staff.staffName)
             _this.SET_TOKEN(staff.staffId)
-
             _this.$router.replace('manage')
           } else {
             _this.errorTip = res.data.message

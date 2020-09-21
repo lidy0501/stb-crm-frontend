@@ -87,6 +87,7 @@
           searchValue: this.searchValue,
           startIndex: this.page.startIndex
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.userList = data.list
           this.page = data.page
@@ -115,12 +116,11 @@
           tipText: '确定要删除' + user.userName + '吗？',
           sureCallback: () => {
             this.$http.post('/UserController/deleteUserById/' + user.userId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {
-                setTimeout(() => {
-                  this.init()
-                }, 2100)
+                this.init()
               }
             })
           }
@@ -131,12 +131,11 @@
           tipText: '确定要认领' + user.userName + '吗？',
           sureCallback: () => {
             this.$http.post('/UserController/receiveUser/' + user.userId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {
-                setTimeout(() => {
-                  this.init()
-                }, 2100)
+                this.init()
               }
             })
           }

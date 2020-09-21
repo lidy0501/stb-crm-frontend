@@ -136,7 +136,6 @@
         saveFlag: '',
         errorTips: [],
         userList: [],
-        canOperate: true, // 可以操作
         options: [{code: '1', name: '商品1'}, {code: '2', name: '商品2'}, {code: '3', name: '商品3'}],
         goodsList: [{goodsId: '', amount: 0}]
       }
@@ -169,6 +168,7 @@
       },
       queryAllSelectGoodsVo() {
         this.$http.post('/OrderController/queryAllSelectGoodsVo').then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.options = data.map(x => {
             return {code: x.goodsId, name: x.goodsName + ' 单位：' + x.skuUnit + ' 花色' + x.skuColor}
@@ -215,8 +215,6 @@
           return
         }
 
-        if (!this.canOperate) return
-        this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
@@ -239,8 +237,8 @@
           if (data.code === 0) {
             this.$store.commit(OPEN_TOAST, data.message)
             setTimeout(() => {
+              this.$glo_loading.loadingHide()
               this.$router.push('/manage/order-list')
-              this.canOperate = true
             }, 2100)
           } else {
             this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
@@ -317,6 +315,7 @@
         this.showUserBox = true
         if (!this.userName) return
         this.$http.post('/OrderController/selectAllUserVoLikeUserName/' + this.userName).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.userList = data
         })

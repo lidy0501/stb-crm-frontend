@@ -52,6 +52,7 @@
         this.$http.post('/StaffController/queryAllStaff').then(res => {
           const data = res.data
           this.staffList = data
+          this.$glo_loading.loadingHide()
         })
       },
       editStaff(item) {
@@ -63,6 +64,7 @@
           sureCallback: () => {
             this.$http.post('/StaffController/deleteStaffById/' + staff.staffId).then(res => {
               const data = res.data
+              this.$glo_loading.loadingHide()
               this.$store.commit(OPEN_TOAST, data.message)
               this.init()
             })

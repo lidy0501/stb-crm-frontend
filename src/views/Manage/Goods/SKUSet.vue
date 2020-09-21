@@ -70,6 +70,7 @@
     methods: {
       init() {
         this.$http.post('/GoodsController/querySkuList').then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.oldSkuList = data
         })
@@ -82,6 +83,7 @@
             tipText: '确定要删除该SKU吗？',
             sureCallback: () => {
               this.$http.get('/GoodsController/deleteSkuById/' + this.oldSkuList[index].skuId).then(res => {
+                this.$glo_loading.loadingHide()
                 const data = res.data
                 if (data.code === 0) {
                   this.$store.commit(OPEN_TOAST, '删除成功')
@@ -113,6 +115,7 @@
           return
         }
         this.$http.post('/GoodsController/addSku', this.newSkuList).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           if (data.code === 0) {
             this.$store.commit(OPEN_TOAST, '保存成功')

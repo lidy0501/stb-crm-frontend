@@ -112,6 +112,7 @@
     methods: {
       init() {
         this.$http.post('/UserController/selectUserByUserId/' + this.userId).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           Object.assign(this, data)
         })
@@ -120,8 +121,6 @@
         this.$router.go(-1)
       },
       save() {
-        if (!this.canOperate) return
-        this.canOperate = false
         this.saveFlag = true
         this.validateInfo()
         if (!this.saveFlag) return
@@ -139,13 +138,11 @@
           userEmail: this.userEmail,
           remark: this.remark
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.$store.commit(OPEN_TOAST, data.message)
           if (data.code === 0) {
-            setTimeout(() => {
-              this.$router.push('private-user-list')
-              this.canOperate = true
-            }, 2100)
+            this.$router.push('private-user-list')
           }
         })
       },
@@ -210,7 +207,7 @@
         } else {
           this.$set(this.errorTips, 9, '')
         }
-        this.$forceUpdate
+        this.$forceUpdate()
       }
     },
   }

@@ -79,6 +79,7 @@
           this.userList = data.list
           this.page = data.page
           this.page.currentPage = Math.floor(data.page.startIndex / data.page.pageRows) + 1
+          this.$glo_loading.loadingHide()
         })
       },
       search() {
@@ -103,12 +104,11 @@
           tipText: '确定要删除' + user.userName + '吗？',
           sureCallback: () => {
             this.$http.post('/UserController/deleteUserById/' + user.userId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {
-                setTimeout(() => {
-                  this.init()
-                }, 2100)
+                this.init()
               }
             })
           }
@@ -119,12 +119,11 @@
           tipText: '确定要将' + user.userName + '移至公共区吗？',
           sureCallback: () => {
             this.$http.post('/UserController/changeUserType/' + user.userId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               this.$store.commit(OPEN_TOAST, data.message)
               if (data.code === 0) {
-                setTimeout(() => {
-                  this.init()
-                }, 2100)
+                this.init()
               }
             })
           }

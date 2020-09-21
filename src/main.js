@@ -17,6 +17,12 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import glo_loading from './loading/index' //loading组件的简单封装
+import {routerLoading, apiLoading} from './config/load' //全局的页面跳转loading是否启用
+Vue.prototype.$glo_loading = glo_loading
+Vue.prototype.$routerLoading = routerLoading
+Vue.prototype.$apiLoading = apiLoading
+
 
 import '../src/assets/icon/iconfont.css'
 

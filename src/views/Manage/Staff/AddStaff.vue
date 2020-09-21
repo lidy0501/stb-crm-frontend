@@ -102,13 +102,15 @@
           remark: this.remark,
           rightVoList: this.staffRights
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.$store.commit(OPEN_TOAST, data.message)
           this.canOperate = true
           if (data.code === 0) {
-            setTimeout(() => {
-              this.$router.push('/manage/staff-list')
-            }, 2100)
+            this.$router.push('/manage/staff-list')
+            // setTimeout(() => {
+            //   this.$router.push('/manage/staff-list')
+            // }, 2100)
           }
         })
       },
@@ -116,6 +118,7 @@
         this.$http.post('/RightController/getAll').then(res => {
           const data = res.data
           this.rights = data
+          this.$glo_loading.loadingHide()
         })
       },
       initStaffInfo() {
@@ -129,6 +132,7 @@
           this.staffEmail = data.staffEmail
           this.remark = data.remark
           this.staffRights = data.rightVoList
+          this.$glo_loading.loadingHide()
         })
       },
       validateInfo() {

@@ -89,6 +89,7 @@
           startIndex: this.page.startIndex,
           searchValue: this.searchValue
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.contractList = data.list
           this.page = data.page
@@ -103,6 +104,7 @@
           tipText: '确定要删除该合同吗？',
           sureCallback: () => {
             this.$http.post('/ContractController/deleteContract/' + contract.contractId).then(res => {
+              this.$glo_loading.loadingHide()
               const data = res.data
               if (data.code === 0) {
                 this.$store.commit(OPEN_TOAST, data.message)

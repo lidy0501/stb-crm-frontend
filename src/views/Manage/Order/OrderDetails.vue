@@ -134,6 +134,7 @@
       },
       init() {
         this.$http.post('/OrderController/selectOrderByOrderId/' + this.orderId).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           Object.assign(this, data)
           this.totalFee /= 100.0
@@ -156,12 +157,12 @@
           payRecord: this.payRecord,
           remark: this.remark
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           if (data.code === 0) {
             this.$store.commit(OPEN_TOAST, '保存成功')
             setTimeout(() => {
               this.$router.go(-1)
-              this.canOperate = true
             }, 2100)
           } else {
             this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)

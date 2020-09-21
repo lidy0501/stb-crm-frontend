@@ -43,6 +43,7 @@
       getLeftRight() {
         this.$http.post('/LoginController/getRight').then(res => {
           this.rightList = res.data
+          this.$glo_loading.loadingHide()
         })
       },
       loginOut() {
@@ -56,6 +57,7 @@
                 // window.sessionStorage.clear() // 清楚session
                 // window.localStorage.clear()
                 _this.REMOVE_INFO()
+                this.$glo_loading.loadingHide()
                 _this.$router.replace('/login')
               }
             })

@@ -92,7 +92,7 @@
 import TopHead from '../../../components/TopHead/TopHead.vue'
 import QuickPager from '../../../components/QuickPager/QuickPager.vue'
 import CalculateBox from './components/CalculateBox.vue'
-import {OPEN_ERROR_TIP_BOX, OPEN_TIP_OPERATE_BOX, OPEN_TOAST} from '../../../store/constants/home'
+import {OPEN_ERROR_TIP_BOX} from '../../../store/constants/home'
 
 
 export default {
@@ -160,6 +160,7 @@ export default {
         endDate: this.endDate,
         searchValue: this.searchValue
       }).then(res => {
+        this.$glo_loading.loadingHide()
         const data = res.data
         if (data.code === 0) {
           this.staffName = data.data.staffName

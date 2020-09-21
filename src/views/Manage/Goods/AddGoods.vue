@@ -67,6 +67,7 @@
       },
       querySkuList() {
         this.$http.post('/GoodsController/querySkuList').then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           let list = data
           this.skuList = list.map(x => {
@@ -92,6 +93,7 @@
           skuId: this.skuId,
           remark: this.remark
         }).then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           if (data.code === 0) {
             this.$store.commit(OPEN_TOAST, '保存成功')
@@ -128,7 +130,7 @@
         } else {
           this.$set(this.errorTips, 3, '')
         }
-        this.$forceUpdate
+        this.$forceUpdate()
       }
     }
   }
