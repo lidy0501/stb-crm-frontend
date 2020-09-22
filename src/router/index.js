@@ -155,8 +155,8 @@ router.beforeEach((to, from, next) => {
   // next 接着干的事   next(url) 重定向到url上，    next() 是继续访问to路径
   if (to.path === '/login') return next();
   // 获取staff
-  const staff = window.sessionStorage.getItem('staff') //取出员工信息
-  if (!staff) return next('/login') // 无值，返回登录页
+  const token = window.localStorage.getItem('token') //取出员工信息
+  if (!token) return next('/login') // 无值，返回登录页
   next() // 符合要求放行
   //routerLoading ? glo_loading.loadingHide() : ''//关闭loading层
 })

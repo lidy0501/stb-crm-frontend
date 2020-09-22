@@ -21,8 +21,8 @@ const mutations = {
     localStorage.setItem('token', '')
     sessionStorage.setItem('staff', JSON.stringify(''))
     localStorage.setItem('staffName', '')
-    localStorage.clear() // 不知道要不要
-    sessionStorage.clear() // 不知道要不要
+    // localStorage.clear() // 不知道要不要 请谨慎使用,它会清空所有的本地存储数据
+    // sessionStorage.clear() // 不知道要不要 请谨慎使用,它会清空所有的本地存储数据
     localStorage.removeItem('token')
     localStorage.removeItem('staffName')
     sessionStorage.removeItem('staff')

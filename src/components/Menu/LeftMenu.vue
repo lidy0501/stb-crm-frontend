@@ -6,6 +6,7 @@
         <span>欢迎 {{staffName}}</span>
         <i class="iconfont icon-tuichu" @click="loginOut"></i>
       </div>
+      <div class="user-introduce" @click="$router.push('system-introduction')">使用说明</div>
       <div class="third-sec">
         <div v-for="(item, index) in rightList" :key="index">
           <MenuItem :right="item"></MenuItem>
@@ -83,6 +84,17 @@
     text-align center
     font-size 20px
     font-weight bold
+
+  .user-introduce
+    color #fff
+    padding-left 20px
+    cursor pointer
+    height 40px
+    line-height 40px
+
+    &:hover
+      color #dcdcdc
+      background-color rgba(#dcdcdc, 0.09)
 
   .second-sec
     color #fff
