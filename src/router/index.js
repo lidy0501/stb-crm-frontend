@@ -22,6 +22,7 @@ import FinanceManage from '../views/Manage/Finance/FinanceManage.vue'
 import AddContract from '../views/Manage/Contract/AddContract.vue'
 import ContractList from '../views/Manage/Contract/ContractList.vue'
 import DownloadTemplate from '../views/Manage/Contract/DownloadTemplate.vue'
+import SystemIntroduction from '../views/Manage/SystemIntroduction.vue'
 
 export const routerMap = [
   {
@@ -120,6 +121,11 @@ export const routerMap = [
         name: 'DownloadTemplate',
         path: 'download-template',
         component: DownloadTemplate
+      },
+      {
+        name: 'SystemIntroduction',
+        path: 'system-introduction',
+        component: SystemIntroduction
       }
     ]
   }
