@@ -147,6 +147,8 @@ export default {
   },
   methods: {
     search() {
+      this.staffName = ''
+      this.staffCode = ''
       if (!this.date) {
         this.$store.commit(OPEN_ERROR_TIP_BOX, '请选择时间')
         return
@@ -168,8 +170,12 @@ export default {
           this.gross = data.data.gross
           this.cost = data.data.cost
           this.orderItems = data.data.orderItems
-        } else {
-          this.$store.commit(OPEN_ERROR_TIP_BOX, data.message)
+        } else if (data.code === -1) {
+          this.$store.commit(OPEN_ERROR_TIP_BOX, '未找到该员工，请重新搜索！')
+        } else if (data.code === -2) {
+          this.$store.commit(OPEN_ERROR_TIP_BOX, '该员工暂无订单')
+          this.staffName = data.data.staffName
+          this.staffCode = data.data.staffCode
         }
       })
     },
