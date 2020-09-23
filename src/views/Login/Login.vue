@@ -43,6 +43,9 @@
     component: {
       ...mapGetters(['staff'])
     },
+    mounted() {
+      console.log(process.env.NODE_ENV)
+    },
     methods: {
       ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME', 'SET_TOKEN']),
       clearTip() {
