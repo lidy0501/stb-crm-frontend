@@ -72,11 +72,15 @@ export default {
   components: {TopHead},
   methods: {
     downFile(name) {
+      console.log('process.env.NODE_ENV==' + process.env.NODE_ENV)
       if (process.env.NODE_ENV === 'development') {
+        console.log(1)
         location.href = 'http://localhost:9911/crm/TemplateController/downLoadTest?template=' + name
       } else if (process.env.NODE_ENV === 'none') { // 测试
+        console.log(2)
         location.href = 'http://47.114.140.213:9911/crm/TemplateController/downLoadTest?template=' + name
       } else if (process.env.NODE_ENV === 'production') {
+        console.log(3)
         location.href = 'http://stbcrm.top:9911/crm/TemplateController/downLoadTest?template=' + name
       }
     }
