@@ -6,7 +6,7 @@
         <span>欢迎 {{staffName}}</span>
         <i class="iconfont icon-tuichu" @click="loginOut"></i>
       </div>
-      <div class="user-introduce" @click="$router.push('/manage/system-introduction')">使用说明</div>
+      <div class="user-introduce" @click="$router.push(`${introductionUrl}`)">使用说明</div>
       <div class="third-sec">
         <div v-for="(item, index) in rightList" :key="index">
           <MenuItem :right="item"></MenuItem>
@@ -33,6 +33,7 @@
     data() {
       return {
         rightList: [],
+        introductionUrl: '/manage/system-introduction',
         staffName: window.localStorage.getItem('staffName')
       }
     },
