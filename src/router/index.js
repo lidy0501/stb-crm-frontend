@@ -44,6 +44,11 @@ export const routerMap = [
     component: Login
   },
   {
+    name: 'SystemIntroduction',
+    path: '/system-introduction',
+    component: SystemIntroduction
+  },
+  {
     name: 'manage',
     path: '/manage',
     component:Manage,
@@ -121,11 +126,6 @@ export const routerMap = [
         name: 'DownloadTemplate',
         path: 'download-template',
         component: DownloadTemplate
-      },
-      {
-        name: 'SystemIntroduction',
-        path: 'system-introduction',
-        component: SystemIntroduction
       }
     ]
   }
