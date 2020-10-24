@@ -2,7 +2,8 @@
   <div class="login-container">
     <div class="login-body">
       <div class="left-sec">
-        CRM 系统登录
+        <div class="sys-name">CRM 系统登录</div>
+        <img v-bind:src="logoUrl">
       </div>
       <div class="right-sec">
         <div class="login-tip">请输入登录信息</div>
@@ -30,6 +31,7 @@
 
 <script>
   import {mapGetters, mapMutations} from 'vuex'
+  import logoUrl from './logo.jpg'
 
   export default {
     name: 'Login',
@@ -37,7 +39,8 @@
       return {
         staffCode: '',
         password: '',
-        errorTip: ''
+        errorTip: '',
+        logoUrl: logoUrl
       }
     },
     component: {
@@ -45,6 +48,7 @@
     },
     mounted() {
       console.log(process.env.NODE_ENV)
+      console.log(this.logoUrl)
     },
     methods: {
       ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME', 'SET_TOKEN']),
@@ -98,28 +102,33 @@
   .login-body
     width 100%
     height 100%
-    background-image url('../../assets/images/bg_login.jpg')
-    background-attachment fixed
-    background-repeat no-repeat
-    background-position center center
-    background-size cover
+    /*background-image url('../../assets/images/bg_login.jpg')*/
+    /*background-attachment fixed*/
+    /*background-repeat no-repeat*/
+    /*background-position center center*/
+    /*background-size cover*/
     display flex
 
   .left-sec
     width 50%
-    color #fff
-    text-align center
-    font-size 50px
-    line-height 400px
+    // line-height 400px
 
+  .sys-name
+    height 50px
+    line-height 50px
+    font-size 30px
+    font-weight bold
+    text-align center
+    margin-top 50px
 
   .right-sec
     background-color #fff
     width 400px
     height 360px
     margin auto 0
+    border 1px solid #e5e5e5
     border-radius 10px
-    box-shadow 5px 5px 5px #666
+    // box-shadow 5px 5px 5px #666
 
   .login-tip
     text-align center
