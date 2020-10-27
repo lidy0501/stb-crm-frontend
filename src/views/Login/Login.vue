@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
+    <div class="sys-name">CRM 系统登录</div>
     <div class="login-body">
       <div class="left-sec">
-        <div class="sys-name">CRM 系统登录</div>
         <img v-bind:src="logoUrl">
       </div>
       <div class="right-sec">
@@ -101,7 +101,7 @@
 
   .login-body
     width 100%
-    height 100%
+    //height 100%
     /*background-image url('../../assets/images/bg_login.jpg')*/
     /*background-attachment fixed*/
     /*background-repeat no-repeat*/
@@ -111,11 +111,12 @@
 
   .left-sec
     width 50%
+    padding-left 10%
     // line-height 400px
 
   .sys-name
-    height 50px
-    line-height 50px
+    height 140px
+    line-height 140px
     font-size 30px
     font-weight bold
     text-align center
@@ -125,7 +126,7 @@
     background-color #fff
     width 400px
     height 360px
-    margin auto 0
+    margin-top 70px
     border 1px solid #e5e5e5
     border-radius 10px
     // box-shadow 5px 5px 5px #666
