@@ -100,7 +100,7 @@
         this.newSkuList.push({skuId: '', skuCode: '', skuUnit: '', skuColor: ''});
       },
       goBack() {
-        this.$route.go(-1)
+        this.$router.go(-1)
       },
       save() {
         this.errorTip = ''
