@@ -1,30 +1,40 @@
 <template>
   <div class="login-container">
-    <div class="sys-name">CRM 系统登录</div>
     <div class="login-body">
-      <div class="left-sec">
-        <img v-bind:src="logoUrl">
-      </div>
-      <div class="right-sec">
-        <div class="login-tip">请输入登录信息</div>
-        <div class="login-info">
-          <div class="account">
-            <div class="icon-box">
-              <i class="iconfont icon-zhanghao"></i>
-            </div>
-            <input type="text" placeholder="请输入账号" v-model.trim="staffCode" @focus="clearTip">
+      <div class="core">
+        <div class="first-layer">
+          <img :src="logoUrl2" alt="">
+          <div>奥功电能系统登录</div>
+        </div>
+        <div class="second-layer">
+          <div class="left-sec">
+            <img v-bind:src="logoUrl">
           </div>
+          <div class="right-sec">
+            <div class="login-tip">请输入登录信息</div>
+            <div class="login-info">
+              <div class="account">
+                <div class="icon-box">
+                  <i class="iconfont icon-zhanghao"></i>
+                </div>
+                <input type="text" placeholder="请输入账号" v-model.trim="staffCode" @focus="clearTip">
+              </div>
 
-          <div class="password">
-            <div class="icon-box">
-              <i class="iconfont icon-mima"></i>
+              <div class="password">
+                <div class="icon-box">
+                  <i class="iconfont icon-mima"></i>
+                </div>
+                <input type="password" placeholder="请输入密码" v-model.trim="password" @focus="clearTip">
+              </div>
             </div>
-            <input type="password" placeholder="请输入密码" v-model.trim="password" @focus="clearTip">
+            <div class="error-tip">{{errorTip}}</div>
+            <div class="login-btn" @click="login">登录</div>
           </div>
         </div>
-        <div class="error-tip">{{errorTip}}</div>
-        <div class="login-btn" @click="login">登录</div>
+
+
       </div>
+
     </div>
    </div>
 </template>
@@ -32,6 +42,7 @@
 <script>
   import {mapGetters, mapMutations} from 'vuex'
   import logoUrl from './logo.jpg'
+  import logoUrl2 from './logo2.png'
 
   export default {
     name: 'Login',
@@ -40,7 +51,9 @@
         staffCode: '',
         password: '',
         errorTip: '',
-        logoUrl: logoUrl
+        logoUrl: logoUrl,
+        logoUrl2: logoUrl2
+
       }
     },
     component: {
@@ -109,18 +122,28 @@
     /*background-size cover*/
     display flex
 
-  .left-sec
-    width 50%
-    padding-left 10%
-    // line-height 400px
+  .core
+    margin 0 auto
 
-  .sys-name
-    height 140px
-    line-height 140px
-    font-size 30px
-    font-weight bold
-    text-align center
-    margin-top 50px
+  .first-layer
+    display flex
+    margin-top 20px
+
+    > img
+      margin-left 80px
+      width 200px
+
+    > div
+      font-size 40px
+      line-height 73px
+      margin-left 20px
+
+  .second-layer
+    display flex
+
+  .left-sec
+    /*width 50%*/
+    /*padding-left 10%*/
 
   .right-sec
     background-color #fff
