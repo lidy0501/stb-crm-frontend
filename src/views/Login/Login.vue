@@ -32,8 +32,8 @@
           </div>
         </div>
         <div class="third-layer">
-          <div>江苏奥功电能科技有限公司 www.ag-elec.com</div>
-          <div>南京慧软将略信息技术有限公司为平台提供技术支持。</div>
+          <div>江苏奥功电能科技有限公司 www.ag-elec.com | 皖ICP备20013711号</div>
+          <div>南京慧软将略信息技术有限公司，为平台提供技术支持。</div>
         </div>
 
       </div>
@@ -146,7 +146,7 @@
   .second-layer
     margin-top 20px
     display flex
-    background-color #ccc
+    background rgba(0, 0, 0, 0.05)
     padding 20px 0 20px 10px
     border-radius 20px
 
@@ -223,7 +223,7 @@
     margin-top 20px
     > div
       &:nth-child(1)
-        padding-left 20%
+        text-align center
 
       &:nth-child(2)
         text-align center
