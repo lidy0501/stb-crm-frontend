@@ -4,7 +4,7 @@
       <div class="core">
         <div class="first-layer">
           <img :src="logoUrl2" alt="">
-          <div>奥功电能系统登录</div>
+          <div>欢迎登录</div>
         </div>
         <div class="second-layer">
           <div class="left-sec">
@@ -31,7 +31,10 @@
             <div class="login-btn" @click="login">登录</div>
           </div>
         </div>
-
+        <div class="third-layer">
+          <div>江苏奥功电能科技有限公司 www.ag-elec.com</div>
+          <div>南京慧软将略信息技术有限公司为平台提供技术支持。</div>
+        </div>
 
       </div>
 
@@ -134,12 +137,18 @@
       width 200px
 
     > div
-      font-size 40px
-      line-height 73px
-      margin-left 20px
+      font-size 18px
+      margin-left 10px
+      display flex
+      flex-direction column
+      justify-content flex-end
 
   .second-layer
+    margin-top 20px
     display flex
+    background-color #ccc
+    padding 20px 0 20px 10px
+    border-radius 20px
 
   .left-sec
     /*width 50%*/
@@ -148,13 +157,15 @@
   .right-sec
     background-color #fff
     width 400px
-    height 360px
-    margin-top 70px
+    height 480px
     border 1px solid #e5e5e5
-    border-radius 10px
+    border-top-left-radius 10px
+    border-bottom-left-radius 10px
     // box-shadow 5px 5px 5px #666
+    margin-left 20px
 
   .login-tip
+    margin-top 20px
     text-align center
     height 80px
     line-height 80px
@@ -207,6 +218,15 @@
     text-align center
     border-radius 5px
     cursor pointer
+
+  .third-layer
+    margin-top 20px
+    > div
+      &:nth-child(1)
+        padding-left 20%
+
+      &:nth-child(2)
+        text-align center
 
 
 </style>

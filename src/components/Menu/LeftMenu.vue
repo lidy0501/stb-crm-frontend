@@ -1,7 +1,7 @@
 <template>
   <div class="left-menu">
     <div class="content">
-      <div class="first-sec">CRM 管理系统</div>
+      <div class="first-sec">客户关系管理系统</div>
       <div class="second-sec">
         <span>欢迎 {{staffName}}</span>
         <i class="iconfont icon-tuichu" @click="loginOut"></i>
