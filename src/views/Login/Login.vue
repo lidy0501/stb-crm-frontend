@@ -31,13 +31,14 @@
             <div class="login-btn" @click="login">登录</div>
           </div>
         </div>
-        <div class="third-layer">
-          <div>江苏奥功电能科技有限公司 www.ag-elec.com | 皖ICP备20013711号</div>
-          <div>南京慧软将略信息技术有限公司，为平台提供技术支持。</div>
-        </div>
+
 
       </div>
 
+    </div>
+    <div class="footer-box">
+      <div>江苏奥功电能科技有限公司 www.ag-elec.com | 皖ICP备20013711号</div>
+      <div>南京慧软将略信息技术有限公司，为平台提供技术支持。</div>
     </div>
    </div>
 </template>
@@ -55,16 +56,23 @@
         password: '',
         errorTip: '',
         logoUrl: logoUrl,
-        logoUrl2: logoUrl2
-
+        logoUrl2: logoUrl2,
+        screenWidth: ''
       }
     },
     component: {
-      ...mapGetters(['staff'])
+      ...mapGetters(['staff']),
+      screenWidth () {
+        return document.body.clientWidth + 'px'
+      }
     },
-    mounted() {
+    created() {
       console.log(process.env.NODE_ENV)
-      console.log(this.logoUrl)
+      this.$nextTick(() => {
+        this.screenWidth = document.body.clientWidth + 'px'
+      } )
+      console.log('width ====' + document.body.clientWidth)
+
     },
     methods: {
       ...mapMutations(['SET_STAFF', 'SET_STAFF_NAME', 'SET_TOKEN']),
@@ -133,7 +141,7 @@
     margin-top 20px
 
     > img
-      margin-left 80px
+      margin-left 50px
       width 200px
 
     > div
@@ -146,8 +154,8 @@
   .second-layer
     margin-top 20px
     display flex
-    background rgba(0, 0, 0, 0.05)
-    padding 20px 0 20px 10px
+    background rgba(0, 0, 0, 0.02)
+    padding 20px 10px 20px 10px
     border-radius 20px
 
   .left-sec
@@ -219,8 +227,12 @@
     border-radius 5px
     cursor pointer
 
-  .third-layer
+  .footer-box
     margin-top 20px
+    border-top 1px solid gray
+    position relative
+    padding-top 20px
+
     > div
       &:nth-child(1)
         text-align center
