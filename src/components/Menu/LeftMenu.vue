@@ -73,7 +73,7 @@
   .left-menu
     width 200px
     height 100%
-    background-color #008b8b
+    background-color #2875c3
     user-select none
     position relative
 
