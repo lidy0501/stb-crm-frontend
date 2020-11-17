@@ -12,10 +12,10 @@
           <MenuItem :right="item"></MenuItem>
         </div>
       </div>
-      <div class="fourth-sec">
-        <p>南京慧软将略信息技术有限公司</p>
-        <p>提供技术支持</p>
-      </div>
+<!--      <div class="fourth-sec">-->
+<!--        <p>南京慧软将略信息技术有限公司</p>-->
+<!--        <p>提供技术支持</p>-->
+<!--      </div>-->
     </div>
   </div>
 </template>
