@@ -55,7 +55,7 @@
     components: {TopHead, QuickPager, StaffBox},
     data() {
       return {
-        loginStaff: window.sessionStorage.getItem('staff'),
+        loginStaff: JSON.parse(window.sessionStorage.getItem('staff')),
         searchValue: '',
         showToast: false,
         showTipBox: false,
@@ -142,12 +142,13 @@
         })
       },
       distributionUser(user) {
-        if (+this.staff.staffType !== 0 || +this.staff.staffType === 1) { // 无权分配
+        if (+this.loginStaff.staffType !== 0 && +this.loginStaff.staffType !== 1) { // 无权分配
           this.$store.commit(OPEN_TOAST, '您无分配权限！')
           return
         }
         this.userId = user.userId
         this.$http.post('/StaffController/queryAllStaff').then(res => {
+          this.$glo_loading.loadingHide()
           const data = res.data
           this.staffList = data
           this.showStaffBox = true
