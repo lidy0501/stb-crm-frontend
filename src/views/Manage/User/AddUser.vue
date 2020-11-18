@@ -1,6 +1,6 @@
 <template>
   <div class="add-staff">
-    <top-head :title="'新增客户'"></top-head>
+    <top-head :title="userId ? '客户详情' : '新增客户'"></top-head>
     <div class="base-info">
       <div class="title">客户基本信息</div>
       <div class="item">
@@ -21,6 +21,14 @@
         <div v-else>{{nation}}</div>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
+
+      <div class="item">
+        <left-head class="margin-20" :left-title="'地区'" :necessary="true"></left-head>
+        <input v-if="!userId" placeholder="请输入客户所在地区" v-model="region"/>
+        <div v-else>{{region || '--'}}</div>
+        <span class="error-tip">{{errorTips[10]}}</span>
+      </div>
+
       <div class="item">
         <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
         <input v-if="!userId" placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30"/>
@@ -65,10 +73,10 @@
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
-        <textarea v-if="!userId" placeholder="请输入客户备注" v-model="remark"/>
-        <div v-else>{{remark || '--'}}</div>
+        <textarea placeholder="请输入客户备注" v-model="remark"/>
+        <!--<div v-else>{{remark || '&#45;&#45;'}}</div>-->
       </div>
-      <footer-btn @goBack="goBack" @save="save" :needSave="!userId"></footer-btn>
+      <footer-btn @goBack="goBack" @save="save"></footer-btn>
     </div>
   </div>
 </template>
@@ -101,7 +109,8 @@
         operatorId: '',
         saveFlag: true,
         errorTips: [],
-        canOperate: true
+        region: '', // 客户所在地区
+        fromUrl: '' // 从哪个页面过来的
       }
     },
     mounted() {
@@ -121,11 +130,13 @@
         this.$router.go(-1)
       },
       save() {
-        this.saveFlag = true
-        this.validateInfo()
-        if (!this.saveFlag) return
-
+        if (!this.userId) { // 新增才校验
+          this.saveFlag = true
+          this.validateInfo()
+          if (!this.saveFlag) return
+        }
         this.$http.post('/UserController/addUser', {
+          userId: this.userId,
           userCode: this.userCode,
           userName: this.userName,
           nation: this.nation,
@@ -136,13 +147,16 @@
           userPhone: this.userPhone,
           userTelephone: this.userTelephone,
           userEmail: this.userEmail,
-          remark: this.remark
+          remark: this.remark,
+          region: this.region
         }).then(res => {
           this.$glo_loading.loadingHide()
           const data = res.data
           this.$store.commit(OPEN_TOAST, data.message)
           if (data.code === 0) {
-            this.$router.push('private-user-list')
+            let url = '/manage/private-user-list'
+            if (this.fromUrl.indexOf('public') >= 0) url = '/manage/public-user-list'
+            this.$router.push(url)
           }
         })
       },
@@ -207,9 +221,23 @@
         } else {
           this.$set(this.errorTips, 9, '')
         }
+        if (!this.region) {
+          this.$set(this.errorTips, 10, '地区不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 10, '')
+        }
         this.$forceUpdate()
       }
     },
+
+    beforeRouteEnter (to, from, next) {
+      //在next中写处理函数
+      next(vm => {
+        vm.fromUrl = from.path
+        console.log(vm.fromUrl)
+      })
+    }
   }
 </script>
 

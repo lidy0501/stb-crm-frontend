@@ -5,22 +5,23 @@
       <div class="search-box">
         <div class="input-sty">
           <i class="iconfont icon-sousuo"></i>
-          <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司"/>
+          <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司/地区"/>
         </div>
         <div class="btn-search" @click="search">查询</div>
       </div>
     </div>
     <div class="list-container">
       <div class="list-title">
-        <span class="col1 padL10">客户编码</span>
-        <span class="col2">客户姓名</span>
-        <span class="col3">客户手机号</span>
-        <span class="col4">客户邮箱</span>
-        <span class="col5">所属公司</span>
-        <span class="col6">公司职位</span>
-        <span class="col7">跟进人</span>
-        <span class="col8">跟进天数</span>
-        <span class="col9">操作</span>
+        <span class="col1 padL10">编码</span>
+        <span class="col2">姓名</span>
+        <span class="col3">手机号</span>
+        <span class="col4">邮箱</span>
+        <span class="col5">公司</span>
+        <span class="col6">地区</span>
+        <span class="col7">职位</span>
+        <span class="col8">跟进人</span>
+        <span class="col9">跟进天数</span>
+        <span class="col10">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in userList" :key="item.userId">
@@ -29,10 +30,11 @@
           <span class="col3">{{item.userPhone || '--'}}</span>
           <span class="col4" :title="item.userEmail">{{item.userEmail || '--'}}</span>
           <span class="col5" :title="item.company">{{item.company || '--'}}</span>
-          <span class="col6" :title="item.post">{{item.post || '--'}}</span>
-          <span class="col7">{{item.operatorName}}</span>
-          <span class="col8">{{item.followDays}}</span>
-          <span class="col9">
+          <span class="col6" :title="item.region">{{item.region || '--'}}</span>
+          <span class="col7" :title="item.post">{{item.post || '--'}}</span>
+          <span class="col8">{{item.operatorName}}</span>
+          <span class="col9">{{item.followDays}}</span>
+          <span class="col10">
             <span class="common-btn margR5" @click="$router.push(`add-user/${item.userId}`)">详情</span>
             <span class="common-btn margR5" @click="changeUserType(item)">公有化</span>
             <span class="common-btn" @click="deleteUser(item)">删除</span>
@@ -223,13 +225,13 @@
 
 
   .col1
-    width 8%
+    width 6%
 
   .col2
     width 10%
 
   .col3
-    width 12%
+    width 10%
 
   .col4
     width 13%
@@ -238,7 +240,7 @@
     width 13%
 
   .col6
-    width 12%
+    width 10%
 
   .col7
     width 5%
@@ -246,8 +248,8 @@
   .col8
     width 7%
 
-  /*.col9*/
-  /*  width 15%*/
+  .col9
+    width 7%
 
 
   .padL10
