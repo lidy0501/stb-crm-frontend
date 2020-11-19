@@ -18,11 +18,29 @@
         <input placeholder="请输入销售单价" v-model="goodsPrice" @input="inputMoney(goodsPrice)"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>
+
       <div class="item">
-        <left-head class="margin-20" :left-title="'商品规格'" :necessary="true"></left-head>
-        <DrowDown :defaultOption="'请选择规格'" :options='skuList' @selectOption='selectSku' :boxWidth="312"></DrowDown>
+        <left-head class="margin-20" :left-title="'SKU编码'" :necessary="true"></left-head>
+        <input placeholder="请输入SKU编码" v-model="skuCode" maxlength="50"/>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
+
+      <div class="item">
+        <left-head class="margin-20" :left-title="'商品单位'" :necessary="true"></left-head>
+        <input placeholder="请输入商品单位" v-model="skuUnit" maxlength="10"/>
+        <span class="error-tip">{{errorTips[4]}}</span>
+      </div>
+
+      <div class="item">
+        <left-head class="margin-20" :left-title="'商品花色'" :necessary="true"></left-head>
+        <input placeholder="请输入商品花色" v-model="skuColor" maxlength="10"/>
+        <span class="error-tip">{{errorTips[5]}}</span>
+      </div>
+      <!--<div class="item">-->
+        <!--<left-head class="margin-20" :left-title="'商品规格'" :necessary="true"></left-head>-->
+        <!--<DrowDown :defaultOption="'请选择规格'" :options='skuList' @selectOption='selectSku' :boxWidth="312"></DrowDown>-->
+        <!--<span class="error-tip">{{errorTips[3]}}</span>-->
+      <!--</div>-->
       <div class="item2">
         <left-head class="margin-20" :left-title="'商品备注'" :necessary="false"></left-head>
         <textarea placeholder="请输入商品备注(限200字)" maxlength="200" v-model="remark"/>
@@ -54,7 +72,10 @@
         skuId: '',
         saveFlag: true,
         errorTips: [],
-        skuList: [{code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}]
+        skuList: [{code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}, {code: '1', name: '黄色/台'}],
+        skuCode: '',
+        skuUnit: '',
+        skuColor: ''
       }
     },
     mounted() {
@@ -90,7 +111,9 @@
           goodsCode: this.goodsCode,
           goodsName: this.goodsName,
           goodsPrice: +this.goodsPrice * 100, // 页面展示的是元，数据库存的是分
-          skuId: this.skuId,
+          skuCode: this.skuCode,
+          skuUnit: this.skuUnit,
+          skuColor: this.skuColor,
           remark: this.remark
         }).then(res => {
           this.$glo_loading.loadingHide()
@@ -124,11 +147,23 @@
         } else {
           this.$set(this.errorTips, 2, '')
         }
-        if (!this.skuId) {
-          this.$set(this.errorTips, 3, '商品规格不能为空')
+        if (!this.skuCode) {
+          this.$set(this.errorTips, 3, 'SKU编码不能为空')
           this.saveFlag = false
         } else {
           this.$set(this.errorTips, 3, '')
+        }
+        if (!this.skuUnit) {
+          this.$set(this.errorTips, 4, '单位不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 4, '')
+        }
+        if (!this.skuColor) {
+          this.$set(this.errorTips, 5, '花色不能为空')
+          this.saveFlag = false
+        } else {
+          this.$set(this.errorTips, 5, '')
         }
         this.$forceUpdate()
       }
