@@ -51,6 +51,13 @@
                 <div class="col2">{{item.totalFee / 100.0}}</div>
                 <div class="col3">{{item.goodsFee / 100.0}}</div>
               </div>
+
+              <div class="list-item">
+                <div class="col1 padL10">合计</div>
+                <div class="col2">{{gross / 100.0}}</div>
+                <div class="col3">{{cost / 100.0}}</div>
+              </div>
+
             </div>
           </div>
           <div class="finance-types">
@@ -173,7 +180,7 @@ export default {
         } else if (data.code === -1) {
           this.$store.commit(OPEN_ERROR_TIP_BOX, '未找到该员工，请重新搜索！')
         } else if (data.code === -2) {
-          this.$store.commit(OPEN_ERROR_TIP_BOX, '该员工暂无订单')
+          this.$store.commit(OPEN_ERROR_TIP_BOX, '该员工暂无完成的订单')
           this.staffName = data.data.staffName
           this.staffCode = data.data.staffCode
         }
