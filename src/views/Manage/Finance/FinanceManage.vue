@@ -1,7 +1,7 @@
 <template>
   <div class="finance-manage">
     <div class="title">
-      <div class="title-name">财务管理</div>
+      <div class="title-name">销售管理</div>
       <div class="search-box">
         <div class="block">
           <span class="demonstration">日期：</span>

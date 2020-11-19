@@ -5,7 +5,7 @@
       <div class="search-box">
         <div class="input-sty">
           <i class="iconfont icon-sousuo"></i>
-          <input type="text" v-model="searchValue" placeholder="合同编号/订单编码/甲方公司"/>
+          <input type="text" v-model="searchValue" placeholder="合同编号/订单编码/甲方公司/跟单人"/>
         </div>
         <div class="btn-search" @click="search">查询</div>
       </div>
@@ -20,7 +20,8 @@
         <span class="col6">签订日期</span>
         <span class="col7">截止日期</span>
         <span class="col8">备注</span>
-        <span class="col9">操作</span>
+        <span class="col9">跟单人</span>
+        <span class="col10">操作</span>
       </div>
       <div class="list-content">
         <div class="list-item" v-for="item in contractList" :key="item.contractId">
@@ -32,7 +33,8 @@
           <span class="col6" :title="item.signingDate">{{item.signingDate}}</span>
           <span class="col7" :title="item.deadline">{{item.deadline}}</span>
           <span class="col8 text-flow" :title="item.remark">{{item.remark || '--'}}</span>
-          <span class="col9">
+          <span class="col9 text-flow" :title="item.operatorName">{{item.operatorName || '--'}}</span>
+          <span class="col10">
             <span class="btn default-btn" @click="deleteContract(item)">删除</span>
           </span>
         </div>
@@ -211,16 +213,16 @@
 
 
   .col1
-    width 10%
+    width 8%
 
   .col2
-    width 10%
+    width 8%
 
   .col3
-    width 13%
+    width 10%
 
   .col4
-    width 13%
+    width 10%
 
   .col5
     width 10%
@@ -232,7 +234,10 @@
     width 10%
 
   .col8
-    width 15%
+    width 13%
+
+  .col9
+    width 10%
 
   .padL10
     padding-left 10px
