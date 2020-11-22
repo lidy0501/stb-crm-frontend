@@ -8,6 +8,7 @@
           <input type="text" v-model="searchValue" placeholder="客户姓名/手机号/公司/地区"/>
         </div>
         <div class="btn-search" @click="search">查询</div>
+        <div class="btn-export" @click="exportUserInfo">导出</div>
       </div>
     </div>
     <div class="list-container">
@@ -130,6 +131,19 @@
             })
           }
         })
+      },
+      exportUserInfo() {
+        if (process.env.NODE_ENV === 'development') {
+          console.log(1)
+          location.href = 'http://localhost:9911/crm/UserController/downLoadTest?template=' + name
+        } else if (process.env.NODE_ENV === 'none') { // 测试
+          console.log(2)
+          location.href = 'http://47.114.140.213:9911/crm/UserController/downLoadTest?template=' + name
+        } else if (process.env.NODE_ENV === 'production') {
+          console.log(3)
+          location.href = 'http://stbcrm.top:9911/crm/UserController/downLoadTest?template=' + name
+        }
+
       }
     }
   }
@@ -186,6 +200,19 @@
     border-radius 5px
     cursor pointer
     font-weight 200
+
+  .btn-export
+    height 40px
+    background-color orange
+    color #fff
+    width 80px
+    text-align center
+    line-height 40px
+    font-size 16px
+    border-radius 5px
+    cursor pointer
+    font-weight 200
+    margin-left 20px
 
 
   .list-container
