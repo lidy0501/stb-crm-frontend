@@ -58,6 +58,7 @@
     components: {TopHead, QuickPager},
     data() {
       return {
+        loginStaff: JSON.parse(window.sessionStorage.getItem('staff')),
         searchValue: '',
         userList: [],
         page: {
@@ -135,13 +136,13 @@
       exportUserInfo() {
         if (process.env.NODE_ENV === 'development') {
           console.log(1)
-          location.href = 'http://localhost:9911/crm/UserController/exportUserInfo?searchValue=' + this.searchValue
+          location.href = 'http://localhost:9911/crm/UserController/exportUserInfo?id=' + this.loginStaff.staffId + '&searchValue=' + this.searchValue
         } else if (process.env.NODE_ENV === 'none') { // 测试
           console.log(2)
-          location.href = 'http://47.114.140.213:9911/crm/UserController/exportUserInfo?searchValue=' + this.searchValue
+          location.href = 'http://47.114.140.213:9911/crm/UserController/exportUserInfo?id=' + this.loginStaff.staffId + '&searchValue=' + this.searchValue
         } else if (process.env.NODE_ENV === 'production') {
           console.log(3)
-          location.href = 'http://stbcrm.top:9911/crm/UserController/exportUserInfo?searchValue=' + this.searchValue
+          location.href = 'http://stbcrm.top:9911/crm/UserController/exportUserInfo?id=' + this.loginStaff.staffId + '&searchValue=' + this.searchValue
         }
 
       }
