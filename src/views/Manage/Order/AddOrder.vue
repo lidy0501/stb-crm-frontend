@@ -309,6 +309,7 @@
       selectUser(item) {
         this.userName = item.userName
         this.userId = item.userId
+        this.company = item.company
         this.showUserBox = false
       },
       searchUser: lodash.debounce(function () {
