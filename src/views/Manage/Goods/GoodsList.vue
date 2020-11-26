@@ -5,7 +5,7 @@
       <div class="list-title">
         <span class="col1 padL10">商品编码</span>
         <span class="col2">商品名称</span>
-        <span class="col3">销售单价(元)</span>
+        <span class="col3">基准价(元)</span>
         <span class="col4">商品规格</span>
         <span class="col5">商品备注</span>
         <span class="col6">操作</span>

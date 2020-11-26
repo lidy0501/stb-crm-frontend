@@ -14,7 +14,7 @@
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'销售单价'" :necessary="true"></left-head>
+        <left-head class="margin-20" :left-title="'基准价'" :necessary="true"></left-head>
         <input placeholder="请输入销售单价" v-model="goodsPrice" @input="inputMoney(goodsPrice)"/>
         <span class="error-tip">{{errorTips[2]}}</span>
       </div>

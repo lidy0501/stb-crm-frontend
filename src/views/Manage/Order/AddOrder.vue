@@ -49,7 +49,7 @@
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
+        <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
         <input placeholder="请输入物流单号" v-model="deliveryNo"/>
         <span class="error-tip">{{errorTips[3]}}</span>
       </div>
@@ -78,14 +78,14 @@
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
+        <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
         <input placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime" @input="deliveryTime = deliveryTime.replace(/[^\d-]/g, '')
 "/>
         <span class="error-tip">{{errorTips[6]}}</span>
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
+        <left-head class="margin-20" :left-title="'付款方式'" :necessary="false"></left-head>
         <input placeholder="请输入付款方式" v-model="payType"/>
         <span class="error-tip">{{errorTips[7]}}</span>
       </div>
@@ -268,12 +268,12 @@
           this.$set(this.errorTips, 2, '')
         }
         // 物流单号
-        if (!this.deliveryNo) {
-          this.$set(this.errorTips, 3, '物流单号不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 3, '')
-        }
+        // if (!this.deliveryNo) {
+        //   this.$set(this.errorTips, 3, '物流单号不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 3, '')
+        // }
         // 订单总额
         if (!this.totalFee) {
           this.$set(this.errorTips, 4, '请输入订单总金额')
@@ -290,19 +290,19 @@
         }
 
 
-        if (!this.deliveryTime) {
-          this.$set(this.errorTips, 6, '请输入交期')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 6, '')
-        }
-
-        if (!this.payType) {
-          this.$set(this.errorTips, 7, '付款方式不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 7, '')
-        }
+        // if (!this.deliveryTime) {
+        //   this.$set(this.errorTips, 6, '请输入交期')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 6, '')
+        // }
+        //
+        // if (!this.payType) {
+        //   this.$set(this.errorTips, 7, '付款方式不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 7, '')
+        // }
 
         this.$forceUpdate()
       },

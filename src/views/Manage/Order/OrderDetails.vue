@@ -30,8 +30,9 @@
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'物流单号'" :necessary="true"></left-head>
-        <div>{{deliveryNo}}</div>
+        <left-head class="margin-20" :left-title="'物流单号'" :necessary="false"></left-head>
+        <input placeholder="请输入物流单号" v-model="deliveryNo" v-if="orderState === '0'"></input>
+        <div v-else>{{deliveryNo}}</div>
       </div>
 
       <div class="order-info-item">
@@ -45,6 +46,7 @@
                @input="verifyInputDownPayFee(downPayFee)" v-if="orderState === '0'"/>
         <div v-else>{{downPayFee}}</div>
         <span>&nbsp;元</span>
+        <span class="error-tip">{{errorTips[0]}}</span>
       </div>
 
       <div class="order-info-item">
@@ -54,13 +56,16 @@
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'交期'" :necessary="true"></left-head>
-        <div>{{deliveryTime}}</div>
+        <left-head class="margin-20" :left-title="'交期'" :necessary="false"></left-head>
+        <input v-if="orderState === '0'" placeholder="请输入交期，如：2020-01-01" v-model="deliveryTime"
+               @input="deliveryTime = deliveryTime.replace(/[^\d-]/g, '')"/>
+        <div v-else>{{deliveryTime}}</div>
       </div>
 
       <div class="order-info-item">
-        <left-head class="margin-20" :left-title="'付款方式'" :necessary="true"></left-head>
-        <div>{{payType}}</div>
+        <left-head class="margin-20" :left-title="'付款方式'" :necessary="false"></left-head>
+        <input v-if="orderState === '0'" placeholder="付款方式" v-model="payType"/>
+        <div v-else>{{payType}}</div>
       </div>
 
       <div class="content-item">
@@ -155,7 +160,10 @@
           downPayFee: this.downPayFee * 100,
           finalPayFee: this.finalPayFee * 100,
           payRecord: this.payRecord,
-          remark: this.remark
+          remark: this.remark,
+          deliveryNo: this.deliveryNo,
+          deliveryTime: this.deliveryTime,
+          payType: this.payType
         }).then(res => {
           this.$glo_loading.loadingHide()
           const data = res.data
@@ -302,6 +310,10 @@
       line-height 250px
       color #f0f0f0
       text-align center
+
+  .error-tip
+    color red
+
 
 
 
