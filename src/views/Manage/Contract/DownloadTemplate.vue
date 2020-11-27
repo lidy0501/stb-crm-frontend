@@ -8,7 +8,7 @@
           <div>订单中文合同
             <i class="iconfont icon-wordwenjian icon-sty1"></i>
           </div>
-          <div class="down-btn" @click="downFile('订单中文合同')">下载
+          <div class="down-btn" @click="downFile('中文销售合同')">下载
             <i class="iconfont icon-xiazai icon-sty1"></i>
           </div>
         </div>
@@ -41,19 +41,19 @@
         </div>
 
         <div class="temp-item">
-          <div>出口商业发票模板
+          <div>出口商业发票
             <i class="iconfont icon-excelwenjian icon-sty2"></i>
           </div>
-          <div class="down-btn" @click="downFile('出口商业发票模板')">下载
+          <div class="down-btn" @click="downFile('出口商业发票')">下载
             <i class="iconfont icon-xiazai icon-sty2"></i>
           </div>
         </div>
 
         <div class="temp-item">
-          <div>出口箱单模板
+          <div>出口箱单
             <i class="iconfont icon-excelwenjian icon-sty2"></i>
           </div>
-          <div class="down-btn" @click="downFile('出口箱单模板')">下载
+          <div class="down-btn" @click="downFile('出口箱单')">下载
             <i class="iconfont icon-xiazai icon-sty2"></i>
           </div>
         </div>
