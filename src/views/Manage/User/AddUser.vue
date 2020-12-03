@@ -5,71 +5,71 @@
       <div class="title">客户基本信息</div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户编码'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户编码" v-model="userCode"/>
-        <div v-else>{{userCode}}</div>
+        <input placeholder="请输入客户编码" v-model="userCode"/>
+<!--        <div v-else>{{userCode}}</div>-->
         <span class="error-tip">{{errorTips[0]}}</span>
       </div>
       <div class="item">
         <left-head class="margin-20" :left-title="'客户姓名'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户姓名" v-model="userName"/>
-        <div v-else>{{userName}}</div>
+        <input placeholder="请输入客户姓名" v-model="userName"/>
+<!--        <div v-else>{{userName}}</div>-->
         <span class="error-tip">{{errorTips[1]}}</span>
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户国家'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户国家" v-model="nation"/>
-        <div v-else>{{nation}}</div>
-        <span class="error-tip">{{errorTips[2]}}</span>
+        <left-head class="margin-20" :left-title="'客户国家'" :necessary="false"></left-head>
+        <input placeholder="请输入客户国家" v-model="nation"/>
+<!--        <div v-else>{{nation}}</div>-->
+<!--        <span class="error-tip">{{errorTips[2]}}</span>-->
       </div>
 
       <div class="item">
-        <left-head class="margin-20" :left-title="'地区'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户所在地区" v-model="region"/>
-        <div v-else>{{region || '--'}}</div>
-        <span class="error-tip">{{errorTips[10]}}</span>
+        <left-head class="margin-20" :left-title="'地区'" :necessary="false"></left-head>
+        <input placeholder="请输入客户所在地区" v-model="region"/>
+<!--        <div v-else>{{region || '&#45;&#45;'}}</div>-->
+<!--        <span class="error-tip">{{errorTips[10]}}</span>-->
       </div>
 
       <div class="item">
-        <left-head class="margin-20" :left-title="'手机号'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="30"/>
-        <div v-else>{{userPhone}}</div>
-        <span class="error-tip">{{errorTips[3]}}</span>
+        <left-head class="margin-20" :left-title="'手机号'" :necessary="false"></left-head>
+        <input placeholder="请输入客户手机号" v-model.trim="userPhone" maxlength="11"/>
+<!--        <div v-else>{{userPhone}}</div>-->
+<!--        <span class="error-tip">{{errorTips[3]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'固定电话'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30"/>
-        <div v-else>{{userTelephone}}</div>
-        <span class="error-tip">{{errorTips[4]}}</span>
+        <left-head class="margin-20" :left-title="'固定电话'" :necessary="false"></left-head>
+        <input placeholder="请输入客户固定电话" v-model.trim="userTelephone" maxlength="30"/>
+<!--        <div v-else>{{userTelephone}}</div>-->
+<!--        <span class="error-tip">{{errorTips[4]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'公司名称'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户公司名称" v-model="company"/>
-        <div v-else>{{company}}</div>
-        <span class="error-tip">{{errorTips[5]}}</span>
+        <left-head class="margin-20" :left-title="'公司名称'" :necessary="false"></left-head>
+        <input placeholder="请输入客户公司名称" v-model="company"/>
+<!--        <div v-else>{{company}}</div>-->
+<!--        <span class="error-tip">{{errorTips[5]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'公司职位'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户公司职位" v-model="post"/>
-        <div v-else>{{post}}</div>
-        <span class="error-tip">{{errorTips[6]}}</span>
+        <left-head class="margin-20" :left-title="'公司职位'" :necessary="false"></left-head>
+        <input placeholder="请输入客户公司职位" v-model="post"/>
+<!--        <div v-else>{{post}}</div>-->
+<!--        <span class="error-tip">{{errorTips[6]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户公司地址'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户公司地址" v-model="companyAddress"/>
-        <div v-else>{{companyAddress}}</div>
-        <span class="error-tip">{{errorTips[7]}}</span>
+        <left-head class="margin-20" :left-title="'客户公司地址'" :necessary="false"></left-head>
+        <input placeholder="请输入客户公司地址" v-model="companyAddress"/>
+<!--        <div v-else>{{companyAddress}}</div>-->
+<!--        <span class="error-tip">{{errorTips[7]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户公司网址'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户公司网址" v-model="companyWeb"/>
-        <div v-else>{{companyWeb}}</div>
-        <span class="error-tip">{{errorTips[8]}}</span>
+        <left-head class="margin-20" :left-title="'客户公司网址'" :necessary="false"></left-head>
+        <input placeholder="请输入客户公司网址" v-model="companyWeb"/>
+<!--        <div v-else>{{companyWeb}}</div>-->
+<!--        <span class="error-tip">{{errorTips[8]}}</span>-->
       </div>
       <div class="item">
-        <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="true"></left-head>
-        <input v-if="!userId" placeholder="请输入客户邮箱" v-model="userEmail"/>
-        <div v-else>{{userEmail}}</div>
-        <span class="error-tip">{{errorTips[9]}}</span>
+        <left-head class="margin-20" :left-title="'客户邮箱'" :necessary="false"></left-head>
+        <input placeholder="请输入客户邮箱" v-model="userEmail"/>
+<!--        <div v-else>{{userEmail}}</div>-->
+<!--        <span class="error-tip">{{errorTips[9]}}</span>-->
       </div>
       <div class="item2">
         <left-head class="margin-20" :left-title="'备注'" :necessary="false"></left-head>
@@ -130,11 +130,10 @@
         this.$router.go(-1)
       },
       save() {
-        if (!this.userId) { // 新增才校验
-          this.saveFlag = true
-          this.validateInfo()
-          if (!this.saveFlag) return
-        }
+        this.saveFlag = true
+        this.validateInfo()
+        if (!this.saveFlag) return
+
         this.$http.post('/UserController/addUser', {
           userId: this.userId,
           userCode: this.userCode,
@@ -173,60 +172,60 @@
         } else {
           this.$set(this.errorTips, 1, '')
         }
-        if (!this.nation) {
-          this.$set(this.errorTips, 2, '国家不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 2, '')
-        }
-        if (!this.userPhone) {
-          this.$set(this.errorTips, 3, '手机号不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 3, '')
-        }
-        if (!this.userTelephone) {
-          this.$set(this.errorTips, 4, '固定电话不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 4, '')
-        }
-        if (!this.company) {
-          this.$set(this.errorTips, 5, '公司名称不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 5, '')
-        }
-        if (!this.post) {
-          this.$set(this.errorTips, 6, '职位不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 6, '')
-        }
-        if (!this.companyAddress) {
-          this.$set(this.errorTips, 7, '客户公司地址不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 7, '')
-        }
-        if (!this.companyWeb) {
-          this.$set(this.errorTips, 8, '客户公司网址不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 8, '')
-        }
-        if (!this.userEmail) {
-          this.$set(this.errorTips, 9, '邮箱不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 9, '')
-        }
-        if (!this.region) {
-          this.$set(this.errorTips, 10, '地区不能为空')
-          this.saveFlag = false
-        } else {
-          this.$set(this.errorTips, 10, '')
-        }
+        // if (!this.nation) {
+        //   this.$set(this.errorTips, 2, '国家不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 2, '')
+        // }
+        // if (!this.userPhone) {
+        //   this.$set(this.errorTips, 3, '手机号不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 3, '')
+        // }
+        // if (!this.userTelephone) {
+        //   this.$set(this.errorTips, 4, '固定电话不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 4, '')
+        // }
+        // if (!this.company) {
+        //   this.$set(this.errorTips, 5, '公司名称不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 5, '')
+        // }
+        // if (!this.post) {
+        //   this.$set(this.errorTips, 6, '职位不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 6, '')
+        // }
+        // if (!this.companyAddress) {
+        //   this.$set(this.errorTips, 7, '客户公司地址不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 7, '')
+        // }
+        // if (!this.companyWeb) {
+        //   this.$set(this.errorTips, 8, '客户公司网址不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 8, '')
+        // }
+        // if (!this.userEmail) {
+        //   this.$set(this.errorTips, 9, '邮箱不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 9, '')
+        // }
+        // if (!this.region) {
+        //   this.$set(this.errorTips, 10, '地区不能为空')
+        //   this.saveFlag = false
+        // } else {
+        //   this.$set(this.errorTips, 10, '')
+        // }
         this.$forceUpdate()
       }
     },
